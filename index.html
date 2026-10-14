@@ -4,7 +4,10 @@
   Datenblöcke:
     #data   -> alle Schritte (JSON). "integratedDrafts" = IDs bereits eingearbeiteter Drafts.
                Felder pro Schritt: id, dance, level, name, counts, position ("start → ende"), table[{count,h,d}],
-               ablauf[3], notizen, video, status (platzhalter | pruefen | fertig), wuerfel (false = nicht würfeln)
+               ablauf[] (extra knapp; bei Kombis die Kombination), notizen (nur auf Aufforderung), alternativ,
+               video, status (platzhalter | pruefen | fertig), wuerfel (false = nicht würfeln)
+    #notes  -> exportierte eigene Notizen {id: text}; nach dem Einarbeiten leeren.
+  Begriffe: L = Leader, F = Follower, li/re = linker/rechter Fuß, RH/LH = rechte/linke Hand.
     #drafts -> in der App erstellte Drafts (JSON-Array), werden beim Export hier eingebettet.
   Gerätespeicher (pro Gerät, nicht in dieser Datei): Videos (IndexedDB), Favoriten, eigene Notizen, Drafts, Einstellungen.
 -->
@@ -136,6 +139,8 @@ ol.steps li::before{content:counter(s);flex:none;display:grid;place-items:center
   background:var(--surface2);color:var(--accent);font-weight:700;font-size:14px}
 .note{padding:14px 16px;border-radius:14px;background:var(--surface);border-left:4px solid var(--accent)}
 .note p{margin:0 0 10px;font-size:17px;line-height:1.45}
+.note .alt{color:var(--muted);font-size:16px}
+.note .alt b{color:var(--text);font-weight:600}
 .mynote{display:block;width:100%;min-height:88px;padding:10px 12px;border-radius:10px;border:1px dashed var(--line);
   background:var(--bg);font-size:16px;line-height:1.45;resize:vertical}
 .mynote::placeholder{color:var(--faint)}
@@ -199,46 +204,48 @@ input[type=range]{width:100%;height:44px;accent-color:var(--accent)}
 
 <script id="data" type="application/json">
 {
-  "version": "0.6",
-  "updated": "2026-10-13",
+  "version": "0.7",
+  "updated": "2026-10-14",
   "dances": {"salsa": {"name": "Salsa"}, "bachata": {"name": "Bachata"}},
   "integratedDrafts": [],
   "steps": [
-    {"id":"000","dance":"salsa","level":"A1","name":"Grundschritt","counts":8,"position":"offen oder geschlossen","table":[{"count":"1–2–3","h":"LF vor, RF Gewicht, LF ran","d":"RF zurück, LF Gewicht, RF ran"},{"count":"5–6–7","h":"RF zurück, LF Gewicht, RF ran","d":"LF vor, RF Gewicht, LF ran"}],"ablauf":["H startet auf 1 mit LF vor, D gespiegelt mit RF zurück","Auf 4 und 8 Pause – Gewicht bleibt auf dem Fuß von 3 bzw. 7","Kleine Schritte, Bewegung bleibt auf der Linie (vor/zurück)"],"video":"videos/000_grundschritt.mp4","status":"pruefen","notizen":"Auf 4/8 weitergehen statt pausieren – dann startet der nächste Takt mit dem falschen Fuß.","wuerfel":false},
-    {"id":"001","dance":"salsa","level":"A1","name":"RT","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"Grundschritt vor, LH kurze Vorbereitung auf 3","d":"Grundschritt zurück"},{"count":"5–6–7","h":"Grundschritt zurück, LH führt Kreis ↻ über Kopf der D","d":"LF vor + ½ ↻, RF + ½ ↻, LF ran"}],"ablauf":["Einhändig: LH (H) hält RH (D)","Auf 3 Vorbereitung, auf 5 hebt H die LH","D dreht ↻ auf 5–6–7, beide enden frontal"],"video":"videos/001_rt.mp4","status":"pruefen","notizen":"Kreis über dem Kopf der D klein halten – nicht ziehen."},
-    {"id":"002","dance":"salsa","level":"A1","name":"LT","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"Grundschritt vor, LH kurze Vorbereitung auf 3","d":"Grundschritt zurück"},{"count":"5–6–7","h":"Grundschritt zurück, LH führt Kreis ↺ über Kopf der D","d":"LF vor + ½ ↺, RF + ½ ↺, LF ran"}],"ablauf":["Einhändig: LH (H) hält RH (D)","Auf 3 Vorbereitung, auf 5 hebt H die LH","D dreht ↺ auf 5–6–7, beide enden frontal"],"video":"videos/002_lt.mp4","status":"pruefen","notizen":"Hand locker lassen, die D dreht selbst."},
-    {"id":"003","dance":"salsa","level":"A1","name":"LT+","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/003_lt_plus.mp4","status":"platzhalter","notizen":""},
-    {"id":"004","dance":"salsa","level":"A1","name":"CBL","counts":8,"position":"","table":[{"count":"1–2–3","h":"LF vor, RF Gewicht, LF ¼ ↺ seit (Linie öffnen)","d":"RF zurück, LF Gewicht, RF ran"},{"count":"5–6–7","h":"RF zurück, LF ¼ ↺ weiter, RF ran","d":"LF vor an H vorbei, RF vor + ½ ↺, LF zurück"}],"ablauf":["1–3: H öffnet auf 3 mit ¼ ↺ die Linie für die D","5–7: D läuft auf der Linie an H vorbei und dreht ½ ↺","Ende: Plätze getauscht, beide wieder frontal zueinander"],"video":"videos/004_cbl.mp4","status":"pruefen","notizen":"H öffnet auf 3 nicht weit genug und steht der D im Weg – deutlich zur Seite drehen."},
-    {"id":"005","dance":"salsa","level":"A1","name":"Block","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/005_block.mp4","status":"platzhalter","notizen":""},
-    {"id":"006","dance":"salsa","level":"A1","name":"2RT","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"Grundschritt vor, deutliche Vorbereitung auf 3","d":"Grundschritt zurück"},{"count":"5–6–7","h":"Grundschritt zurück, LH führt zwei Kreise ↻","d":"LF vor, 2 Umdrehungen ↻ auf der Stelle, LF ran"}],"ablauf":["Wie RT, aber mit stärkerer Vorbereitung auf 3","D dreht zweimal ↻ auf 5–6–7 auf der Stelle","Ende frontal, weiter mit Grundschritt auf 1"],"video":"videos/006_2rt.mp4","status":"pruefen","notizen":"Spotting: Blick zum H halten, Kopf zuletzt mitdrehen."},
-    {"id":"007","dance":"salsa","level":"A1","name":"Wurzel","counts":16,"position":"","table":[{"count":"1–2–3","h":"CBL: LF vor, RF Gewicht, LF ¼ ↺ seit","d":"RF zurück, LF Gewicht, RF ran"},{"count":"5–6–7","h":"CBL: RF zurück, LF ¼ ↺ weiter, RF ran","d":"LF vor an H vorbei, RF + ½ ↺, LF zurück"},{"count":"1–2–3 (II)","h":"Grundschritt vor, LH tief (Start der Wurzel)","d":"Grundschritt zurück"},{"count":"5–6–7 (II)","h":"Grundschritt zurück, LH hoch, Kreis ↺ über Kopf der D","d":"FLT: LF vor + ½ ↺, RF + ½ ↺, LF ran"}],"ablauf":["1–8: CBL","9–12: H bringt die LH tief – Vorbereitung","13–16: LH zieht die Wurzel nach oben über den Kopf, D dreht FLT ↺"],"video":"videos/007_wurzel.mp4","status":"pruefen","notizen":"Wurzel = Handbewegung des H beim FLT nach dem CBL."},
-    {"id":"008","dance":"salsa","level":"A1","name":"Wurzel+","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/008_wurzel_plus.mp4","status":"platzhalter","notizen":""},
-    {"id":"009","dance":"salsa","level":"A1","name":"Wurzel LT 2RT","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/009_wurzel_lt_2rt.mp4","status":"platzhalter","notizen":""},
-    {"id":"010","dance":"salsa","level":"A2","name":"Caress","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/010_caress.mp4","status":"platzhalter","notizen":""},
-    {"id":"011","dance":"salsa","level":"A2","name":"Open Break","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/011_open_break.mp4","status":"platzhalter","notizen":""},
-    {"id":"012","dance":"salsa","level":"A2","name":"HL","counts":16,"position":"zweihändig → zweihändig","table":[{"count":"1–2–3","h":"Grundschritt vor","d":"Grundschritt zurück"},{"count":"5–6–7","h":"Grundschritt zurück, LH bleibt tief, RH führt ↺ über Kopf der D","d":"LT ↺ – RH landet hinter dem Rücken (HL)"},{"count":"1–2–3 (II)","h":"Grundschritt vor, Position halten","d":"Grundschritt zurück im HL"},{"count":"5–6–7 (II)","h":"Grundschritt zurück, Hände führen die Auswicklung","d":"RT ↻ aus dem HL heraus"}],"ablauf":["Zweihändige Fassung","D dreht LT, ihre RH bleibt tief → Arm hinter dem Rücken (HL)","Ausgang mit RT ↻ zurück in die offene Fassung"],"video":"videos/012_hl.mp4","status":"pruefen","notizen":"mehrere Ein- & Ausgänge"},
-    {"id":"013","dance":"salsa","level":"A2","name":"Travelling","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/013_travelling.mp4","status":"platzhalter","notizen":""},
-    {"id":"014","dance":"salsa","level":"A2","name":"Travelling+Caress","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/014_travelling_caress.mp4","status":"platzhalter","notizen":""},
-    {"id":"015","dance":"salsa","level":"A2","name":"Travelling+Zurückdrehung","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/015_travelling_zurueckdrehung.mp4","status":"platzhalter","notizen":""},
-    {"id":"016","dance":"salsa","level":"A2","name":"Titanic","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/016_titanic.mp4","status":"platzhalter","notizen":""},
-    {"id":"017","dance":"salsa","level":"A2","name":"Titanic einhändig","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/017_titanic_einhaendig.mp4","status":"platzhalter","notizen":""},
-    {"id":"018","dance":"salsa","level":"A2","name":"Hammerlock+schieben","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/018_hammerlock_schieben.mp4","status":"platzhalter","notizen":""},
-    {"id":"019","dance":"salsa","level":"A2","name":"2RT+schieben","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/019_2rt_schieben.mp4","status":"platzhalter","notizen":""},
-    {"id":"020","dance":"salsa","level":"A3","name":"LTvorbei","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/020_ltvorbei.mp4","status":"platzhalter","notizen":""},
-    {"id":"021","dance":"salsa","level":"A3","name":"RTvorbei","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/021_rtvorbei.mp4","status":"platzhalter","notizen":""},
-    {"id":"022","dance":"salsa","level":"A3","name":"2HandRT","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/022_2handrt.mp4","status":"platzhalter","notizen":""},
-    {"id":"023","dance":"salsa","level":"A3","name":"Bogen","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/023_bogen.mp4","status":"platzhalter","notizen":""},
-    {"id":"024","dance":"salsa","level":"A3","name":"Hand übergeben","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/024_hand_uebergeben.mp4","status":"platzhalter","notizen":""},
-    {"id":"025","dance":"salsa","level":"A3","name":"FLT LLT","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/025_flt_llt.mp4","status":"platzhalter","notizen":""},
-    {"id":"026","dance":"salsa","level":"A3","name":"Handwechsel+Wurzel","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/026_handwechsel_wurzel.mp4","status":"platzhalter","notizen":""},
-    {"id":"027","dance":"salsa","level":"A3","name":"Caress mit Handwechsel","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/027_caress_mit_handwechsel.mp4","status":"platzhalter","notizen":""},
-    {"id":"028","dance":"salsa","level":"A3","name":"Titanic mit Bogen","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/028_titanic_mit_bogen.mp4","status":"platzhalter","notizen":""},
-    {"id":"029","dance":"salsa","level":"A3","name":"HL+Titanic+Bogen","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/029_hl_titanic_bogen.mp4","status":"platzhalter","notizen":""}
+    {"id":"000","dance":"salsa","level":"A1","name":"Grundschritt","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"li vor, re Gewicht, li ran","d":"re zurück, li Gewicht, re ran"},{"count":"5–6–7","h":"re zurück, li Gewicht, re ran","d":"li vor, re Gewicht, li ran"}],"ablauf":["Vor und zurück auf der Linie, Pause auf 4 und 8"],"video":"videos/000_grundschritt.mp4","status":"fertig","notizen":"","wuerfel":false,"alternativ":""},
+    {"id":"001","dance":"salsa","level":"A1","name":"RT","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"Grundschritt vor, LH kurze Vorbereitung auf 3","d":"Grundschritt zurück"},{"count":"5–6–7","h":"Grundschritt zurück, LH führt Kreis ↻ über Kopf des F","d":"li vor + ½ ↻, re + ½ ↻, li ran"}],"ablauf":["F dreht ↻ unter der LH des L auf 5–6–7"],"video":"videos/001_rt.mp4","status":"fertig","notizen":"","alternativ":""},
+    {"id":"002","dance":"salsa","level":"A1","name":"LT","counts":8,"position":"offen → offen","table":[{"count":"8 (davor)","h":"LH kurz ↻ entgegen – Schwung holen","d":"Schwung aufnehmen"},{"count":"1–2–3","h":"Grundschritt vor, LH führt ↺ über Kopf des F","d":"re zurück + ↺, li ↺ weiter, re ↺ weiter"},{"count":"5–6–7","h":"Grundschritt zurück","d":"↺ zu Ende drehen, li ran – frontal"}],"ablauf":["Signal auf 8 davor: kurz ↻ entgegendrehen","F dreht ab 1 ↺ nach hinten bis zum Ende der Figur"],"video":"videos/002_lt.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"003","dance":"salsa","level":"A1","name":"LT+","counts":null,"position":"","table":[],"ablauf":["LT mit beiden Händen → F dreht sich ein","L macht CBL","Signal an der inneren Hand → F dreht 540° RT zurück"],"video":"videos/003_lt_plus.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"004","dance":"salsa","level":"A1","name":"CBL","counts":8,"position":"","table":[{"count":"1–2–3","h":"li vor, re Gewicht, li ¼ ↺ seit (Linie öffnen)","d":"re zurück, li Gewicht, re ran"},{"count":"5–6–7","h":"re zurück, li ¼ ↺ weiter, re ran","d":"li vor am L vorbei, re vor + ½ ↺, li zurück"}],"ablauf":["L öffnet die Linie, F läuft vorbei und dreht ½ ↺ – Plätze getauscht"],"video":"videos/004_cbl.mp4","status":"fertig","notizen":"","alternativ":""},
+    {"id":"005","dance":"salsa","level":"A1","name":"Block","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/005_block.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"006","dance":"salsa","level":"A1","name":"2RT","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"li vor, re Gewicht, li ¼ ↺ seit (Linie öffnen), LH Vorbereitung","d":"re zurück, li Gewicht, re ran"},{"count":"5–6–7","h":"re zurück, li ¼ ↺ weiter, re ran – LH führt ↻","d":"li vor, 540° ↻ am L vorbei, li ran"}],"ablauf":["Nach einem CBL: F wird mit 540° ↻ am L vorbeigedreht"],"video":"videos/006_2rt.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"007","dance":"salsa","level":"A1","name":"Wurzel","counts":8,"position":"","table":[{"count":"1–2–3","h":"CBL: li vor, re Gewicht, li ¼ ↺ seit","d":"re zurück, li Gewicht, re ran"},{"count":"5–6–7","h":"auf 5 LH zeichnet √, re – li – re hinterher","d":"li vor, 540° ↺ am L vorbei, li ran"}],"ablauf":["CBL, auf 5 Wurzel-Signal (√) mit der LH des L","F dreht 540° ↺, L geht hinterher bis 8"],"video":"videos/007_wurzel.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"008","dance":"salsa","level":"A1","name":"Wurzel+","counts":null,"position":"","table":[],"ablauf":["Wurzel mit beiden Händen → F dreht sich ein","L macht CBL","Signal an der inneren Hand → F dreht 540° RT zurück"],"video":"videos/008_wurzel_plus.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"009","dance":"salsa","level":"A1","name":"Wurzel LT 2RT","counts":24,"position":"","table":[{"count":"1–8","h":"Wurzel: CBL, √-Signal auf 5","d":"540° ↺"},{"count":"1–8 (II)","h":"LT: Signal auf 8, ↺ führen","d":"↺ ab 1 nach hinten"},{"count":"1–8 (III)","h":"2RT: CBL, ↻ führen","d":"540° ↻ am L vorbei"}],"ablauf":["Wurzel → LT → 2RT","Nach jeder abgeschlossenen Drehung gibt L das Signal für die nächste"],"video":"videos/009_wurzel_lt_2rt.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"010","dance":"salsa","level":"A2","name":"Caress","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/010_caress.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"011","dance":"salsa","level":"A2","name":"Open Break","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/011_open_break.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"012","dance":"salsa","level":"A2","name":"HL","counts":16,"position":"zweihändig → zweihändig","table":[{"count":"1–2–3","h":"Grundschritt vor","d":"Grundschritt zurück"},{"count":"5–6–7","h":"Grundschritt zurück, LH bleibt tief, RH führt ↺ über Kopf des F","d":"LT ↺ – RH landet hinter dem Rücken"},{"count":"1–2–3 (II)","h":"Grundschritt vor, Position halten","d":"Grundschritt zurück im HL"},{"count":"5–6–7 (II)","h":"Grundschritt zurück, Hände führen die Auswicklung","d":"RT ↻ aus dem HL heraus"}],"ablauf":["F dreht LT, RH des F bleibt tief → Arm hinter dem Rücken","Ausgang mit RT ↻"],"video":"videos/012_hl.mp4","status":"pruefen","notizen":"","alternativ":"mehrere Ein- & Ausgänge"},
+    {"id":"013","dance":"salsa","level":"A2","name":"Travelling","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/013_travelling.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"014","dance":"salsa","level":"A2","name":"Travelling+Caress","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/014_travelling_caress.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"015","dance":"salsa","level":"A2","name":"Travelling+Zurückdrehung","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/015_travelling_zurueckdrehung.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"016","dance":"salsa","level":"A2","name":"Titanic","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/016_titanic.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"017","dance":"salsa","level":"A2","name":"Titanic einhändig","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/017_titanic_einhaendig.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"018","dance":"salsa","level":"A2","name":"Hammerlock+schieben","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/018_hammerlock_schieben.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"019","dance":"salsa","level":"A2","name":"2RT+schieben","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/019_2rt_schieben.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"020","dance":"salsa","level":"A3","name":"LTvorbei","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/020_ltvorbei.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"021","dance":"salsa","level":"A3","name":"RTvorbei","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/021_rtvorbei.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"022","dance":"salsa","level":"A3","name":"2HandRT","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/022_2handrt.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"023","dance":"salsa","level":"A3","name":"Bogen","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/023_bogen.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"024","dance":"salsa","level":"A3","name":"Hand übergeben","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/024_hand_uebergeben.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"025","dance":"salsa","level":"A3","name":"FLT LLT","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/025_flt_llt.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"026","dance":"salsa","level":"A3","name":"Handwechsel+Wurzel","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/026_handwechsel_wurzel.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"027","dance":"salsa","level":"A3","name":"Caress mit Handwechsel","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/027_caress_mit_handwechsel.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"028","dance":"salsa","level":"A3","name":"Titanic mit Bogen","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/028_titanic_mit_bogen.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"029","dance":"salsa","level":"A3","name":"HL+Titanic+Bogen","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/029_hl_titanic_bogen.mp4","status":"platzhalter","notizen":"","alternativ":""}
   ]
 }
 </script>
 
 <script id="drafts" type="application/json">[]</script>
+
+<script id="notes" type="application/json">{}</script>
 
 <script>
 (function () {
@@ -259,9 +266,9 @@ input[type=range]{width:100%;height:44px;accent-color:var(--accent)}
 
   var GLOSSAR = [
     ['RT', 'Right Turn (Rechtsdrehung)'], ['LT', 'Left Turn (Linksdrehung)'], ['2RT', 'Double Right Turn (doppelte RT)'],
-    ['FLT', 'Follower Left Turn (LT der Dame)'], ['LLT', 'Leader Left Turn (LT des Herrn)'],
-    ['HL', 'Hammerlock'], ['CBL', 'Cross Body Lead'], ['H / D', 'Herr / Dame'],
-    ['↻ / ↺', 'Rechts- / Linksdrehung'], ['RH / LH', 'rechte / linke Hand'], ['RF / LF', 'rechter / linker Fuß']
+    ['FLT', 'Follower Left Turn (LT des F)'], ['LLT', 'Leader Left Turn (LT des L)'],
+    ['HL', 'Hammerlock'], ['CBL', 'Cross Body Lead'], ['L / F', 'Leader / Follower'],
+    ['↻ / ↺', 'Rechts- / Linksdrehung'], ['RH / LH', 'rechte / linke Hand'], ['li / re', 'linker / rechter Fuß']
   ];
 
   // ---------- Gerätespeicher ----------
@@ -271,6 +278,16 @@ input[type=range]{width:100%;height:44px;accent-color:var(--accent)}
 
   var favs = new Set(lsGet(KEY.favs, []));
   var notes = lsGet(KEY.notes, {});
+  // Eigene Notizen, die Claude in die Standardversion übernommen hat, lokal entfernen
+  (function () {
+    var changed = false;
+    Object.keys(notes).forEach(function (id) {
+      var s = DATA.steps.find(function (x) { return x.id === id; });
+      var mine = String(notes[id] || '').trim();
+      if (!mine || (s && s.notizen && s.notizen.indexOf(mine) >= 0)) { delete notes[id]; changed = true; }
+    });
+    if (changed) lsSet(KEY.notes, notes);
+  })();
   var dice = Object.assign({ dance: 'salsa', n: 3, levels: [], favOnly: false, last: [] }, lsGet(KEY.dice, {}));
   var beatCfg = Object.assign({ style: 'salsa', bpm: { salsa: 150, bachata: 120 }, count: true }, lsGet(KEY.beat, {}));
 
@@ -404,7 +421,7 @@ input[type=range]{width:100%;height:44px;accent-color:var(--accent)}
     var t = norm(q.trim());
     if (!t) return '';
     var hits = DATA.steps.filter(function (s) {
-      return norm([s.id, s.name, s.notizen, (s.ablauf || []).join(' '), notes[s.id]].join(' ')).indexOf(t) >= 0;
+      return norm([s.id, s.name, s.notizen, s.alternativ, (s.ablauf || []).join(' '), notes[s.id]].join(' ')).indexOf(t) >= 0;
     });
     return hits.length ? '<ul class="list">' + hits.map(function (s) { return stepRow(s, true); }).join('') + '</ul>'
       : '<p class="empty-state">Keine Figur gefunden.</p>';
@@ -455,7 +472,7 @@ input[type=range]{width:100%;height:44px;accent-color:var(--accent)}
     var ruler = '<div class="ruler' + (s.counts ? '' : ' unknown') + '" aria-label="Zählweise">';
     for (var b = 0; b < bars; b++) ruler += rulerRow(s.dance, false);
     ruler += '</div>';
-    var ablauf = (s.ablauf && s.ablauf.length) ? s.ablauf : ['', '', ''];
+    var ablauf = (s.ablauf && s.ablauf.length) ? s.ablauf : [''];
     var siblings = stepsOf(s.dance, s.level);
     var i = siblings.indexOf(s), prev = siblings[i - 1], next = siblings[i + 1];
     var nd = draftsFor(s.id).length;
@@ -476,11 +493,12 @@ input[type=range]{width:100%;height:44px;accent-color:var(--accent)}
           return '<button data-action="speed" data-rate="' + r + '" aria-pressed="' + (r === rate) + '">' + String(r).replace('.', ',') + '×</button>';
         }).join('') + '<button data-action="loop" aria-pressed="' + loopOn + '">Schleife</button></div>' +
         (importedIds.has(s.id) ? '<button class="linkbtn" data-action="pick-one" data-id="' + s.id + '">Video ersetzen</button>' : '') + '</section>' +
-      '<section><h2>Counts</h2><table><thead><tr><th>Count</th><th>Herr</th><th>Dame</th></tr></thead><tbody>' +
+      '<section><h2>Ablauf</h2><ol class="steps">' + ablauf.map(function (a) { return '<li>' + (a ? esc(a) : dash) + '</li>'; }).join('') + '</ol></section>' +
+      '<section><h2>Counts</h2><table><thead><tr><th>Count</th><th>Leader</th><th>Follower</th></tr></thead><tbody>' +
         rows.map(function (r) { return '<tr><td>' + esc(r.count) + '</td><td>' + (r.h ? esc(r.h) : dash) + '</td><td>' + (r.d ? esc(r.d) : dash) + '</td></tr>'; }).join('') +
       '</tbody></table></section>' +
-      '<section><h2>Ablauf</h2><ol class="steps">' + ablauf.map(function (a) { return '<li>' + (a ? esc(a) : dash) + '</li>'; }).join('') + '</ol></section>' +
       '<section class="note"><h2>Notizen</h2>' + (s.notizen ? '<p>' + esc(s.notizen) + '</p>' : '') +
+        (s.alternativ ? '<p class="alt"><b>Alternativ:</b> ' + esc(s.alternativ) + '</p>' : '') +
         '<textarea class="mynote" id="mynote" data-id="' + s.id + '" placeholder="Eigene Notiz – wird auf diesem Gerät gespeichert">' + esc(notes[s.id] || '') + '</textarea></section>' +
       '<div class="stack"><a class="btn" href="#/draft/new?step=' + s.id + '">' + (nd ? 'Weiteren Draft anlegen (' + nd + ' offen)' : 'Draft zu diesem Schritt') + '</a></div>' +
       '<nav class="pager">' +
@@ -540,86 +558,148 @@ input[type=range]{width:100%;height:44px;accent-color:var(--accent)}
 
   // ---------- Übungstakt (Web Audio, offline) ----------
   var beat = { playing: false, slot: 0, next: 0, timer: null, queue: [], cur: 0, raf: 0 };
-  var AC = null, master = null, noiseBuf = null, wakeLock = null;
+  var AC = null, bus = null, noiseBuf = null, wakeLock = null;
   var TEMPO = { salsa: { min: 100, max: 220, presets: [['Langsam', 120], ['Mittel', 160], ['Social', 190]] },
                 bachata: { min: 80, max: 160, presets: [['Langsam', 100], ['Mittel', 120], ['Social', 135]] } };
 
+  function makeIR(sec) {
+    var len = Math.floor(AC.sampleRate * sec), b = AC.createBuffer(2, len, AC.sampleRate);
+    for (var c = 0; c < 2; c++) {
+      var d = b.getChannelData(c);
+      for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+    }
+    return b;
+  }
   function ensureAC() {
     if (!AC) {
       var C = window.AudioContext || window.webkitAudioContext;
       AC = new C();
-      var comp = AC.createDynamicsCompressor();
-      master = AC.createGain(); master.gain.value = 0.9;
-      master.connect(comp); comp.connect(AC.destination);
-      noiseBuf = AC.createBuffer(1, Math.floor(AC.sampleRate * 0.5), AC.sampleRate);
+      var comp = AC.createDynamicsCompressor(), master = AC.createGain();
+      master.gain.value = 0.9; master.connect(comp); comp.connect(AC.destination);
+      var rev = AC.createConvolver(), wet = AC.createGain();
+      rev.buffer = makeIR(1.3); wet.gain.value = 0.2;
+      bus = AC.createGain(); bus.connect(master); bus.connect(rev); rev.connect(wet); wet.connect(master);
+      noiseBuf = AC.createBuffer(1, Math.floor(AC.sampleRate * 0.6), AC.sampleRate);
       var ch = noiseBuf.getChannelData(0);
       for (var i = 0; i < ch.length; i++) ch[i] = Math.random() * 2 - 1;
     }
     if (AC.state === 'suspended') AC.resume();
+  }
+  function out(node, pan) {
+    if (pan && AC.createStereoPanner) { var p = AC.createStereoPanner(); p.pan.value = pan; node.connect(p); p.connect(bus); }
+    else node.connect(bus);
   }
   function env(g, t, v, a, d) {
     g.gain.setValueAtTime(0.0001, t);
     g.gain.exponentialRampToValueAtTime(Math.max(v, 0.0002), t + a);
     g.gain.exponentialRampToValueAtTime(0.0001, t + a + d);
   }
-  function tone(type, f, t, v, d, f2, filt) {
-    var o = AC.createOscillator(), g = AC.createGain();
-    o.type = type; o.frequency.setValueAtTime(f, t);
-    if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + Math.min(d, 0.05));
-    env(g, t, v, 0.003, d);
-    if (filt) { o.connect(filt); filt.connect(g); } else o.connect(g);
-    g.connect(master); o.start(t); o.stop(t + d + 0.05);
+  // Ton: {type, f, f2, glide, t, v, a, d, ft, ff, fq, pan}
+  function voice(o) {
+    var s = AC.createOscillator(), g = AC.createGain(), n = s, a = o.a || 0.002;
+    s.type = o.type || 'sine'; s.frequency.setValueAtTime(o.f, o.t);
+    if (o.f2) s.frequency.exponentialRampToValueAtTime(o.f2, o.t + (o.glide || 0.03));
+    if (o.ft) { var fl = AC.createBiquadFilter(); fl.type = o.ft; fl.frequency.value = o.ff; if (o.fq) fl.Q.value = o.fq; s.connect(fl); n = fl; }
+    n.connect(g); env(g, o.t, o.v, a, o.d); out(g, o.pan);
+    s.start(o.t); s.stop(o.t + a + o.d + 0.05);
   }
-  function noise(t, v, d, type, f, q) {
-    var s = AC.createBufferSource(), fl = AC.createBiquadFilter(), g = AC.createGain();
-    s.buffer = noiseBuf; fl.type = type; fl.frequency.value = f; if (q) fl.Q.value = q;
-    env(g, t, v, 0.004, d);
-    s.connect(fl); fl.connect(g); g.connect(master); s.start(t); s.stop(t + d + 0.05);
+  // Rauschen: {t, v, a, d, ft, ff, fq, pan, am}
+  function hiss(o) {
+    var s = AC.createBufferSource(), fl = AC.createBiquadFilter(), g = AC.createGain(), a = o.a || 0.002;
+    s.buffer = noiseBuf; fl.type = o.ft; fl.frequency.value = o.ff; if (o.fq) fl.Q.value = o.fq;
+    s.connect(fl); fl.connect(g); env(g, o.t, o.v, a, o.d);
+    if (o.am) {             // Güiro-Riffel
+      var lfo = AC.createOscillator(), depth = AC.createGain(), am = AC.createGain();
+      lfo.type = 'sawtooth'; lfo.frequency.value = o.am; depth.gain.value = 0.5; am.gain.value = 0.5;
+      lfo.connect(depth); depth.connect(am.gain); g.connect(am); out(am, o.pan);
+      lfo.start(o.t); lfo.stop(o.t + a + o.d + 0.05);
+    } else out(g, o.pan);
+    s.start(o.t, Math.random() * 0.3); s.stop(o.t + a + o.d + 0.05);
+  }
+  function bassNote(t, f, d, v) {
+    [[f, 1, 'triangle'], [f * 2, 0.25, 'sine']].forEach(function (p) {
+      var s = AC.createOscillator(), fl = AC.createBiquadFilter(), g = AC.createGain(), vv = v * p[1];
+      s.type = p[2]; s.frequency.value = p[0]; fl.type = 'lowpass'; fl.frequency.value = 900;
+      s.connect(fl); fl.connect(g);
+      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(vv, t + 0.012);
+      g.gain.exponentialRampToValueAtTime(vv * 0.45, t + d * 0.7); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+      out(g, 0); s.start(t); s.stop(t + d + 0.05);
+    });
+  }
+  function pluck(t, f, v, pan) {
+    var s = AC.createOscillator(), fl = AC.createBiquadFilter(), g = AC.createGain();
+    s.type = 'sawtooth'; s.frequency.value = f; fl.type = 'lowpass';
+    fl.frequency.setValueAtTime(3200, t); fl.frequency.exponentialRampToValueAtTime(600, t + 0.3);
+    s.connect(fl); fl.connect(g); env(g, t, v, 0.002, 0.4); out(g, pan); s.start(t); s.stop(t + 0.5);
+  }
+  function pianoChord(t, fs, v) {
+    fs.forEach(function (f) {
+      voice({ type: 'triangle', f: f, t: t + Math.random() * 0.008, v: v, d: 0.42, ft: 'lowpass', ff: 2600, pan: -0.2 });
+      voice({ type: 'sine', f: f * 2, t: t, v: v * 0.25, d: 0.22, pan: -0.2 });
+    });
   }
   var INST = {
-    clave: function (t, v) { tone('triangle', 2500, t, v, 0.06); tone('sine', 1250, t, v * 0.4, 0.04); },
+    clave: function (t, v) {
+      voice({ f: 2480, t: t, v: v, d: 0.07, pan: -0.1 });
+      voice({ f: 4150, t: t, v: v * 0.2, d: 0.03, pan: -0.1 });
+      hiss({ t: t, v: v * 0.25, d: 0.008, ft: 'highpass', ff: 6000, pan: -0.1 });
+    },
+    guiro: function (t, v, long) {
+      hiss({ t: t, v: v, a: long ? 0.03 : 0.004, d: long ? 0.12 : 0.04, ft: 'bandpass', ff: 3600, fq: 1.8, pan: 0.35, am: long ? 38 : 0 });
+    },
     bell: function (t, v, hi) {
-      var bp = AC.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = hi ? 2000 : 1500; bp.Q.value = 1.2;
-      var k = hi ? 1 : 0.8, g = AC.createGain(); env(g, t, v, 0.002, 0.22); bp.connect(g); g.connect(master);
-      [540, 800].forEach(function (f) { var o = AC.createOscillator(); o.type = 'square'; o.frequency.value = f * k; o.connect(bp); o.start(t); o.stop(t + 0.3); });
+      var k = hi ? 1.18 : 1;
+      voice({ type: 'square', f: 560 * k, t: t, v: v, d: 0.13, ft: 'bandpass', ff: 1250 * k, fq: 3, pan: -0.35 });
+      voice({ type: 'square', f: 845 * k, t: t, v: v * 0.7, d: 0.09, ft: 'bandpass', ff: 1600 * k, fq: 3, pan: -0.35 });
     },
     conga: function (t, v, kind) {
-      if (kind === 'slap') { noise(t, v * 0.8, 0.05, 'bandpass', 1800, 1.5); tone('sine', 340, t, v * 0.5, 0.06); }
-      else tone('sine', kind === 'low' ? 190 : 250, t, v, 0.25, kind === 'low' ? 170 : 225);
+      if (kind === 'slap') {
+        hiss({ t: t, v: v * 0.9, d: 0.07, ft: 'bandpass', ff: 1600, fq: 0.9, pan: 0.4 });
+        voice({ f: 430, f2: 330, glide: 0.015, t: t, v: v * 0.45, d: 0.06, pan: 0.4 });
+      } else if (kind === 'muff') {
+        voice({ f: 210, f2: 160, glide: 0.02, t: t, v: v, d: 0.05, pan: 0.4 });
+      } else {
+        var low = kind === 'low', f = low ? 185 : 245;
+        voice({ f: f * 1.35, f2: f, glide: 0.02, t: t, v: v, d: low ? 0.38 : 0.3, pan: low ? 0.5 : 0.4 });
+        voice({ f: f * 1.6, t: t, v: v * 0.22, d: 0.1, pan: low ? 0.5 : 0.4 });
+      }
     },
-    bongo: function (t, v, hi) { tone('sine', hi ? 520 : 390, t, v, 0.11, hi ? 470 : 350); },
-    guira: function (t, v, d) { noise(t, v, d, 'highpass', 6000); },
-    bass: function (t, f, d, v) {
-      var lp = AC.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 500;
-      tone('triangle', f, t, v || 0.5, d, null, lp);
-    },
-    pluck: function (t, f, v) {
-      var lp = AC.createBiquadFilter(); lp.type = 'lowpass';
-      lp.frequency.setValueAtTime(3500, t); lp.frequency.exponentialRampToValueAtTime(700, t + 0.25);
-      tone('sawtooth', f, t, v, 0.35, null, lp);
-    },
-    click: function (t, v, hi) { tone('sine', hi ? 1700 : 1200, t, v, 0.03); }
+    bongo: function (t, v, hi) { voice({ f: hi ? 560 : 410, f2: hi ? 500 : 365, glide: 0.015, t: t, v: v, d: 0.11, pan: 0.3 }); },
+    guira: function (t, v, d) { hiss({ t: t, v: v, d: d, ft: 'highpass', ff: 6000, pan: -0.3 }); },
+    click: function (t, v, hi) { voice({ f: hi ? 1700 : 1200, t: t, v: v, d: 0.03 }); }
   };
+
+  // Salsa: Montuno I–IV–V–IV (C F G F), Akkord je 2 Counts
+  var CH = { C: [261.63, 329.63, 392.0, 523.25], F: [349.23, 440.0, 523.25, 698.46], G: [392.0, 493.88, 587.33, 783.99] };
+  var SALSA_CH = ['C', 'C', 'C', 'C', 'F', 'F', 'F', 'F', 'G', 'G', 'G', 'G', 'F', 'F', 'F', 'F'];
+  var TUMBAO = ['muff', 'muff', 'slap', 'muff', 'muff', 'muff', 'open', 'low'];
+
   // 16 Achtel pro 8 Counts; Slot 0 = Count 1
   function playSlot(i, t, spb) {
-    var style = beatCfg.style, s8 = spb / 2;
-    if (style === 'salsa') {
-      if ([2, 4, 8, 11, 14].indexOf(i) >= 0) INST.clave(t, 0.5);                       // Son-Clave 2-3
-      if (i % 2 === 0) INST.bell(t, i % 4 === 0 ? 0.16 : 0.1, i % 4 === 0);              // Campana
-      if (i === 2 || i === 10) INST.conga(t, 0.4, 'slap');                               // Tumbao
-      if (i === 6 || i === 14) INST.conga(t, 0.5, 'open');
-      if (i === 7 || i === 15) INST.conga(t, 0.45, 'low');
-      var bassS = { 3: 110, 6: 82.41, 11: 82.41, 14: 110 };                              // Tumbao-Bass
-      if (bassS[i]) INST.bass(t, bassS[i], s8 * 2.6, 0.55);
+    var s8 = spb / 2;
+    function h() { return t + (Math.random() - 0.5) * 0.012; }          // leichte Ungenauigkeit wie live
+    function hv(v) { return v * (0.82 + Math.random() * 0.3); }
+    if (beatCfg.style === 'salsa') {
+      if ([2, 4, 8, 11, 14].indexOf(i) >= 0) INST.clave(h(), hv(0.32));                 // Son-Clave 2-3
+      INST.guiro(h(), hv(i % 2 === 0 ? 0.16 : 0.09), i % 2 === 0);                        // Güiro
+      if (i % 2 === 0) INST.bell(h(), hv(i % 4 === 0 ? 0.05 : 0.035), i % 4 === 0);        // Campana leise
+      var k = TUMBAO[i % 8];                                                              // Conga-Tumbao
+      INST.conga(h(), hv(k === 'muff' ? 0.12 : k === 'slap' ? 0.38 : 0.45), k);
+      var bassS = { 3: 87.31, 6: 98.0, 11: 87.31, 14: 65.41 };                            // Tumbao-Bass (vorgezogen)
+      if (bassS[i]) bassNote(h(), bassS[i], s8 * (i % 8 === 3 ? 3 : 5), hv(0.5));
+      if ([0, 2, 3, 5, 7].indexOf(i % 8) >= 0) {                                          // Piano-Montuno
+        var chord = SALSA_CH[(i % 2 === 1) ? (i + 1) % 16 : i];
+        pianoChord(h(), CH[chord], hv(i % 8 === 0 ? 0.05 : 0.07));
+      }
     } else {
-      INST.guira(t, i % 2 === 0 ? 0.22 : 0.12, i % 2 === 0 ? 0.11 : 0.035);               // Güira
-      INST.bongo(t, (i === 6 || i === 14) ? 0.55 : 0.25, i % 2 === 0);                   // Martillo, Akzent auf 4 / 8
+      INST.guira(h(), hv(i % 2 === 0 ? 0.2 : 0.11), i % 2 === 0 ? 0.11 : 0.035);           // Güira
+      INST.bongo(h(), hv((i === 6 || i === 14) ? 0.5 : 0.22), i % 2 === 0);              // Martillo, Akzent auf 4 / 8
       var bassB = { 0: 110, 4: 110, 7: 82.41, 8: 82.41, 12: 82.41, 15: 110 };
-      if (bassB[i]) INST.bass(t, bassB[i], s8 * 1.6, 0.5);
+      if (bassB[i]) bassNote(h(), bassB[i], s8 * 1.6, hv(0.5));
       var arp = i < 8 ? [440, 523.25, 659.25, 523.25] : [415.3, 493.88, 659.25, 493.88];  // Am | E
-      INST.pluck(t, arp[i % 4], 0.07);
+      pluck(h(), arp[i % 4], hv(0.06), -0.25);
     }
-    if (beatCfg.count && (i === 0 || i === 8)) INST.click(t, i === 0 ? 0.35 : 0.2, i === 0);
+    if (beatCfg.count && (i === 0 || i === 8)) INST.click(t, i === 0 ? 0.3 : 0.18, i === 0);
   }
   function scheduler() {
     var spb = 60 / beatCfg.bpm[beatCfg.style];
@@ -676,7 +756,7 @@ input[type=range]{width:100%;height:44px;accent-color:var(--accent)}
       '<div class="ruler">' + rulerRow(st, true) + '</div>' +
       '<div class="togglechips"><button data-action="beat-count" aria-pressed="' + beatCfg.count + '">1 und 5 betonen</button></div>' +
       '<p class="hint" style="margin-top:16px">' + (st === 'salsa'
-        ? 'Clave (2-3), Glocke, Congas und Bass. Der Takt läuft weiter, wenn du zu einer Figur wechselst.'
+        ? 'Clave (2-3), Güiro, Congas, Piano-Montuno und Bass. Der Takt läuft weiter, wenn du zu einer Figur wechselst.'
         : 'Güira, Bongo, Bass und Gitarre – Akzent auf dem Tap (4 und 8). Der Takt läuft weiter, wenn du zu einer Figur wechselst.') + '</p></div>';
   }
   function setupTakt() {
@@ -703,9 +783,9 @@ input[type=range]{width:100%;height:44px;accent-color:var(--accent)}
     var warn = storageOk ? '' : '<p class="hint">Dieser Browser speichert Drafts nicht dauerhaft. Sichere sie vor dem Schließen als Datei.</p>';
     return bar('#/', 'Start') + '<h1 class="page-title">Drafts</h1>' + warn + list +
       '<div class="stack"><a class="btn primary" href="#/draft/new">Neuer Draft</a>' +
-      (drafts.length ? '<button class="btn" data-action="export">Datei mit Drafts speichern</button>' +
-        '<button class="btn" data-action="copy">Drafts als Text kopieren</button>' : '') + '</div>' +
-      (drafts.length ? '<p class="hint">Lade die gespeicherte Datei bei Claude im Chat hoch. Nach dem Einarbeiten verschwinden die Drafts automatisch, sobald du die neue Version öffnest.</p>' : '');
+      (exportCount() ? '<button class="btn" data-action="export">Export-Datei für Claude speichern</button>' +
+        '<button class="btn" data-action="copy">Export als Text kopieren</button>' : '') + '</div>' +
+      (drafts.length ? '<p class="hint">Der Export enthält Drafts und eigene Notizen. Lade ihn bei Claude im Chat hoch. Nach dem Einarbeiten verschwinden beides automatisch, sobald du die neue Version öffnest.</p>' : '');
   }
 
   function viewDraftForm(id, q) {
@@ -728,7 +808,7 @@ input[type=range]{width:100%;height:44px;accent-color:var(--accent)}
       '<label>Schritt<select name="step" id="fStep">' + stepOptions(dance, preStep) + '</select></label>' +
       '<label id="fNameWrap"' + (preStep ? ' hidden' : '') + '>Name des neuen Schritts<input name="name" value="' + esc(d ? d.name || '' : '') + '" autocomplete="off"></label>' +
       '<label>Level<select name="level">' + levelOpts + '</select></label>' +
-      '<label>Beschreibung<textarea name="text" required placeholder="Stichpunkte reichen: Counts, Position Start → Ende, was passiert auf 1–2–3 und 5–6–7, Notizen">' + esc(d ? d.text : '') + '</textarea></label>' +
+      '<label>Beschreibung<textarea name="text" required placeholder="Stichpunkte reichen: Counts, Position Start → Ende, was L und F auf 1–2–3 und 5–6–7 machen">' + esc(d ? d.text : '') + '</textarea></label>' +
       '<div class="stack"><button class="btn primary" type="submit">Draft speichern</button>' +
       (d ? '<button class="btn danger" type="button" data-action="delete-draft" data-id="' + esc(d.id) + '">Draft löschen</button>' : '') +
       '</div></form>';
@@ -748,6 +828,10 @@ input[type=range]{width:100%;height:44px;accent-color:var(--accent)}
       'Beim Import werden Dateien über ihre Nummer zugeordnet, z. B. 000_grundschritt.mp4 → Schritt 000. Die Videos bleiben nur auf diesem Gerät.</p>' +
       '<div class="stack"><button class="btn" data-action="pick-many">Videos importieren</button>' +
       (importedIds.size ? '<button class="btn danger" data-action="clear-videos">Alle Videos aus der App löschen</button>' : '') + '</div></section>' +
+      '<section><h2>Export an Claude</h2><p class="hint">' + drafts.length + ' Drafts und ' + noteIds().length + ' eigene Notizen. ' +
+      'Claude übernimmt sie in die Standardversion; danach verschwinden sie hier automatisch.</p>' +
+      (exportCount() ? '<div class="stack"><button class="btn primary" data-action="export">Export-Datei speichern</button>' +
+        '<button class="btn" data-action="copy">Als Text kopieren</button></div>' : '<p class="hint">Gerade nichts zu exportieren.</p>') + '</section>' +
       '<section><h2>Auf diesem Gerät gespeichert</h2><p class="hint">Favoriten, eigene Notizen, Drafts, Würfel- und Takt-Einstellungen. ' +
       'Sie bleiben beim Schließen und bei Updates erhalten, werden aber nicht zwischen Geräten abgeglichen.</p></section>' +
       '<section><h2>Datenstand</h2><p class="hint">Version ' + esc(DATA.version) + ' vom ' + esc(DATA.updated) + ', ' +
@@ -828,31 +912,42 @@ input[type=range]{width:100%;height:44px;accent-color:var(--accent)}
   }
 
   // ---------- Export ----------
+  function noteIds() { return Object.keys(notes).filter(function (id) { return String(notes[id] || '').trim(); }); }
+  function exportCount() { return drafts.length + noteIds().length; }
   function draftsAsText() {
-    return '### DRAFTS Tanzschritte (Datenstand ' + DATA.version + ')\n\n' + drafts.map(function (d) {
+    var parts = ['### EXPORT Tanzschritte (Datenstand ' + DATA.version + ')'];
+    if (drafts.length) parts.push('## DRAFTS\n\n' + drafts.map(function (d) {
       var s = d.step ? stepById(d.step) : null;
       return '[' + d.id + '] ' + danceName(d.dance) + ' | ' + (s ? s.id + ' ' + s.name : 'NEU: ' + (d.name || '?')) +
         ' | Level: ' + (d.level || 'offen') + '\n' + d.text;
-    }).join('\n\n---\n\n');
+    }).join('\n\n---\n\n'));
+    var ids = noteIds();
+    if (ids.length) parts.push('## NOTIZEN\n\n' + ids.map(function (id) {
+      var s = stepById(id); return '[' + id + ' ' + (s ? s.name : '?') + ']\n' + notes[id].trim();
+    }).join('\n\n'));
+    return parts.join('\n\n');
   }
   function exportHtml() {
     var json = JSON.stringify(drafts, null, 1).replace(/</g, '\\u003c');
-    var out = SOURCE.replace(/(<script id="drafts" type="application\/json">)[\s\S]*?(<\/script>)/, function (m, a, b) { return a + json + b; });
+    var nj = {}; noteIds().forEach(function (id) { nj[id] = notes[id].trim(); });
+    var njson = JSON.stringify(nj, null, 1).replace(/</g, '\\u003c');
+    var out = SOURCE.replace(/(<script id="drafts" type="application\/json">)[\s\S]*?(<\/script>)/, function (m, a, b) { return a + json + b; })
+      .replace(/(<script id="notes" type="application\/json">)[\s\S]*?(<\/script>)/, function (m, a, b) { return a + njson + b; });
     var blob = new Blob([out], { type: 'text/html' });
     var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob); a.download = 'tanzschritte-drafts.html';
+    a.href = URL.createObjectURL(blob); a.download = 'tanzschritte-export.html';
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
-    toast('Datei mit ' + drafts.length + ' Drafts gespeichert');
+    toast('Export gespeichert (' + drafts.length + ' Drafts, ' + noteIds().length + ' Notizen)');
   }
   function copyText(text) {
     function fallback() {
       var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta);
       ta.select(); var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
-      ta.remove(); toast(ok ? 'Drafts kopiert' : 'Kopieren nicht möglich');
+      ta.remove(); toast(ok ? 'Export kopiert' : 'Kopieren nicht möglich');
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () { toast('Drafts kopiert'); }, fallback);
+      navigator.clipboard.writeText(text).then(function () { toast('Export kopiert'); }, fallback);
     } else fallback();
   }
 
