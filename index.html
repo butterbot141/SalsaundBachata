@@ -228,6 +228,13 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
 .footer{margin:28px 0 8px;text-align:center;color:var(--faint);font-size:14px;line-height:1.6}
 .pick{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:8px 4px;border:0;border-bottom:1px solid var(--line);background:none;text-align:left;cursor:pointer}
 .pick:active{background:var(--surface)}
+.pick[aria-pressed="true"]{background:var(--surface)}
+.pick .tick{display:grid;place-items:center;width:26px;height:26px;flex:none;border-radius:7px;border:2px solid var(--line);color:#1A1420;font-weight:800}
+.pick[aria-pressed="true"] .tick{background:var(--accent);border-color:var(--accent)}
+.savebar{position:fixed;left:0;right:0;bottom:0;z-index:16;display:flex;gap:10px;max-width:640px;margin:0 auto;
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line)}
+.savebar .btn{flex:1}
+.btn:disabled{opacity:.45}
 @media (prefers-reduced-motion:no-preference){
   ::view-transition-group(*){animation-duration:.34s;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
   ::view-transition-old(root),::view-transition-new(root){animation-duration:.18s}
@@ -245,43 +252,65 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
 
 <script id="data" type="application/json">
 {
-  "version": "0.12",
+  "version": "0.13",
   "updated": "2026-10-15",
   "autor": "Paul B.",
   "dances": {"salsa": {"name": "Salsa"}, "bachata": {"name": "Bachata"}, "rueda": {"name": "Rueda"}},
   "integratedDrafts": [],
+  "idMap": {"000": "S001", "001": "S002", "002": "S003", "003": "S004", "004": "S005", "005": "S006", "006": "S007", "007": "S008", "008": "S009", "009": "S010", "010": "S011", "011": "S012", "012": "S013", "013": "S014", "014": "S015", "015": "S016", "016": "S017", "017": "S018", "018": "S019", "019": "S020", "030": "S021", "020": "S022", "021": "S023", "022": "S024", "023": "S025", "024": "S026", "025": "S027", "026": "S028", "027": "S029", "028": "S030", "029": "S031"},
   "steps": [
-    {"id":"000","dance":"salsa","level":"A1","name":"Grundschritt","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"l vor, r Gewicht, l ran","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"r zurück, l Gewicht, r ran","d":"l vor, r Gewicht, l ran"}],"ablauf":["Vor und zurück auf der Linie, Pause auf 4 und 8"],"video":"videos/000_grundschritt.mp4","status":"fertig","notizen":"","wuerfel":false,"alternativ":""},
-    {"id":"001","dance":"salsa","level":"A1","name":"RT","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"Grundschritt vor, lH kurze Vorbereitung auf 3","d":"Grundschritt zurück"},{"count":"5–6–7","h":"Grundschritt zurück, lH führt Kreis ↻ über Kopf des F","d":"l vor + ½ ↻, r + ½ ↻, l ran"}],"ablauf":["F dreht ↻ unter der lH des L auf 5–6–7"],"video":"videos/001_rt.mp4","status":"fertig","notizen":"","alternativ":""},
-    {"id":"002","dance":"salsa","level":"A1","name":"LT","counts":8,"position":"offen → offen","table":[{"count":"8 (davor)","h":"lH kurz ↻ entgegen – Schwung holen","d":"Schwung aufnehmen"},{"count":"1–2–3","h":"Grundschritt vor, lH führt ↺ über Kopf des F","d":"r zurück + ↺, l ↺ weiter, r ↺ weiter"},{"count":"5–6–7","h":"Grundschritt zurück","d":"↺ zu Ende drehen, l ran – frontal"}],"ablauf":["Signal auf 8 davor: kurz ↻ entgegendrehen","F dreht ab 1 ↺ nach hinten bis zum Ende der Figur"],"video":"videos/002_lt.mp4","status":"pruefen","notizen":"","alternativ":""},
-    {"id":"003","dance":"salsa","level":"A1","name":"LT+","counts":16,"position":"offen → offen","table":[{"count":"8 (davor)","h":"Signal: kurz ↻ entgegen","d":"Schwung aufnehmen"},{"count":"1–2–3","h":"Grundschritt vor, beide Hände führen ↺","d":"↺ nach hinten, dreht sich ein"},{"count":"5–6–7","h":"Grundschritt zurück","d":"Drehung beenden – eingedreht"},{"count":"1–2–3 (II)","h":"[[004|CBL]]: l vor, r Gewicht, l ¼ ↺ seit","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7 (II)","h":"CBL zu Ende, Signal an der inneren Hand","d":"540° RT zurück, l ran"}],"ablauf":["[[002|LT]] mit beiden Händen → F dreht sich ein","L macht [[004|CBL]]","Signal an der inneren Hand → F dreht 540° RT zurück"],"video":"videos/003_lt_plus.mp4","status":"pruefen","notizen":"","alternativ":""},
-    {"id":"004","dance":"salsa","level":"A1","name":"CBL","counts":8,"position":"","table":[{"count":"1–2–3","h":"l vor, r Gewicht, l ¼ ↺ seit (Linie öffnen)","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"r zurück, l ¼ ↺ weiter, r ran","d":"l vor am L vorbei, r vor + ½ ↺, l zurück"}],"ablauf":["L öffnet die Linie, F läuft vorbei und dreht ½ ↺ – Plätze getauscht"],"video":"videos/004_cbl.mp4","status":"fertig","notizen":"","alternativ":""},
-    {"id":"005","dance":"salsa","level":"A1","name":"Block","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/005_block.mp4","status":"platzhalter","notizen":"","alternativ":""},
-    {"id":"006","dance":"salsa","level":"A1","name":"2RT","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"l vor, r Gewicht, l ¼ ↺ seit (Linie öffnen), lH Vorbereitung","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"r zurück, l ¼ ↺ weiter, r ran – lH führt ↻","d":"l vor, 540° ↻ am L vorbei, l ran"}],"ablauf":["Nach einem [[004|CBL]]: F wird mit 540° ↻ am L vorbeigedreht"],"video":"videos/006_2rt.mp4","status":"pruefen","notizen":"","alternativ":""},
-    {"id":"007","dance":"salsa","level":"A1","name":"Wurzel","counts":8,"position":"","table":[{"count":"1–2–3","h":"[[004|CBL]]: l vor, r Gewicht, l ¼ ↺ seit","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"auf 5 lH zeichnet √, r – l – r hinterher","d":"l vor, 540° ↺ am L vorbei, l ran"}],"ablauf":["[[004|CBL]], auf 5 Wurzel-Signal (√) mit der lH des L","F dreht 540° ↺, L geht hinterher bis 8"],"video":"videos/007_wurzel.mp4","status":"pruefen","notizen":"","alternativ":""},
-    {"id":"008","dance":"salsa","level":"A1","name":"Wurzel+","counts":16,"position":"offen → offen","table":[{"count":"1–2–3","h":"wie [[007|Wurzel]], beide Hände in Kontakt","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"auf 5 √, F eindrehen, hinterher","d":"540° ↺ – eingedreht"},{"count":"1–2–3 (II)","h":"[[004|CBL]]: l vor, r Gewicht, l ¼ ↺ seit","d":"Grundschritt eingedreht"},{"count":"5–6–7 (II)","h":"Signal an der inneren Hand","d":"540° RT zurück, l ran"}],"ablauf":["[[007|Wurzel]] mit beiden Händen → F dreht sich ein","L macht [[004|CBL]]","Signal an der inneren Hand → F dreht 540° RT zurück"],"video":"videos/008_wurzel_plus.mp4","status":"pruefen","notizen":"","alternativ":""},
-    {"id":"009","dance":"salsa","level":"A1","name":"Wurzel LT 2RT","counts":24,"position":"","table":[{"count":"1–8","h":"[[007|Wurzel]]: CBL, √-Signal auf 5","d":"540° ↺"},{"count":"1–8 (II)","h":"[[002|LT]]: Signal auf 8, ↺ führen","d":"↺ ab 1 nach hinten"},{"count":"1–8 (III)","h":"[[006|2RT]]: CBL, ↻ führen","d":"540° ↻ am L vorbei"}],"ablauf":["[[007|Wurzel]] → [[002|LT]] → [[006|2RT]]","Nach jeder abgeschlossenen Drehung gibt L das Signal für die nächste"],"video":"videos/009_wurzel_lt_2rt.mp4","status":"pruefen","notizen":"","alternativ":""},
-    {"id":"010","dance":"salsa","level":"A2","name":"Caress","counts":4,"position":"","table":[{"count":"3–4 Counts","h":"lH oder rH locker zur Kopfseite / über den Kopf, loslassen; Füße z. B. Grundschritt","d":"Hand nach außen oder durchs Haar streifen, am Ende ggf. Kontakt"}],"ablauf":["Ohne feste Abfolge – wichtig zum Umbauen in vielen Figuren","L führt lH oder rH locker zur Kopfseite oder über den Kopf und lässt los","F streift die Hand nach außen oder durchs Haar, nimmt am Ende ggf. wieder Kontakt"],"video":"videos/010_caress.mp4","status":"pruefen","notizen":"","alternativ":"","countsText":"3–4 Counts"},
-    {"id":"011","dance":"salsa","level":"A2","name":"Open Break","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/011_open_break.mp4","status":"platzhalter","notizen":"","alternativ":""},
-    {"id":"012","dance":"salsa","level":"A2","name":"HL","counts":16,"position":"zweihändig → zweihändig","table":[{"count":"1–2–3","h":"Grundschritt vor","d":"Grundschritt zurück"},{"count":"5–6–7","h":"Grundschritt zurück, lH bleibt tief, rH führt ↺ über Kopf des F","d":"LT ↺ – rH landet hinter dem Rücken"},{"count":"1–2–3 (II)","h":"Grundschritt vor, Position halten","d":"Grundschritt zurück im HL"},{"count":"5–6–7 (II)","h":"Grundschritt zurück, Hände führen die Auswicklung","d":"RT ↻ aus dem HL heraus"}],"ablauf":["F dreht LT, FrH bleibt tief → Arm hinter dem Rücken","Ausgang mit [[001|RT]] ↻"],"video":"videos/012_hl.mp4","status":"pruefen","notizen":"","alternativ":"mehrere Ein- & Ausgänge"},
-    {"id":"013","dance":"salsa","level":"A2","name":"Travelling","counts":8,"position":"offen → HL","table":[{"count":"1–2–3","h":"Grundschritt vor","d":"Grundschritt zurück"},{"count":"4","h":"Signal: an lH ziehen, Platz machen","d":"Zug aufnehmen"},{"count":"5–6–7","h":"F vorbeiführen, nach 6 lH schnell heben","d":"am L vorbei, unter der lH hindurch → HL"}],"ablauf":["Signal auf 4: L zieht an der lH und macht Platz","F läuft vorbei, nach 6 unter der lH hindurch","Ende: F im [[012|HL]]"],"video":"videos/013_travelling.mp4","status":"pruefen","notizen":"","alternativ":""},
-    {"id":"014","dance":"salsa","level":"A2","name":"Travelling+Caress","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"Grundschritt vor","d":"Grundschritt zurück"},{"count":"4","h":"Signal: an lH ziehen, Platz machen","d":"Zug aufnehmen"},{"count":"5–6–7","h":"F vorbeiführen, auf 6 rH: [[010|Caress]], lH heben","d":"am L vorbei, unter der lH hindurch – ohne HL"}],"ablauf":["Wie [[013|Travelling]]","Auf 6 führt LrH ein [[010|Caress]] → kein HL"],"video":"videos/014_travelling_caress.mp4","status":"pruefen","notizen":"","alternativ":""},
-    {"id":"015","dance":"salsa","level":"A2","name":"Travelling+Zurückdrehung","counts":24,"position":"offen → offen","table":[{"count":"1–8","h":"[[013|Travelling]]","d":"→ HL"},{"count":"1–8 (II)","h":"zurückführen","d":"540° LT zurück → HL auf der anderen Seite"},{"count":"1–8 (III)","h":"HL lösen","d":"[[001|RT]] ↻ aus dem HL"}],"ablauf":["[[013|Travelling]] → F im [[012|HL]]","Ab dem 2. Durchlauf 540° LT zurück → HL auf der anderen Seite","HL wird mit [[001|RT]] gelöst"],"video":"videos/015_travelling_zurueckdrehung.mp4","status":"pruefen","notizen":"","alternativ":""},
-    {"id":"016","dance":"salsa","level":"A2","name":"Titanic","counts":16,"position":"r–r / l–l → offen","table":[{"count":"1–2–3","h":"wie [[007|Wurzel]]: l vor, r Gewicht, l ¼ ↺ seit","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"auf 5 √ mit rH, nach 360° Arme ausbreiten","d":"360° LT, stoppt vor L (Titanic)"},{"count":"1–2–3 (II)","h":"Position halten","d":"Grundschritt in Titanic-Position"},{"count":"5–6–7 (II)","h":"Zurückdrehen führen","d":"540° RT zurück, l ran"}],"ablauf":["Handwechsel zu r–r / l–l (z. B. per [[010|Caress]])","[[007|Wurzel]] mit LrH → F 360° LT, Arme ausbreiten → F steht vor L","Zurück mit 540° RT"],"video":"videos/016_titanic.mp4","status":"pruefen","notizen":"","alternativ":""},
-    {"id":"017","dance":"salsa","level":"A2","name":"Titanic einhändig","counts":16,"position":"LrH–FrH → offen","table":[{"count":"1–2–3","h":"wie [[007|Wurzel]]: l vor, r Gewicht, l ¼ ↺ seit","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"auf 5 √ mit rH, nach 360° lH auf l Schulter des F","d":"360° LT, stoppt vor L"},{"count":"1–2–3 (II)","h":"Position halten","d":"Grundschritt vor L"},{"count":"5–6–7 (II)","h":"rH führt das Ausdrehen","d":"540° RT zurück, l ran"}],"ablauf":["Wie [[016|Titanic]], nur einhändig über LrH","Nach 360° stoppt die lH des L auf der l Schulter des F","Ausdrehen über rH mit 540° RT"],"video":"videos/017_titanic_einhaendig.mp4","status":"pruefen","notizen":"","alternativ":""},
-    {"id":"018","dance":"salsa","level":"A2","name":"HL+schieben","counts":8,"position":"HL → offen","table":[{"count":"1–2–3","h":"Block: rH schiebt r Hüfte des F weg, dann zum L","d":"Grundschritt im HL, Schwung aufnehmen"},{"count":"5–6–7","h":"wie [[004|CBL]], rH fängt an der Schulter, lH an FrH","d":"540° LT, Kontakt löst sich"}],"ablauf":["Start im [[012|HL]]: LrH schiebt die r Hüfte des F erst weg, dann zum L (Block)","F dreht 540° LT, Handkontakt löst sich","L fängt mit rH an der Schulter und bietet lH an FrH an – gut mit [[004|CBL]]"],"video":"videos/018_hl_schieben.mp4","status":"pruefen","notizen":"","alternativ":""},
-    {"id":"019","dance":"salsa","level":"A2","name":"2RT+HL","counts":8,"position":"offen → HL","table":[{"count":"1–2–3","h":"l vor, r Gewicht, l ¼ ↺ seit (Linie öffnen), lH Vorbereitung","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"r zurück, l ¼ ↺ weiter, r ran – ↻ führen, in der 2. Drehung Hand nach unten","d":"540° ↻ am L vorbei, eingedreht → HL"}],"ablauf":["Wie [[006|2RT]] ([[004|CBL]] + 540° RT)","In der zweiten Drehung geht die rH nach unten → F dreht sich hinter dem Rücken ein ([[012|HL]])"],"video":"videos/019_2rt_hl.mp4","status":"pruefen","notizen":"","alternativ":""},
-    {"id":"030","dance":"salsa","level":"A2","name":"2RT+HL+schieben","counts":16,"position":"offen → offen","table":[{"count":"1–8","h":"[[019|2RT+HL]]","d":"540° ↻ → HL"},{"count":"1–8 (II)","h":"[[018|HL+schieben]]: Block, CBL, auffangen","d":"540° LT, Kontakt löst sich"}],"ablauf":["[[019|2RT+HL]] → F im HL","Ausdrehen wie [[018|HL+schieben]]"],"notizen":"","alternativ":"","video":"videos/030_2rt_hl_schieben.mp4","status":"pruefen"},
-    {"id":"020","dance":"salsa","level":"A3","name":"LTvorbei","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/020_ltvorbei.mp4","status":"platzhalter","notizen":"","alternativ":""},
-    {"id":"021","dance":"salsa","level":"A3","name":"RTvorbei","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/021_rtvorbei.mp4","status":"platzhalter","notizen":"","alternativ":""},
-    {"id":"022","dance":"salsa","level":"A3","name":"2HandRT","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/022_2handrt.mp4","status":"platzhalter","notizen":"","alternativ":""},
-    {"id":"023","dance":"salsa","level":"A3","name":"Bogen","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/023_bogen.mp4","status":"platzhalter","notizen":"","alternativ":""},
-    {"id":"024","dance":"salsa","level":"A3","name":"Hand übergeben","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/024_hand_uebergeben.mp4","status":"platzhalter","notizen":"","alternativ":""},
-    {"id":"025","dance":"salsa","level":"A3","name":"FLT LLT","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/025_flt_llt.mp4","status":"platzhalter","notizen":"","alternativ":""},
-    {"id":"026","dance":"salsa","level":"A3","name":"Handwechsel+Wurzel","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/026_handwechsel_wurzel.mp4","status":"platzhalter","notizen":"","alternativ":""},
-    {"id":"027","dance":"salsa","level":"A3","name":"Caress mit Handwechsel","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/027_caress_mit_handwechsel.mp4","status":"platzhalter","notizen":"","alternativ":""},
-    {"id":"028","dance":"salsa","level":"A3","name":"Titanic mit Bogen","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/028_titanic_mit_bogen.mp4","status":"platzhalter","notizen":"","alternativ":""},
-    {"id":"029","dance":"salsa","level":"A3","name":"HL+Titanic+Bogen","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/029_hl_titanic_bogen.mp4","status":"platzhalter","notizen":"","alternativ":""}
+    {"id":"S001","dance":"salsa","level":"A1","name":"Grundschritt","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"l vor, r Gewicht, l ran","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"r zurück, l Gewicht, r ran","d":"l vor, r Gewicht, l ran"}],"ablauf":["Vor und zurück auf der Linie, Pause auf 4 und 8"],"video":"videos/S001_grundschritt.mp4","status":"fertig","notizen":"","wuerfel":false,"alternativ":""},
+    {"id":"S002","dance":"salsa","level":"A1","name":"RT","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"Grundschritt vor, lH kurze Vorbereitung auf 3","d":"Grundschritt zurück"},{"count":"5–6–7","h":"Grundschritt zurück, lH führt Kreis ↻ über Kopf des F","d":"l vor + ½ ↻, r + ½ ↻, l ran"}],"ablauf":["F dreht ↻ unter der lH des L auf 5–6–7"],"video":"videos/S002_rt.mp4","status":"fertig","notizen":"","alternativ":""},
+    {"id":"S003","dance":"salsa","level":"A1","name":"LT","counts":8,"position":"offen → offen","table":[{"count":"8 (davor)","h":"lH kurz ↻ entgegen – Schwung holen","d":"Schwung aufnehmen"},{"count":"1–2–3","h":"Grundschritt vor, lH führt ↺ über Kopf des F","d":"r zurück + ↺, l ↺ weiter, r ↺ weiter"},{"count":"5–6–7","h":"Grundschritt zurück","d":"↺ zu Ende drehen, l ran – frontal"}],"ablauf":["Signal auf 8 davor: kurz ↻ entgegendrehen","F dreht ab 1 ↺ nach hinten bis zum Ende der Figur"],"video":"videos/S003_lt.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"S004","dance":"salsa","level":"A1","name":"LT+","counts":16,"position":"offen → offen","table":[{"count":"8 (davor)","h":"Signal: kurz ↻ entgegen","d":"Schwung aufnehmen"},{"count":"1–2–3","h":"Grundschritt vor, beide Hände führen ↺","d":"↺ nach hinten, dreht sich ein"},{"count":"5–6–7","h":"Grundschritt zurück","d":"Drehung beenden – eingedreht"},{"count":"1–2–3 (II)","h":"[[S005|CBL]]: l vor, r Gewicht, l ¼ ↺ seit","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7 (II)","h":"CBL zu Ende, Signal an der inneren Hand","d":"540° RT zurück, l ran"}],"ablauf":["[[S003|LT]] mit beiden Händen → F dreht sich ein","L macht [[S005|CBL]]","Signal an der inneren Hand → F dreht 540° RT zurück"],"video":"videos/S004_lt_plus.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"S005","dance":"salsa","level":"A1","name":"CBL","counts":8,"position":"","table":[{"count":"1–2–3","h":"l vor, r Gewicht, l ¼ ↺ seit (Linie öffnen)","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"r zurück, l ¼ ↺ weiter, r ran","d":"l vor am L vorbei, r vor + ½ ↺, l zurück"}],"ablauf":["L öffnet die Linie, F läuft vorbei und dreht ½ ↺ – Plätze getauscht"],"video":"videos/S005_cbl.mp4","status":"fertig","notizen":"","alternativ":""},
+    {"id":"S006","dance":"salsa","level":"A1","name":"Block","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/S006_block.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"S007","dance":"salsa","level":"A1","name":"2RT","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"l vor, r Gewicht, l ¼ ↺ seit (Linie öffnen), lH Vorbereitung","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"r zurück, l ¼ ↺ weiter, r ran – lH führt ↻","d":"l vor, 540° ↻ am L vorbei, l ran"}],"ablauf":["Nach einem [[S005|CBL]]: F wird mit 540° ↻ am L vorbeigedreht"],"video":"videos/S007_2rt.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"S008","dance":"salsa","level":"A1","name":"Wurzel","counts":8,"position":"","table":[{"count":"1–2–3","h":"[[S005|CBL]]: l vor, r Gewicht, l ¼ ↺ seit","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"auf 5 lH zeichnet √, r – l – r hinterher","d":"l vor, 540° ↺ am L vorbei, l ran"}],"ablauf":["[[S005|CBL]], auf 5 Wurzel-Signal (√) mit der lH des L","F dreht 540° ↺, L geht hinterher bis 8"],"video":"videos/S008_wurzel.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"S009","dance":"salsa","level":"A1","name":"Wurzel+","counts":16,"position":"offen → offen","table":[{"count":"1–2–3","h":"wie [[S008|Wurzel]], beide Hände in Kontakt","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"auf 5 √, F eindrehen, hinterher","d":"540° ↺ – eingedreht"},{"count":"1–2–3 (II)","h":"[[S005|CBL]]: l vor, r Gewicht, l ¼ ↺ seit","d":"Grundschritt eingedreht"},{"count":"5–6–7 (II)","h":"Signal an der inneren Hand","d":"540° RT zurück, l ran"}],"ablauf":["[[S008|Wurzel]] mit beiden Händen → F dreht sich ein","L macht [[S005|CBL]]","Signal an der inneren Hand → F dreht 540° RT zurück"],"video":"videos/S009_wurzel_plus.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"S010","dance":"salsa","level":"A1","name":"Wurzel LT 2RT","counts":24,"position":"","table":[{"count":"1–8","h":"[[S008|Wurzel]]: CBL, √-Signal auf 5","d":"540° ↺"},{"count":"1–8 (II)","h":"[[S003|LT]]: Signal auf 8, ↺ führen","d":"↺ ab 1 nach hinten"},{"count":"1–8 (III)","h":"[[S007|2RT]]: CBL, ↻ führen","d":"540° ↻ am L vorbei"}],"ablauf":["[[S008|Wurzel]] → [[S003|LT]] → [[S007|2RT]]","Nach jeder abgeschlossenen Drehung gibt L das Signal für die nächste"],"video":"videos/S010_wurzel_lt_2rt.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"S011","dance":"salsa","level":"A2","name":"Caress","counts":4,"position":"","table":[{"count":"3–4 Counts","h":"lH oder rH locker zur Kopfseite / über den Kopf, loslassen; Füße z. B. Grundschritt","d":"Hand nach außen oder durchs Haar streifen, am Ende ggf. Kontakt"}],"ablauf":["Ohne feste Abfolge – wichtig zum Umbauen in vielen Figuren","L führt lH oder rH locker zur Kopfseite oder über den Kopf und lässt los","F streift die Hand nach außen oder durchs Haar, nimmt am Ende ggf. wieder Kontakt"],"video":"videos/S011_caress.mp4","status":"pruefen","notizen":"","alternativ":"","countsText":"3–4 Counts"},
+    {"id":"S012","dance":"salsa","level":"A2","name":"Open Break","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/S012_open_break.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"S013","dance":"salsa","level":"A2","name":"HL","counts":16,"position":"zweihändig → zweihändig","table":[{"count":"1–2–3","h":"Grundschritt vor","d":"Grundschritt zurück"},{"count":"5–6–7","h":"Grundschritt zurück, lH bleibt tief, rH führt ↺ über Kopf des F","d":"LT ↺ – rH landet hinter dem Rücken"},{"count":"1–2–3 (II)","h":"Grundschritt vor, Position halten","d":"Grundschritt zurück im HL"},{"count":"5–6–7 (II)","h":"Grundschritt zurück, Hände führen die Auswicklung","d":"RT ↻ aus dem HL heraus"}],"ablauf":["F dreht LT, FrH bleibt tief → Arm hinter dem Rücken","Ausgang mit [[S002|RT]] ↻"],"video":"videos/S013_hl.mp4","status":"pruefen","notizen":"","alternativ":"mehrere Ein- & Ausgänge"},
+    {"id":"S014","dance":"salsa","level":"A2","name":"Travelling","counts":8,"position":"offen → HL","table":[{"count":"1–2–3","h":"Grundschritt vor","d":"Grundschritt zurück"},{"count":"4","h":"Signal: an lH ziehen, Platz machen","d":"Zug aufnehmen"},{"count":"5–6–7","h":"F vorbeiführen, nach 6 lH schnell heben","d":"am L vorbei, unter der lH hindurch → HL"}],"ablauf":["Signal auf 4: L zieht an der lH und macht Platz","F läuft vorbei, nach 6 unter der lH hindurch","Ende: F im [[S013|HL]]"],"video":"videos/S014_travelling.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"S015","dance":"salsa","level":"A2","name":"Travelling+Caress","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"Grundschritt vor","d":"Grundschritt zurück"},{"count":"4","h":"Signal: an lH ziehen, Platz machen","d":"Zug aufnehmen"},{"count":"5–6–7","h":"F vorbeiführen, auf 6 rH: [[S011|Caress]], lH heben","d":"am L vorbei, unter der lH hindurch – ohne HL"}],"ablauf":["Wie [[S014|Travelling]]","Auf 6 führt LrH ein [[S011|Caress]] → kein HL"],"video":"videos/S015_travelling_caress.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"S016","dance":"salsa","level":"A2","name":"Travelling+Zurückdrehung","counts":24,"position":"offen → offen","table":[{"count":"1–8","h":"[[S014|Travelling]]","d":"→ HL"},{"count":"1–8 (II)","h":"zurückführen","d":"540° LT zurück → HL auf der anderen Seite"},{"count":"1–8 (III)","h":"HL lösen","d":"[[S002|RT]] ↻ aus dem HL"}],"ablauf":["[[S014|Travelling]] → F im [[S013|HL]]","Ab dem 2. Durchlauf 540° LT zurück → HL auf der anderen Seite","HL wird mit [[S002|RT]] gelöst"],"video":"videos/S016_travelling_zurueckdrehung.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"S017","dance":"salsa","level":"A2","name":"Titanic","counts":16,"position":"r–r / l–l → offen","table":[{"count":"1–2–3","h":"wie [[S008|Wurzel]]: l vor, r Gewicht, l ¼ ↺ seit","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"auf 5 √ mit rH, nach 360° Arme ausbreiten","d":"360° LT, stoppt vor L (Titanic)"},{"count":"1–2–3 (II)","h":"Position halten","d":"Grundschritt in Titanic-Position"},{"count":"5–6–7 (II)","h":"Zurückdrehen führen","d":"540° RT zurück, l ran"}],"ablauf":["Handwechsel zu r–r / l–l (z. B. per [[S011|Caress]])","[[S008|Wurzel]] mit LrH → F 360° LT, Arme ausbreiten → F steht vor L","Zurück mit 540° RT"],"video":"videos/S017_titanic.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"S018","dance":"salsa","level":"A2","name":"Titanic einhändig","counts":16,"position":"LrH–FrH → offen","table":[{"count":"1–2–3","h":"wie [[S008|Wurzel]]: l vor, r Gewicht, l ¼ ↺ seit","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"auf 5 √ mit rH, nach 360° lH auf l Schulter des F","d":"360° LT, stoppt vor L"},{"count":"1–2–3 (II)","h":"Position halten","d":"Grundschritt vor L"},{"count":"5–6–7 (II)","h":"rH führt das Ausdrehen","d":"540° RT zurück, l ran"}],"ablauf":["Wie [[S017|Titanic]], nur einhändig über LrH","Nach 360° stoppt die lH des L auf der l Schulter des F","Ausdrehen über rH mit 540° RT"],"video":"videos/S018_titanic_einhaendig.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"S019","dance":"salsa","level":"A2","name":"HL+schieben","counts":8,"position":"HL → offen","table":[{"count":"1–2–3","h":"Block: rH schiebt r Hüfte des F weg, dann zum L","d":"Grundschritt im HL, Schwung aufnehmen"},{"count":"5–6–7","h":"wie [[S005|CBL]], rH fängt an der Schulter, lH an FrH","d":"540° LT, Kontakt löst sich"}],"ablauf":["Start im [[S013|HL]]: LrH schiebt die r Hüfte des F erst weg, dann zum L (Block)","F dreht 540° LT, Handkontakt löst sich","L fängt mit rH an der Schulter und bietet lH an FrH an – gut mit [[S005|CBL]]"],"video":"videos/S019_hl_schieben.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"S020","dance":"salsa","level":"A2","name":"2RT+HL","counts":8,"position":"offen → HL","table":[{"count":"1–2–3","h":"l vor, r Gewicht, l ¼ ↺ seit (Linie öffnen), lH Vorbereitung","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"r zurück, l ¼ ↺ weiter, r ran – ↻ führen, in der 2. Drehung Hand nach unten","d":"540° ↻ am L vorbei, eingedreht → HL"}],"ablauf":["Wie [[S007|2RT]] ([[S005|CBL]] + 540° RT)","In der zweiten Drehung geht die rH nach unten → F dreht sich hinter dem Rücken ein ([[S013|HL]])"],"video":"videos/S020_2rt_hl.mp4","status":"pruefen","notizen":"","alternativ":""},
+    {"id":"S021","dance":"salsa","level":"A2","name":"2RT+HL+schieben","counts":16,"position":"offen → offen","table":[{"count":"1–8","h":"[[S020|2RT+HL]]","d":"540° ↻ → HL"},{"count":"1–8 (II)","h":"[[S019|HL+schieben]]: Block, CBL, auffangen","d":"540° LT, Kontakt löst sich"}],"ablauf":["[[S020|2RT+HL]] → F im HL","Ausdrehen wie [[S019|HL+schieben]]"],"notizen":"","alternativ":"","video":"videos/S021_2rt_hl_schieben.mp4","status":"pruefen"},
+    {"id":"S022","dance":"salsa","level":"A3","name":"LTvorbei","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/S022_ltvorbei.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"S023","dance":"salsa","level":"A3","name":"RTvorbei","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/S023_rtvorbei.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"S024","dance":"salsa","level":"A3","name":"2HandRT","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/S024_2handrt.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"S025","dance":"salsa","level":"A3","name":"Bogen","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/S025_bogen.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"S026","dance":"salsa","level":"A3","name":"Hand übergeben","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/S026_hand_uebergeben.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"S027","dance":"salsa","level":"A3","name":"FLT LLT","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/S027_flt_llt.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"S028","dance":"salsa","level":"A3","name":"Handwechsel+Wurzel","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/S028_handwechsel_wurzel.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"S029","dance":"salsa","level":"A3","name":"Caress mit Handwechsel","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/S029_caress_mit_handwechsel.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"S030","dance":"salsa","level":"A3","name":"Titanic mit Bogen","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/S030_titanic_mit_bogen.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"S031","dance":"salsa","level":"A3","name":"HL+Titanic+Bogen","counts":null,"position":"","table":[],"ablauf":[],"video":"videos/S031_hl_titanic_bogen.mp4","status":"platzhalter","notizen":"","alternativ":""},
+    {"id":"B001","dance":"bachata","level":"A1","name":"Grundschritte","counts":8,"position":"offen → offen","table":[{"count":"1–2–3–4","h":"l seit, r ran, l seit, Tap r","d":"r seit, l ran, r seit, Tap l"},{"count":"5–6–7–8","h":"r seit, l ran, r seit, Tap l","d":"l seit, r ran, l seit, Tap r"}],"ablauf":["Seitlich: 3 Schritte zur Seite, Tap auf 4 – dann gespiegelt auf 5–8"],"notizen":"","alternativ":"","video":"videos/B001_grundschritte.mp4","status":"pruefen","wuerfel":false},
+    {"id":"B002","dance":"bachata","level":"A1","name":"FLT & FRT","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/B002_flt_und_frt.mp4","status":"platzhalter"},
+    {"id":"B003","dance":"bachata","level":"A1","name":"LLT & LRT","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/B003_llt_und_lrt.mp4","status":"platzhalter"},
+    {"id":"B004","dance":"bachata","level":"A1","name":"Forward & Backward","counts":8,"position":"offen → offen","table":[{"count":"1–2–3–4","h":"l vor, r Gewicht, l ran, Tap r","d":"r zurück, l Gewicht, r ran, Tap l"},{"count":"5–6–7–8","h":"r zurück, l Gewicht, r ran, Tap l","d":"l vor, r Gewicht, l ran, Tap r"}],"ablauf":["Vor auf 1–2–3, Tap auf 4 – zurück auf 5–6–7, Tap auf 8"],"notizen":"","alternativ":"","video":"videos/B004_forward_und_backward.mp4","status":"pruefen"},
+    {"id":"B005","dance":"bachata","level":"A1","name":"Box Step","counts":null,"position":"","table":[],"ablauf":["Quadrat aus Seit- und Vor-/Rückschritten, Tap auf 4 und 8"],"notizen":"","alternativ":"","video":"videos/B005_box_step.mp4","status":"pruefen"},
+    {"id":"B006","dance":"bachata","level":"A1","name":"Caress","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/B006_caress.mp4","status":"platzhalter"},
+    {"id":"B007","dance":"bachata","level":"A2","name":"Brezel","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/B007_brezel.mp4","status":"platzhalter"},
+    {"id":"B008","dance":"bachata","level":"A2","name":"HL","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/B008_hl.mp4","status":"platzhalter"},
+    {"id":"B009","dance":"bachata","level":"A2","name":"L Twist","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/B009_l_twist.mp4","status":"platzhalter"},
+    {"id":"B010","dance":"bachata","level":"A2","name":"Windmühle","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/B010_windmuehle.mp4","status":"platzhalter"},
+    {"id":"B011","dance":"bachata","level":"A2","name":"Block","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/B011_block.mp4","status":"platzhalter"},
+    {"id":"R001","dance":"rueda","level":"A1","name":"Grundschritte","counts":null,"position":"","table":[],"ablauf":["Guapea – Grundschritt der Rueda"],"notizen":"","alternativ":"","video":"videos/R001_grundschritte.mp4","status":"pruefen","wuerfel":false},
+    {"id":"R002","dance":"rueda","level":"A1","name":"Dame","counts":null,"position":"","table":[],"ablauf":["Partnerwechsel: L geht zur nächsten F"],"notizen":"","alternativ":"","video":"videos/R002_dame.mp4","status":"pruefen"},
+    {"id":"R003","dance":"rueda","level":"A1","name":"Dame Dos","counts":null,"position":"","table":[],"ablauf":["Wie [[R002|Dame]], aber L geht zwei F weiter"],"notizen":"","alternativ":"","video":"videos/R003_dame_dos.mp4","status":"pruefen"},
+    {"id":"R004","dance":"rueda","level":"A1","name":"Dos Dame","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/R004_dos_dame.mp4","status":"platzhalter"},
+    {"id":"R005","dance":"rueda","level":"A1","name":"Dos Dame Dos","counts":null,"position":"","table":[],"ablauf":["Wie [[R003|Dame Dos]], dazu zweimal klatschen"],"notizen":"","alternativ":"","video":"videos/R005_dos_dame_dos.mp4","status":"pruefen"},
+    {"id":"R006","dance":"rueda","level":"A1","name":"Enchufla","counts":null,"position":"","table":[],"ablauf":["Grundfigur mit Platzwechsel – in der Rueda meist mit Partnerwechsel"],"notizen":"","alternativ":"","video":"videos/R006_enchufla.mp4","status":"pruefen"},
+    {"id":"R007","dance":"rueda","level":"A1","name":"Mentira","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/R007_mentira.mp4","status":"platzhalter"},
+    {"id":"R008","dance":"rueda","level":"A1","name":"Abajo","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/R008_abajo.mp4","status":"platzhalter"},
+    {"id":"R009","dance":"rueda","level":"A1","name":"Arriba","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/R009_arriba.mp4","status":"platzhalter"},
+    {"id":"R010","dance":"rueda","level":"A1","name":"Enchufla con Limbo","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/R010_enchufla_con_limbo.mp4","status":"platzhalter"}
   ]
 }
 </script>
@@ -289,6 +318,8 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
 <script id="drafts" type="application/json">[]</script>
 
 <script id="notes" type="application/json">{}</script>
+
+<script id="mysteps" type="application/json">[]</script>
 
 <script>
 (function () {
@@ -300,7 +331,8 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   var DATA = JSON.parse(document.getElementById('data').textContent);
   var LEVELS = ['A1', 'A2', 'A3', 'M1', 'M2', 'M3'];
   var KEY = { drafts: 'tanzschritte.drafts', favs: 'tanzschritte.favs', notes: 'tanzschritte.notes',
-              dice: 'tanzschritte.dice', beat: 'tanzschritte.beat' };
+              dice: 'tanzschritte.dice', beat: 'tanzschritte.beat', mysteps: 'tanzschritte.mysteps' };
+  var PREFIX = { salsa: 'S', bachata: 'B', rueda: 'R' };
   var app = document.getElementById('app');
   var pillEl = document.getElementById('pill'), fabEl = document.getElementById('fab');
   var urlCache = new Map(), importedIds = new Set();
@@ -309,7 +341,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
 
   var GLOSSAR = [
     ['RT', 'Right Turn (Rechtsdrehung)'], ['LT', 'Left Turn (Linksdrehung)'], ['2RT', 'Double Right Turn (doppelte RT)'],
-    ['FLT', 'Follower Left Turn (LT des F)'], ['LLT', 'Leader Left Turn (LT des L)'],
+    ['FLT / FRT', 'Follower Left / Right Turn (Drehung des F)'], ['LLT / LRT', 'Leader Left / Right Turn (Drehung des L)'],
     ['HL', 'Hammerlock'], ['CBL', 'Cross Body Lead'], ['L / F', 'Leader / Follower'],
     ['↻ / ↺', 'Rechts- / Linksdrehung'], ['l / r', 'links / rechts (Fuß, Seite)'], ['lH / rH', 'linke / rechte Hand'],
     ['LrH / FrH', 'rechte Hand von L / F']
@@ -320,6 +352,24 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   function lsGet(k, fb) { try { return readJSON(localStorage.getItem(k), fb); } catch (e) { storageOk = false; return fb; } }
   function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); storageOk = true; } catch (e) { storageOk = false; } }
 
+  // Eigene Schritte (nur auf diesem Gerät, bis Claude sie übernimmt)
+  var INTEGRATED = {};
+  DATA.steps.forEach(function (s) { if (s.lokal) INTEGRATED[s.lokal] = s.id; });
+  var mySteps = lsGet(KEY.mysteps, []).filter(function (m) { return m && m.id && !INTEGRATED[m.id]; });
+  lsSet(KEY.mysteps, mySteps);
+  DATA.steps = DATA.steps.concat(mySteps);
+  function saveMySteps() { mySteps = DATA.steps.filter(function (s) { return s.status === 'lokal'; }); lsSet(KEY.mysteps, mySteps); }
+  // Alte Nummern (000…) und übernommene eigene Schritte auf neue IDs umstellen
+  var IDMAP = Object.assign({}, DATA.idMap || {}, INTEGRATED);
+  function mapId(id) { return IDMAP[id] || id; }
+  (function migrateLocal() {
+    var f = lsGet(KEY.favs, []), n = lsGet(KEY.notes, {}), d = lsGet(KEY.drafts, []), dc = lsGet(KEY.dice, {});
+    var f2 = f.map(mapId), n2 = {};
+    Object.keys(n).forEach(function (k) { var nk = mapId(k); n2[nk] = n2[nk] ? n2[nk] + '\n' + n[k] : n[k]; });
+    d.forEach(function (x) { if (x && x.step) x.step = mapId(x.step); });
+    if (dc.last) dc.last = dc.last.map(mapId);
+    lsSet(KEY.favs, f2); lsSet(KEY.notes, n2); lsSet(KEY.drafts, d); lsSet(KEY.dice, dc);
+  })();
   var favs = new Set(lsGet(KEY.favs, []));
   var notes = lsGet(KEY.notes, {});
   // Eigene Notizen, die Claude in die Standardversion übernommen hat, lokal entfernen
@@ -420,6 +470,29 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
         if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
       });
   }
+  // Schritt-ID aus Dateinamen: S013_…, B004_…, R002_… (alte Form 013_… wird umgerechnet)
+  function idFromName(name) {
+    var m = String(name).match(/^([SBR])(\d{3})/i);
+    if (m) return m[1].toUpperCase() + m[2];
+    m = String(name).match(/^(\d{3})/);
+    return m ? mapId(m[1]) : null;
+  }
+  // Videos unter alten IDs auf neue IDs umziehen
+  function migrateVideos() {
+    return idb('readonly', function (st) { return st.getAllKeys(); }).then(function (keys) {
+      var todo = (keys || []).filter(function (k) { return IDMAP[k] && IDMAP[k] !== k; });
+      return todo.reduce(function (p, k) {
+        return p.then(function () {
+          return videoGet(k).then(function (rec) {
+            var nk = IDMAP[k];
+            return videoGet(nk).then(function (ex) {
+              return idb('readwrite', function (st) { if (!ex && rec) st.put(rec, nk); return st.delete(k); });
+            });
+          });
+        });
+      }, Promise.resolve());
+    }).catch(function () {});
+  }
   // Datei sofort komplett einlesen: Galerie-Dateien sind sonst nur kurz lesbar
   function readFile(f) {
     var type = f.type || (/\.webm$/i.test(f.name) ? 'video/webm' : /\.mov$/i.test(f.name) ? 'video/quicktime' : 'video/mp4');
@@ -434,7 +507,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       var f = files[i++];
       toast('Video ' + i + ' von ' + n + ' …', true);
       readFile(f).then(function (o) {
-        var id = (o.name.match(/^(\d{3})/) || [])[1];
+        var id = idFromName(o.name);
         var job = (ctxId && n === 1) ? putVideo(ctxId, o).then(function () { direct++; })
           : (id && stepById(id)) ? putVideo(id, o).then(function () { auto++; })
           : inboxAdd(o).then(function () { queued++; });
@@ -473,7 +546,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     if (!sticky) toastTimer = setTimeout(function () { toastEl.remove(); toastEl = null; }, 2600);
   }
   // Verweise im Text: [[012]] oder [[012|Text]] -> Link zur Figur
-  var XREF = /\[\[(\d{3})(?:\|([^\]]+))?\]\]/g;
+  var XREF = /\[\[([SBR]\d{3}|u[0-9a-z]+)(?:\|([^\]]+))?\]\]/g;
   function fmt(text) {
     return esc(text).replace(XREF, function (m, id, label) {
       var s = stepById(id);
@@ -514,6 +587,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   }
   // Würfel unten links, Übungstakt unten rechts – mit Vorauswahl aus dem aktuellen Menü
   function renderFab(p) {
+    if (p[0] === 'zuordnen' || p[0] === 'neu') { fabEl.innerHTML = ''; return; }
     var d = null, l = null;
     if (p[0] === 'step') { var s = stepById(p[1]); if (s) { d = s.dance; l = s.level; } }
     else if (p.length && DATA.dances[p[0]]) { d = p[0]; l = LEVELS.indexOf(p[1]) >= 0 ? p[1] : null; }
@@ -541,9 +615,10 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     var nd = draftsFor(s.id).length;
     var st = nd ? '<span class="st draft">Draft</span>'
       : s.status === 'platzhalter' ? '<span class="st">Beschreibung fehlt</span>'
-      : s.status === 'pruefen' ? '<span class="st draft">Bitte prüfen</span>' : '';
+      : s.status === 'pruefen' ? '<span class="st draft">Bitte prüfen</span>'
+      : s.status === 'lokal' ? '<span class="st draft">eigener Schritt</span>' : '';
     var meta = withMeta ? '<small>' + esc(danceName(s.dance)) + ', ' + s.level + (s.position ? ', ' + esc(s.position) : '') + '</small>' : '';
-    return '<li><a href="#/step/' + s.id + '"><span class="nr">' + s.id + '</span><span class="nm">' + esc(s.name) + meta + '</span>' +
+    return '<li><a href="#/step/' + s.id + '"><span class="nr">' + (s.status === 'lokal' ? 'neu' : s.id) + '</span><span class="nm">' + esc(s.name) + meta + '</span>' +
       (favs.has(s.id) ? '<span class="fav" aria-label="Favorit">★</span>' : '') + st + '</a></li>';
   }
 
@@ -629,13 +704,15 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     var i = siblings.indexOf(s), prev = siblings[i - 1], next = siblings[i + 1];
     var nd = draftsFor(s.id).length;
     var countsTxt = s.countsText || (s.counts ? s.counts + ' Counts' : '');
+    var shownNr = s.status === 'lokal' ? 'eigener Schritt' : 'Nr. ' + s.id;
     var stepBar = '<header class="bar"><button class="back" data-action="back" data-parent="#/' + s.dance + '/' + s.level + '" aria-label="Zurück zum Menü">' + ICON.back + '</button>' +
       '<span class="crumb">' + esc(danceName(s.dance) + ' / ' + s.level) + '</span><span class="spacer"></span>' +
       '<button class="iconbtn star" data-action="fav" data-id="' + s.id + '" aria-pressed="' + favs.has(s.id) + '" aria-label="Favorit">' + (favs.has(s.id) ? '★' : '☆') + '</button></header>';
 
     return page(s.dance, stepBar,
-      '<p class="num">Nr. ' + s.id + '</p><h1 class="title">' + esc(s.name) + '</h1>' +
+      '<p class="num">' + shownNr + '</p><h1 class="title">' + esc(s.name) + '</h1>' +
       (s.status === 'pruefen' ? '<p class="hint">Von Claude formuliert – bitte prüfen.</p>' : '') +
+      (s.status === 'lokal' ? '<p class="hint">Eigener Schritt auf diesem Gerät. Beschreib ihn per Draft – mit dem nächsten Export übernimmt Claude ihn in die App.</p>' : '') +
       '<div class="chips"><span class="badge lv-' + s.level + '">' + s.level + '</span>' +
         '<span class="chip' + (countsTxt ? '' : ' open') + '">' + (countsTxt ? esc(countsTxt) : 'Länge offen') + '</span>' +
         '<span class="chip' + (s.position ? '' : ' open') + '">' + (s.position ? esc(s.position) : 'Position offen') + '</span></div>' +
@@ -656,7 +733,8 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       '<section class="note"><h2>Notizen</h2>' + (s.notizen ? '<p>' + fmt(s.notizen) + '</p>' : '') +
         (s.alternativ ? '<p class="alt"><b>Alternativ:</b> ' + fmt(s.alternativ) + '</p>' : '') +
         '<textarea class="mynote" id="mynote" data-id="' + s.id + '" placeholder="Eigene Notiz – wird auf diesem Gerät gespeichert">' + esc(notes[s.id] || '') + '</textarea></section>' +
-      '<div class="stack"><a class="btn" href="#/draft/new?step=' + s.id + '">' + (nd ? 'Weiteren Draft anlegen (' + nd + ' offen)' : 'Draft zu diesem Schritt') + '</a></div>' +
+      '<div class="stack"><a class="btn" href="#/draft/new?step=' + s.id + '">' + (nd ? 'Weiteren Draft anlegen (' + nd + ' offen)' : 'Draft zu diesem Schritt') + '</a>' +
+      (s.status === 'lokal' ? '<button class="btn danger" data-action="del-mystep" data-id="' + s.id + '">Eigenen Schritt löschen</button>' : '') + '</div>' +
       '<nav class="pager">' +
         (prev ? '<a href="#/step/' + prev.id + '"><small>Vorher</small>' + esc(prev.name) + '</a>' : '<span></span>') +
         (next ? '<a class="next" href="#/step/' + next.id + '"><small>Nächster</small>' + esc(next.name) + '</a>' : '<span></span>') +
@@ -934,7 +1012,8 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       : '<p class="hint">Noch keine Drafts.</p>';
     var warn = storageOk ? '' : '<p class="hint">Dieser Browser speichert Drafts nicht dauerhaft. Sichere sie vor dem Schließen als Datei.</p>';
     return page(null, bar('#/', 'Start'), '<h1 class="page-title">Hinzufügen</h1>' +
-      '<section><h2>Videos</h2><div class="stack" style="margin-top:0"><button class="btn" data-action="import">Videos importieren</button>' +
+      '<section><h2>Videos & neue Schritte</h2><div class="stack" style="margin-top:0"><button class="btn" data-action="import">Videos importieren</button>' +
+      '<a class="btn" href="#/neu">+ Neuer Schritt</a>' +
       (pendingKeys.length ? '<a class="btn primary" href="#/zuordnen">Zuordnen (' + pendingKeys.length + ' offen)</a>' : '') +
       '</div></section><section><h2>Drafts</h2>' + warn + list + '</section>' +
       '<div class="stack"><a class="btn primary" href="#/draft/new">Neuer Draft</a>' +
@@ -970,7 +1049,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   }
   function stepOptions(dance, selected) {
     return '<option value="">Neuer Schritt</option>' + stepsOf(dance).map(function (s) {
-      return '<option value="' + s.id + '"' + (s.id === selected ? ' selected' : '') + '>' + s.id + ' ' + esc(s.name) + '</option>';
+      return '<option value="' + s.id + '"' + (s.id === selected ? ' selected' : '') + '>' + (s.status === 'lokal' ? 'neu' : s.id) + ' ' + esc(s.name) + '</option>';
     }).join('');
   }
 
@@ -987,7 +1066,10 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
         'Suche über Name, Nummer, Ablauf und Notizen; Lupe in den Untermenüs.',
         'Würfel (unten links) und Übungstakt (unten rechts) übernehmen Tanz und Level aus dem aktuellen Menü.',
         'Videos: 0,5× / 1× / 2×, Schleife und Zuschneiden (Ausschnitt festlegen; auf Android auch dauerhaft, spart Speicher).',
-        'Import über + oder beim Schritt: ein Video beim Schritt wird direkt zugeordnet; mehrere über die Nummer im Namen, der Rest landet in der Zuordnen-Liste.',
+        'Import über + oder beim Schritt: ein Video beim Schritt wird direkt zugeordnet; mehrere über die Nummer im Namen (S013_…, B004_…, R002_…), der Rest landet in der Zuordnen-Liste.',
+        'Zuordnen: Reiter für Salsa, Bachata und Rueda; mehrere Schritte gleichzeitig wählbar (jeder bekommt eine eigene Kopie zum Schneiden).',
+        'Passt kein Schritt: „Neuer Schritt“ anlegen, optional gleich mit Beschreibung als Draft. Eigene Schritte gehen mit dem Export an Claude.',
+        'Große Videos (mehr als ca. 2 Mbit/s) werden markiert und lassen sich auf Android verkleinern – einzeln oder alle über Info.',
         'Import aus einem Ordner: Dateien wie 013_travelling.mp4 werden automatisch zugeordnet – ideal für die Erstanwendung.',
         'Android: Video in WhatsApp teilen → Tanzschritte → in der Zuordnen-Liste Schritt antippen.',
         '„Videos sichern“ speichert alle Videos mit passenden Namen im Download-Ordner – als Sicherung für Gerätewechsel.',
@@ -1014,7 +1096,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       '<section><h2>Abkürzungen</h2><dl class="gloss">' + GLOSSAR.map(function (g) {
         return '<dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd>';
       }).join('') + '</dl></section>' +
-      '<div class="stats"><div><b>' + importedIds.size + '</b><span>Videos</span></div><div><b>' + drafts.length + '</b><span>Drafts</span></div>' +
+      '<div class="stats"><div><b>' + importedIds.size + '</b><span id="vsize">Videos</span></div><div><b>' + drafts.length + '</b><span>Drafts</span></div>' +
         '<div><b>' + noteIds().length + '</b><span>Notizen</span></div><div><b>' + esc(DATA.version) + '</b><span>Version</span></div></div>' +
       '<section><h2>Export an Claude</h2>' +
       (exportCount() ? '<div class="stack"><button class="btn primary" data-action="export">Export-Datei speichern</button>' +
@@ -1022,6 +1104,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       '<section><h2>Videos</h2><div class="stack"><button class="btn" data-action="pick-gallery">Aus Galerie importieren</button>' +
       '<button class="btn" data-action="pick-folder">Aus Ordner importieren (Namen mit Nummer)</button>' +
       (pendingKeys.length ? '<a class="btn primary" href="#/zuordnen">Zuordnen (' + pendingKeys.length + ' offen)</a>' : '') +
+      (importedIds.size && canCut() ? '<button class="btn" data-action="shrink-all">Große Videos verkleinern</button>' : '') +
       (importedIds.size ? '<button class="btn" data-action="backup-videos">Videos sichern (Download-Ordner)</button>' +
         '<button class="btn danger" data-action="clear-videos">Alle Videos aus der App löschen</button>' : '') + '</div></section>' +
       '<details class="more"><summary>Mehr zu Speicherung, Funktionen und Workflow</summary><div>' + more.map(function (m) {
@@ -1063,6 +1146,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     else if (p[0] === 'info') html = viewInfo();
     else if (p[0] === 'share') html = page(null, bar('#/', 'Start'), '<p class="hint">Video wird geladen …</p>');
     else if (p[0] === 'zuordnen') html = viewAssign();
+    else if (p[0] === 'neu') html = viewNew(r.q);
     else if (p[0] === 'drafts') html = viewDrafts();
     else if (p[0] === 'favs') html = viewFavs();
     else if (p[0] === 'dice') html = viewDice();
@@ -1080,7 +1164,12 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     if (p[0] === 'draft') setupForm();
     if (p[0] === 'takt') setupTakt();
     if (p[0] === 'share') setupShare();
+    if (p[0] === 'info') idb('readonly', function (st) { return st.getAll(); }).then(function (all) {
+      var sum = (all || []).reduce(function (a, r) { return a + (r && r.size || 0); }, 0);
+      var el = document.getElementById('vsize'); if (el) el.textContent = 'Videos · ' + fmtMB(sum);
+    }, function () {});
     if (p[0] === 'zuordnen') setupAssign();
+    if (p[0] === 'neu') setupNew();
     renderPill(); renderFab(p);
   }
   function onHash() {
@@ -1100,8 +1189,10 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   function updTrimBox() {
     var box = document.getElementById('trimBox'); if (!box) return;
     var trimmed = cur.start > 0 || cur.end != null;
+    var vv = document.getElementById('vid'), dur = vv ? vv.duration : 0, big = isBig(cur.size, dur);
     box.innerHTML = '<p class="hint" style="margin:10px 0">Ausschnitt: <b>' + fmtT(cur.start) + '</b> bis <b>' + fmtT(cur.end) + '</b>' +
-      (cur.size ? ' · Datei ' + fmtMB(cur.size) : '') + '</p>' +
+      (cur.size ? '<br>Datei ' + sizeLine(cur.size, dur) : '') + '</p>' +
+      (big && canCut() ? '<div class="stack" style="margin:0 0 10px"><button class="btn" data-action="shrink-one">Verkleinern (dauert so lange wie das Video)</button></div>' : '') +
       '<div class="seg" style="margin:0"><button data-action="trim-start">Start = jetzt</button><button data-action="trim-end">Ende = jetzt</button></div>' +
       '<div class="stack" style="margin:10px 0 0">' +
       (trimmed ? '<button class="btn" data-action="trim-reset">Zuschnitt zurücksetzen</button>' : '') +
@@ -1122,7 +1213,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     var miss = document.getElementById('vmiss');
     cur = { id: s.id, start: 0, end: null, size: 0 };
     v.addEventListener('error', function () { v.hidden = true; miss.hidden = false; });
-    v.addEventListener('loadedmetadata', function () { v.playbackRate = rate; if (cur.start) v.currentTime = cur.start; });
+    v.addEventListener('loadedmetadata', function () { v.playbackRate = rate; if (cur.start) v.currentTime = cur.start; updTrimBox(); });
     v.addEventListener('timeupdate', function () {
       if (v.seeking) return;
       if (cur.end != null && v.currentTime >= cur.end) {
@@ -1177,6 +1268,31 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       });
     });
   }
+  function getDuration(blob) {
+    return new Promise(function (res) {
+      var v = document.createElement('video'), u = URL.createObjectURL(blob), done = false;
+      function fin(d) { if (done) return; done = true; URL.revokeObjectURL(u); res(d); }
+      v.preload = 'metadata'; v.muted = true;
+      v.onloadedmetadata = function () { fin(v.duration); };
+      v.onerror = function () { fin(0); };
+      setTimeout(function () { fin(0); }, 6000);
+      v.src = u;
+    });
+  }
+  // Ganzes Video neu kodieren (Zuschnitt-Marken bleiben erhalten); nur übernehmen, wenn deutlich kleiner
+  function shrinkOne(id) {
+    return videoGet(id).then(function (rec) {
+      if (!rec || !rec.blob) return 0;
+      var before = rec.blob.size;
+      return cutVideo(rec.blob, 0, null).then(function (nb) {
+        if (!nb.size || nb.size > before * 0.9) return 0;
+        rec.blob = nb; rec.size = nb.size;
+        return idb('readwrite', function (st) { return st.put(rec, id); }).then(function () { forgetUrl(id); return before - nb.size; });
+      });
+    });
+  }
+  // Formularfelder sicher ansprechen (form.name ist sonst der Formularname)
+  function fv(f, n) { return f.elements.namedItem(n); }
   function setupNote() {
     var ta = document.getElementById('mynote'); if (!ta) return;
     var t = null;
@@ -1204,28 +1320,59 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   }
 
   // ---------- Zuordnen ----------
-  var assignUrl = null;
+  var assignUrl = null, assignSel = [], assignTab = null;
+  function isBig(size, dur) { return dur > 0 && isFinite(dur) && size * 8 / dur / 1e6 > 2.0; }
+  function sizeLine(size, dur) {
+    var t = fmtMB(size);
+    if (dur > 0 && isFinite(dur)) t += ' · ' + Math.round(dur) + ' s · ' + (size * 8 / dur / 1e6).toFixed(1).replace('.', ',') + ' Mbit/s';
+    return t + (isBig(size, dur) ? ' – <b style="color:#F08A6A">groß</b>' : '');
+  }
+  function selLabel() {
+    return assignSel.map(function (id) { var s = stepById(id); return s ? s.name : id; }).join(', ');
+  }
   function viewAssign() {
     if (!pendingKeys.length) return page(null, bar('#/drafts', 'Hinzufügen'), '<h1 class="page-title">Zuordnen</h1><p class="empty-state">Alle Videos sind zugeordnet.</p>');
-    return page(null, bar('#/drafts', 'Hinzufügen'), '<h1 class="page-title">Zuordnen</h1>' +
-      '<p class="hint">Video 1 von ' + pendingKeys.length + ' – zu welchem Schritt gehört es?</p>' +
-      '<video id="avid" controls playsinline loop style="max-height:34vh"></video>' +
-      '<div class="stack"><button class="btn" data-action="assign-skip">Überspringen (nicht speichern)</button></div>' +
+    var tab = assignTab || 'salsa';
+    var list = stepsOf(tab);
+    return page(tab, bar('#/drafts', 'Hinzufügen'), '<h1 class="page-title">Zuordnen</h1>' +
+      '<p class="hint">Video 1 von ' + pendingKeys.length + ' · <span id="asize">…</span></p>' +
+      '<video id="avid" controls playsinline loop style="max-height:32vh"></video>' +
+      '<div class="seg" style="margin:14px 0 10px">' + Object.keys(DATA.dances).map(function (d) {
+        var n = assignSel.filter(function (id) { var s = stepById(id); return s && s.dance === d; }).length;
+        return '<button data-action="atab" data-dance="' + d + '" aria-pressed="' + (d === tab) + '">' + esc(danceName(d)) + (n ? ' (' + n + ')' : '') + '</button>';
+      }).join('') + '</div>' +
       '<input class="search" id="afilter" type="search" placeholder="Schritt suchen …" autocomplete="off" style="display:block">' +
-      Object.keys(DATA.dances).map(function (d) {
-        var list = stepsOf(d); if (!list.length) return '';
-        return '<section data-dance="' + d + '"><h2>' + esc(danceName(d)) + '</h2>' + list.map(function (s) {
-          return '<button class="pick" data-action="assign" data-id="' + s.id + '" data-q="' + esc(norm(s.id + ' ' + s.name)) + '">' +
-            '<span style="color:var(--faint);width:38px;flex:none">' + s.id + '</span><span style="flex:1;font-size:18px;font-weight:600">' + esc(s.name) + '</span>' +
-            (importedIds.has(s.id) ? '<span style="color:var(--muted);font-size:13px">hat Video</span>' : '') + '</button>';
-        }).join('') + '</section>';
-      }).join(''));
+      '<a class="btn" href="#/neu?assign=1&dance=' + tab + '" style="margin-bottom:10px">+ Neuer Schritt (mit Draft)</a>' +
+      (list.length ? list.map(function (s) {
+        var on = assignSel.indexOf(s.id) >= 0;
+        return '<button class="pick" data-action="apick" data-id="' + s.id + '" aria-pressed="' + on + '" data-q="' + esc(norm(s.id + ' ' + s.name)) + '">' +
+          '<span class="tick">' + (on ? '✓' : '') + '</span>' +
+          '<span style="color:var(--faint);width:44px;flex:none">' + (s.status === 'lokal' ? 'neu' : s.id) + '</span><span style="flex:1;font-size:18px;font-weight:600">' + esc(s.name) + '</span>' +
+          (importedIds.has(s.id) ? '<span style="color:var(--muted);font-size:13px">hat Video</span>' : '') + '</button>';
+      }).join('') : '<p class="hint">Noch keine Schritte – leg oben einen neuen an.</p>') +
+      '<div style="height:96px"></div>' +
+      '<div class="savebar"><button class="btn" data-action="assign-skip">Überspringen</button>' +
+      '<button class="btn primary" id="asave" data-action="assign-save"' + (assignSel.length ? '' : ' disabled') + '>' +
+      (assignSel.length ? 'Speichern (' + assignSel.length + ')' : 'Schritt wählen') + '</button></div>');
+  }
+  function updSavebar() {
+    var b = document.getElementById('asave'); if (!b) return;
+    b.disabled = !assignSel.length;
+    b.textContent = assignSel.length ? 'Speichern (' + assignSel.length + ')' : 'Schritt wählen';
+    b.title = selLabel();
+    document.querySelectorAll('[data-action="atab"]').forEach(function (t) {
+      var d = t.dataset.dance, n = assignSel.filter(function (id) { var s = stepById(id); return s && s.dance === d; }).length;
+      t.textContent = danceName(d) + (n ? ' (' + n + ')' : '');
+    });
   }
   function setupAssign() {
     var v = document.getElementById('avid');
     if (assignUrl) { URL.revokeObjectURL(assignUrl); assignUrl = null; }
     if (v && pendingKeys.length) inboxGet(pendingKeys[0]).then(function (rec) {
-      if (rec && rec.blob) { assignUrl = URL.createObjectURL(rec.blob); v.src = assignUrl; }
+      if (!rec || !rec.blob) return;
+      assignUrl = URL.createObjectURL(rec.blob); v.src = assignUrl;
+      var sz = document.getElementById('asize'); if (sz) sz.innerHTML = sizeLine(rec.blob.size, 0);
+      v.addEventListener('loadedmetadata', function () { if (sz) sz.innerHTML = sizeLine(rec.blob.size, v.duration); });
     });
     var f = document.getElementById('afilter'); if (!f) return;
     f.addEventListener('input', function () {
@@ -1233,6 +1380,52 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       document.querySelectorAll('.pick').forEach(function (b) { b.hidden = !!q && b.dataset.q.indexOf(q) < 0; });
     });
   }
+  // Aktuelles Video in der Liste allen gewählten Schritten zuordnen (jede bekommt eine eigene Kopie)
+  function assignCurrent(ids) {
+    var k = pendingKeys[0]; if (k == null || !ids.length) return Promise.resolve();
+    return inboxGet(k).then(function (rec) {
+      return ids.reduce(function (p, id) { return p.then(function () { return putVideo(id, rec); }); }, Promise.resolve())
+        .then(function () { return inboxDel(k); });
+    }).then(refreshInbox);
+  }
+
+  // ---------- Neuer eigener Schritt ----------
+  function slug(s) {
+    return norm(s).replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'schritt';
+  }
+  function viewNew(q) {
+    var d = DATA.dances[q.dance] ? q.dance : 'salsa', viaAssign = q.assign === '1';
+    return page(d, bar(viaAssign ? '#/zuordnen' : '#/drafts', viaAssign ? 'Zuordnen' : 'Hinzufügen'),
+      '<h1 class="page-title">Neuer Schritt</h1>' +
+      '<form id="newForm" data-assign="' + (viaAssign ? 1 : 0) + '">' +
+      '<label>Tanz<select name="dance">' + Object.keys(DATA.dances).map(function (k) {
+        return '<option value="' + k + '"' + (k === d ? ' selected' : '') + '>' + esc(danceName(k)) + '</option>'; }).join('') + '</select></label>' +
+      '<label>Name<input name="name" required autocomplete="off" placeholder="z. B. Brezel"></label>' +
+      '<label>Level<select name="level">' + LEVELS.map(function (l) { return '<option>' + l + '</option>'; }).join('') + '</select></label>' +
+      '<label>Beschreibung für Claude (optional, wird ein Draft)<textarea name="text" style="min-height:140px" placeholder="Stichpunkte reichen: Counts, was L und F machen …"></textarea></label>' +
+      (viaAssign && assignSel.length ? '<p class="hint">Das Video wird zusätzlich gespeichert bei: ' + esc(selLabel()) + '</p>' : '') +
+      '<div class="stack"><button class="btn primary" type="submit">' + (viaAssign ? 'Anlegen und Video zuordnen' : 'Schritt anlegen') + '</button></div></form>');
+  }
+  function setupNew() {
+    var f = document.getElementById('newForm'); if (!f) return;
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = fv(f, 'name').value.trim(); if (!name) return;
+      var dance = fv(f, 'dance').value, id = 'u' + Date.now().toString(36);
+      var s = { id: id, dance: dance, level: fv(f, 'level').value, name: name, counts: null, position: '', table: [], ablauf: [],
+        notizen: '', alternativ: '', video: 'videos/neu_' + dance + '_' + slug(name) + '.mp4', status: 'lokal', created: new Date().toISOString() };
+      DATA.steps.push(s); saveMySteps();
+      var text = fv(f, 'text').value.trim();
+      if (text) { drafts.push({ id: 'd' + Date.now().toString(36), dance: dance, step: id, name: '', level: s.level, text: text, created: new Date().toISOString() }); saveDrafts(); }
+      if (f.dataset.assign === '1' && pendingKeys.length) {
+        var ids = assignSel.concat([id]); assignSel = [];
+        toast('Wird gespeichert …', true);
+        assignCurrent(ids).then(function () { toast('Schritt angelegt, Video gespeichert'); location.hash = '#/zuordnen'; },
+          function () { toast('Speichern fehlgeschlagen (Speicher voll?)'); });
+      } else { toast('Schritt angelegt'); location.hash = '#/step/' + id; }
+    });
+  }
+
   // Geteiltes Video (Android) landet in der Zuordnen-Liste
   function setupShare() {
     if (!window.caches) { location.replace('#/zuordnen'); return; }
@@ -1249,7 +1442,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
 
   // ---------- Export ----------
   function noteIds() { return Object.keys(notes).filter(function (id) { return String(notes[id] || '').trim(); }); }
-  function exportCount() { return drafts.length + noteIds().length; }
+  function exportCount() { return drafts.length + noteIds().length + mySteps.length; }
   function draftsAsText() {
     var parts = ['### EXPORT Tanzschritte (Datenstand ' + DATA.version + ')'];
     if (drafts.length) parts.push('## DRAFTS\n\n' + drafts.map(function (d) {
@@ -1257,6 +1450,9 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       return '[' + d.id + '] ' + danceName(d.dance) + ' | ' + (s ? s.id + ' ' + s.name : 'NEU: ' + (d.name || '?')) +
         ' | Level: ' + (d.level || 'offen') + '\n' + d.text;
     }).join('\n\n---\n\n'));
+    if (mySteps.length) parts.push('## EIGENE SCHRITTE\n\n' + mySteps.map(function (s) {
+      return '[' + s.id + '] ' + danceName(s.dance) + ' | ' + s.level + ' | ' + s.name;
+    }).join('\n'));
     var ids = noteIds();
     if (ids.length) parts.push('## NOTIZEN\n\n' + ids.map(function (id) {
       var s = stepById(id); return '[' + id + ' ' + (s ? s.name : '?') + ']\n' + notes[id].trim();
@@ -1268,13 +1464,15 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     var nj = {}; noteIds().forEach(function (id) { nj[id] = notes[id].trim(); });
     var njson = JSON.stringify(nj, null, 1).replace(/</g, '\\u003c');
     var out = SOURCE.replace(/(<script id="drafts" type="application\/json">)[\s\S]*?(<\/script>)/, function (m, a, b) { return a + json + b; })
-      .replace(/(<script id="notes" type="application\/json">)[\s\S]*?(<\/script>)/, function (m, a, b) { return a + njson + b; });
+      .replace(/(<script id="notes" type="application\/json">)[\s\S]*?(<\/script>)/, function (m, a, b) { return a + njson + b; })
+      .replace(/(<script id="mysteps" type="application\/json">)[\s\S]*?(<\/script>)/, function (m, a, b) {
+        return a + JSON.stringify(mySteps, null, 1).replace(/</g, '\\u003c') + b; });
     var blob = new Blob([out], { type: 'text/html' });
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = 'tanzschritte-export.html';
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
-    toast('Export gespeichert (' + drafts.length + ' Drafts, ' + noteIds().length + ' Notizen)');
+    toast('Export gespeichert (' + drafts.length + ' Drafts, ' + noteIds().length + ' Notizen, ' + mySteps.length + ' eigene Schritte)');
   }
   function copyText(text) {
     function fallback() {
@@ -1294,7 +1492,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     fd.addEventListener('change', function () { fs.innerHTML = stepOptions(fd.value, ''); nw.hidden = false; });
     fs.addEventListener('change', function () {
       nw.hidden = !!fs.value;
-      var s = stepById(fs.value); if (s) f.level.value = s.level;
+      var s = stepById(fs.value); if (s) fv(f, 'level').value = s.level;
     });
     f.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -1302,9 +1500,9 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       var old = drafts.find(function (x) { return x.id === id; });
       var entry = {
         id: id === 'new' ? 'd' + Date.now().toString(36) : id,
-        dance: f.dance.value, step: f.step.value || null,
-        name: f.step.value ? '' : f.name.value.trim(),
-        level: f.level.value, text: f.text.value.trim(),
+        dance: fv(f, 'dance').value, step: fv(f, 'step').value || null,
+        name: fv(f, 'step').value ? '' : fv(f, 'name').value.trim(),
+        level: fv(f, 'level').value, text: fv(f, 'text').value.trim(),
         created: old ? old.created : new Date().toISOString()
       };
       if (!entry.text) return;
@@ -1344,17 +1542,58 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       pickFiles(true, function (files) { importFlow(files, null); }, false);
     } else if (act === 'pick-folder') {
       pickFiles(true, function (files) { importFlow(files, null); }, true);
-    } else if (act === 'assign') {
-      var aid = el.dataset.id, ak = pendingKeys[0]; if (ak == null) return;
-      inboxGet(ak).then(function (rec) {
-        return putVideo(aid, rec).then(function () { return inboxDel(ak); });
-      }).then(refreshInbox).then(function () {
-        var st = stepById(aid); toast('Gespeichert bei ' + aid + ' ' + (st ? st.name : ''));
+    } else if (act === 'apick') {
+      var pid = el.dataset.id, pi = assignSel.indexOf(pid);
+      if (pi >= 0) assignSel.splice(pi, 1); else assignSel.push(pid);
+      el.setAttribute('aria-pressed', String(pi < 0)); el.querySelector('.tick').textContent = pi < 0 ? '✓' : '';
+      updSavebar();
+    } else if (act === 'atab') {
+      assignTab = el.dataset.dance; render();
+    } else if (act === 'assign-save') {
+      var ids = assignSel.slice(); if (!ids.length) return;
+      toast('Wird gespeichert …', true);
+      assignCurrent(ids).then(function () {
+        assignSel = []; toast('Gespeichert bei ' + ids.map(function (i) { var st = stepById(i); return st ? st.name : i; }).join(', '));
         render(); window.scrollTo(0, 0);
       }, function () { toast('Speichern fehlgeschlagen (Speicher voll?)'); });
+    } else if (act === 'del-mystep') {
+      if (!confirm('Eigenen Schritt samt Video löschen?')) return;
+      var did = el.dataset.id, ds = stepById(did);
+      DATA.steps = DATA.steps.filter(function (x) { return x.id !== did; }); saveMySteps();
+      drafts = drafts.filter(function (x) { return x.step !== did; }); saveDrafts();
+      favs.delete(did); lsSet(KEY.favs, Array.from(favs));
+      idb('readwrite', function (st) { return st.delete(did); }).then(function () { importedIds.delete(did); forgetUrl(did); });
+      toast('Gelöscht'); location.hash = ds ? '#/' + ds.dance + '/' + ds.level : '#/';
     } else if (act === 'assign-skip') {
       var sk = pendingKeys[0]; if (sk == null) return;
+      assignSel = [];
       inboxDel(sk).then(refreshInbox).then(function () { render(); window.scrollTo(0, 0); });
+    } else if (act === 'shrink-one') {
+      var sid1 = cur.id; el.disabled = true; el.textContent = 'Wird verkleinert …';
+      shrinkOne(sid1).then(function (saved) { toast(saved ? fmtMB(saved) + ' gespart' : 'Kaum kleiner – Original bleibt'); render(); },
+        function () { toast('Verkleinern hat nicht geklappt'); render(); });
+    } else if (act === 'shrink-all') {
+      lockOn();
+      idb('readonly', function (st) { return st.getAllKeys(); }).then(function (keys) {
+        keys = (keys || []).slice().sort(); var big = [], i = 0;
+        toast('Prüfe ' + keys.length + ' Videos …', true);
+        return keys.reduce(function (p, k) {
+          return p.then(function () { return videoGet(k).then(function (rec) {
+            if (!rec || !rec.blob) return;
+            return getDuration(rec.blob).then(function (d) { if (isBig(rec.blob.size, d)) big.push(k); });
+          }); });
+        }, Promise.resolve()).then(function () {
+          if (!big.length) { toast('Alle Videos sind schon klein genug'); return; }
+          var saved = 0;
+          return big.reduce(function (p, k) {
+            return p.then(function () {
+              i++; var st = stepById(k);
+              toast('Verkleinere ' + i + ' von ' + big.length + ' (' + (st ? st.name : k) + ') – läuft in Echtzeit …', true);
+              return shrinkOne(k).then(function (s) { saved += s; }, function () {});
+            });
+          }, Promise.resolve()).then(function () { toast(big.length + ' Videos bearbeitet, ' + fmtMB(saved) + ' gespart'); render(); });
+        });
+      }).then(lockOff, lockOff);
     } else if (act === 'trim-toggle') {
       var tb = document.getElementById('trimBox'); if (tb) { tb.hidden = !tb.hidden; updTrimBox(); }
     } else if (act === 'trim-start' || act === 'trim-end') {
@@ -1450,7 +1689,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     navigator.serviceWorker.register('sw.js').catch(function () {});
   }
   onHash();
-  Promise.all([refreshKeys(), refreshInbox()]).then(render);
+  migrateVideos().then(function () { return Promise.all([refreshKeys(), refreshInbox()]); }).then(render);
 })();
 </script>
 </body>
