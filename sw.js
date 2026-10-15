@@ -1,5 +1,6 @@
-// Offline-Skript für die Tanzschritte-App. Neue Version von index.html wird beim Öffnen mit Internet geladen.
-const CACHE = 'tanzschritte-v1';
+// Offline-Skript der Tanzschritte-App. Neue index.html wird beim Öffnen mit Internet geladen.
+const CACHE = 'tanzschritte-v2';
+const INBOX = 'share-inbox';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -10,15 +11,35 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE && k !== INBOX).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
 
-// Erst Netz (aktuellste Version), bei fehlendem Internet aus dem Speicher
 self.addEventListener('fetch', e => {
   const req = e.request;
-  if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
+  const url = new URL(req.url);
+
+  // Video aus WhatsApp & Co. geteilt (Android): zwischenspeichern und Zuordnung öffnen
+  if (req.method === 'POST' && url.origin === location.origin && url.pathname.endsWith('/share')) {
+    e.respondWith((async () => {
+      try {
+        const form = await req.formData();
+        const file = form.get('video');
+        if (file) {
+          const inbox = await caches.open(INBOX);
+          await inbox.put('./shared-video', new Response(file, {
+            headers: { 'content-type': file.type || 'video/mp4', 'x-name': encodeURIComponent(file.name || 'video.mp4') }
+          }));
+        }
+      } catch (err) { /* nichts zu tun */ }
+      return Response.redirect('./#/share', 303);
+    })());
+    return;
+  }
+
+  if (req.method !== 'GET' || url.origin !== location.origin) return;
+  // Erst Netz (aktuellste Version), ohne Internet aus dem Speicher
   e.respondWith(
     fetch(req)
       .then(res => {
