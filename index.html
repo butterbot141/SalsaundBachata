@@ -95,7 +95,11 @@ button,select,input,textarea{font:inherit;color:inherit}
 .level-tile:active{background:var(--surface2)}
 .level-tile b{font-size:34px;font-weight:800;color:var(--lv)}
 .level-tile span{color:var(--muted);font-size:15px}
-.level-tile.empty{opacity:.5}
+.level-tile.empty{border-left-color:color-mix(in srgb,var(--lv) 40%,var(--surface))}
+.level-tile.empty b{color:color-mix(in srgb,var(--lv) 40%,var(--surface))!important}
+.level-tile.empty span{color:var(--faint)}
+.trimrow{display:flex;justify-content:center;gap:8px}
+.trimrow .linkbtn{margin:8px 0 0}
 .lv-A1{--lv:var(--A1)} .lv-A2{--lv:var(--A2)} .lv-A3{--lv:var(--A3)} .lv-M1{--lv:var(--M1)} .lv-M2{--lv:var(--M2)} .lv-M3{--lv:var(--M3)}
 
 /* Liste */
@@ -241,7 +245,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
 
 <script id="data" type="application/json">
 {
-  "version": "0.9",
+  "version": "0.10",
   "updated": "2026-10-15",
   "autor": "Paul B.",
   "dances": {"salsa": {"name": "Salsa"}, "bachata": {"name": "Bachata"}, "rueda": {"name": "Rueda"}},
@@ -577,11 +581,12 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       '<section class="video-wrap"><video id="vid" controls playsinline preload="metadata"' + (loopOn ? ' loop' : '') + '></video>' +
         '<div class="vmissing" id="vmiss" hidden><div>Noch kein Video gespeichert. Erwarteter Dateiname: <code>' + esc(s.video.split('/').pop()) + '</code></div>' +
         '<div class="btns"><button class="btn" data-action="pick-one" data-id="' + s.id + '">Video für diesen Schritt importieren</button>' +
-        '<button class="btn" data-action="pick-many">Alle Videos importieren</button></div></div>' +
+        '<button class="btn" data-action="pick-gallery">Mehrere Videos importieren</button></div></div>' +
         '<div class="seg">' + [0.5, 1, 2].map(function (r) {
           return '<button data-action="speed" data-rate="' + r + '" aria-pressed="' + (r === rate) + '">' + String(r).replace('.', ',') + '×</button>';
         }).join('') + '<button data-action="loop" aria-pressed="' + loopOn + '">Schleife</button></div>' +
-        (importedIds.has(s.id) ? '<button class="linkbtn" data-action="pick-one" data-id="' + s.id + '">Video ersetzen</button>' : '') + '</section>' +
+        (importedIds.has(s.id) ? '<div class="trimrow"><button class="linkbtn" data-action="trim-toggle">Zuschneiden</button>' +
+          '<button class="linkbtn" data-action="pick-one" data-id="' + s.id + '">Video ersetzen</button></div><div id="trimBox" hidden></div>' : '') + '</section>' +
       '<section><h2>Ablauf</h2><ol class="steps">' + ablauf.map(function (a) { return '<li><span>' + (a ? fmt(a) : dash) + '</span></li>'; }).join('') + '</ol></section>' +
       '<section><h2>Counts</h2><table><thead><tr><th>Count</th><th>Leader</th><th>Follower</th></tr></thead><tbody>' +
         rows.map(function (r) { return '<tr><td>' + esc(r.count) + '</td><td>' + (r.h ? fmt(r.h) : dash) + '</td><td>' + (r.d ? fmt(r.d) : dash) + '</td></tr>'; }).join('') +
@@ -916,8 +921,11 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       ['Funktionen', [
         'Suche über Name, Nummer, Ablauf und Notizen; Lupe in den Untermenüs.',
         'Würfel (unten links) und Übungstakt (unten rechts) übernehmen Tanz und Level aus dem aktuellen Menü.',
-        'Videos: 0,5× / 1× / 2×, Schleife; Import per Nummer im Dateinamen oder direkt beim Schritt.',
-        'Android: Video in WhatsApp teilen → Tanzschritte → Schritt wählen.',
+        'Videos: 0,5× / 1× / 2×, Schleife und Zuschneiden (Ausschnitt festlegen; auf Android auch dauerhaft, spart Speicher).',
+        'Import aus der Galerie (mehrere möglich): Videos ohne erkennbare Nummer landen in der Zuordnen-Liste.',
+        'Import aus einem Ordner: Dateien wie 013_travelling.mp4 werden automatisch zugeordnet – ideal für die Erstanwendung.',
+        'Android: Video in WhatsApp teilen → Tanzschritte → in der Zuordnen-Liste Schritt antippen.',
+        '„Videos sichern“ speichert alle Videos mit passenden Namen im Download-Ordner – als Sicherung für Gerätewechsel.',
         'Unterstrichene Figuren im Ablauf führen direkt zur Teilfigur.']],
       ['Workflow', [
         'Nach der Stunde Schritt beschreiben (Draft oder direkt im Chat), Export bei Claude hochladen.',
@@ -931,6 +939,9 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       ['Mögliche Probleme', [
         'Neue Version erscheint erst nach bis zu ca. 10 Minuten (GitHub) und beim Öffnen mit Internet.',
         'Videos fehlen nach Gerätewechsel – mit „Videos sichern“ vorher in den Download-Ordner exportieren.',
+        'Die Galerie gibt keine echten Dateinamen weiter; für automatische Zuordnung den Ordner-Import nutzen.',
+        'Dauerhaftes Zuschneiden nur auf Android (Chrome); es dauert so lange wie der Ausschnitt. Auf dem iPad wirkt der Zuschnitt nur beim Abspielen.',
+        'Ungespeicherte Videos in der Zuordnen-Liste gehen beim Schließen der App verloren.',
         'iPad: kein Teilen aus WhatsApp; Export-Datei klappt nicht immer – dann „Als Text kopieren“.',
         'Der Übungstakt ist synthetisch und klingt nicht wie eine echte Band.']]
     ];
@@ -943,7 +954,9 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       '<section><h2>Export an Claude</h2>' +
       (exportCount() ? '<div class="stack"><button class="btn primary" data-action="export">Export-Datei speichern</button>' +
         '<button class="btn" data-action="copy">Als Text kopieren</button></div>' : '<p class="hint">Gerade nichts zu exportieren.</p>') + '</section>' +
-      '<section><h2>Videos</h2><div class="stack"><button class="btn" data-action="pick-many">Videos importieren</button>' +
+      '<section><h2>Videos</h2><div class="stack"><button class="btn" data-action="pick-gallery">Aus Galerie importieren</button>' +
+      '<button class="btn" data-action="pick-folder">Aus Ordner importieren (Namen mit Nummer)</button>' +
+      (pending.length ? '<a class="btn primary" href="#/zuordnen">Weiter zuordnen (' + pending.length + ' offen)</a>' : '') +
       (importedIds.size ? '<button class="btn" data-action="backup-videos">Videos sichern (Download-Ordner)</button>' +
         '<button class="btn danger" data-action="clear-videos">Alle Videos aus der App löschen</button>' : '') + '</div></section>' +
       '<details class="more"><summary>Mehr zu Speicherung, Funktionen und Workflow</summary><div>' + more.map(function (m) {
@@ -951,34 +964,6 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       }).join('') + '</div></details>' +
       '<p class="footer">Version ' + esc(DATA.version) + ' vom ' + esc(datum) + '<br>' + total + ' Schritte (' + open + ' ohne Beschreibung)<br>' +
         esc(DATA.autor || '') + '</p>');
-  }
-
-  // ---------- Teilen aus WhatsApp (Android) ----------
-  var shareFile = null;
-  function viewShare() {
-    return page(null, bar('#/', 'Start'), '<h1 class="page-title">Video zuordnen</h1><div id="shareBox"><p class="hint">Video wird geladen …</p></div>');
-  }
-  function setupShare() {
-    var box = document.getElementById('shareBox'); if (!box) return;
-    if (!window.caches) { box.innerHTML = '<p class="empty-state">Kein geteiltes Video gefunden.</p>'; return; }
-    caches.open('share-inbox').then(function (c) { return c.match('./shared-video'); }).then(function (res) {
-      if (!res) { box.innerHTML = '<p class="empty-state">Kein geteiltes Video gefunden.</p>'; return; }
-      var name = decodeURIComponent(res.headers.get('x-name') || 'video.mp4');
-      return res.blob().then(function (blob) {
-        shareFile = new File([blob], name, { type: blob.type || 'video/mp4' });
-        var url = URL.createObjectURL(blob);
-        box.innerHTML = '<video src="' + url + '" controls playsinline muted style="max-height:36vh"></video>' +
-          '<p class="hint" style="margin-top:12px">Zu welchem Schritt gehört das Video?</p>' +
-          Object.keys(DATA.dances).map(function (d) {
-            var list = stepsOf(d); if (!list.length) return '';
-            return '<section data-dance="' + d + '"><h2>' + esc(danceName(d)) + '</h2>' + list.map(function (s) {
-              return '<button class="pick" data-action="share-assign" data-id="' + s.id + '"><span class="nr" style="color:var(--faint);width:38px">' + s.id + '</span>' +
-                '<span class="nm" style="flex:1;font-size:18px;font-weight:600">' + esc(s.name) + '</span>' +
-                (importedIds.has(s.id) ? '<span class="st" style="color:var(--muted);font-size:13px">ersetzt Video</span>' : '') + '</button>';
-            }).join('') + '</section>';
-          }).join('');
-      });
-    }).catch(function () { box.innerHTML = '<p class="empty-state">Das Video konnte nicht geladen werden.</p>'; });
   }
 
   function viewNotFound() {
@@ -1011,7 +996,8 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     if (!same) applyPreset(p, r.q);
     if (!p.length) html = viewHome();
     else if (p[0] === 'info') html = viewInfo();
-    else if (p[0] === 'share') html = viewShare();
+    else if (p[0] === 'share') html = page(null, bar('#/', 'Start'), '<p class="hint">Video wird geladen …</p>');
+    else if (p[0] === 'zuordnen') html = viewAssign();
     else if (p[0] === 'drafts') html = viewDrafts();
     else if (p[0] === 'favs') html = viewFavs();
     else if (p[0] === 'dice') html = viewDice();
@@ -1029,6 +1015,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     if (p[0] === 'draft') setupForm();
     if (p[0] === 'takt') setupTakt();
     if (p[0] === 'share') setupShare();
+    if (p[0] === 'zuordnen') setupAssign();
     renderPill(); renderFab(p);
   }
   function onHash() {
@@ -1036,18 +1023,93 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     if (document.startViewTransition && !calm) document.startViewTransition(render); else render();
   }
 
-  // ---------- Video & Notizen ----------
+  // ---------- Video, Zuschnitt & Notizen ----------
+  var cur = { id: null, start: 0, end: null, size: 0 };
+  function fmtT(x) {
+    if (x == null) return 'Ende';
+    var m = Math.floor(x / 60), s = (x - m * 60);
+    return m + ':' + (s < 10 ? '0' : '') + s.toFixed(1).replace('.', ',');
+  }
+  function fmtMB(b) { return (b / 1048576).toFixed(1).replace('.', ',') + ' MB'; }
+  function canCut() { return !!(window.MediaRecorder && window.HTMLMediaElement && HTMLMediaElement.prototype.captureStream); }
+  function updTrimBox() {
+    var box = document.getElementById('trimBox'); if (!box) return;
+    var trimmed = cur.start > 0 || cur.end != null;
+    box.innerHTML = '<p class="hint" style="margin:10px 0">Ausschnitt: <b>' + fmtT(cur.start) + '</b> bis <b>' + fmtT(cur.end) + '</b>' +
+      (cur.size ? ' · Datei ' + fmtMB(cur.size) : '') + '</p>' +
+      '<div class="seg" style="margin:0"><button data-action="trim-start">Start = jetzt</button><button data-action="trim-end">Ende = jetzt</button></div>' +
+      '<div class="stack" style="margin:10px 0 0">' +
+      (trimmed ? '<button class="btn" data-action="trim-reset">Zuschnitt zurücksetzen</button>' : '') +
+      (trimmed && canCut() ? '<button class="btn primary" data-action="trim-apply">Dauerhaft zuschneiden (spart Speicher)</button>' : '') + '</div>' +
+      '<p class="hint" style="margin-top:10px">Video an die gewünschte Stelle spulen und Start bzw. Ende setzen. Die App spielt dann nur diesen Ausschnitt.' +
+      (canCut() ? ' „Dauerhaft“ schneidet die Datei selbst – das dauert so lange wie der Ausschnitt.' : '') + '</p>';
+  }
+  function saveTrim() {
+    var id = cur.id;
+    return videoGet(id).then(function (rec) {
+      if (!rec) return;
+      rec.start = cur.start; rec.end = cur.end;
+      return idb('readwrite', function (st) { return st.put(rec, id); });
+    });
+  }
   function setupVideo(s) {
     var v = document.getElementById('vid'); if (!v || !s) return;
     var miss = document.getElementById('vmiss');
+    cur = { id: s.id, start: 0, end: null, size: 0 };
     v.addEventListener('error', function () { v.hidden = true; miss.hidden = false; });
-    v.addEventListener('loadedmetadata', function () { v.playbackRate = rate; });
+    v.addEventListener('loadedmetadata', function () { v.playbackRate = rate; if (cur.start) v.currentTime = cur.start; });
+    v.addEventListener('timeupdate', function () {
+      if (v.seeking) return;
+      if (cur.end != null && v.currentTime >= cur.end) {
+        if (loopOn) v.currentTime = cur.start; else { v.pause(); v.currentTime = cur.end; }
+      } else if (cur.start && v.currentTime < cur.start - 0.3) v.currentTime = cur.start;
+    });
     v.defaultPlaybackRate = rate;
-    if (urlCache.has(s.id)) { v.src = urlCache.get(s.id); return; }
     videoGet(s.id).then(function (rec) {
-      if (rec && rec.blob) { var u = URL.createObjectURL(rec.blob); urlCache.set(s.id, u); v.src = u; }
-      else v.src = s.video;
+      if (rec && rec.blob) {
+        cur.start = rec.start || 0; cur.end = rec.end == null ? null : rec.end; cur.size = rec.blob.size;
+        var u = urlCache.get(s.id);
+        if (!u) { u = URL.createObjectURL(rec.blob); urlCache.set(s.id, u); }
+        v.src = u; updTrimBox();
+      } else v.src = s.video;
     }, function () { v.src = s.video; });
+  }
+  // Ausschnitt neu aufnehmen (Chrome/Android): Video im Hintergrund abspielen und mitschneiden
+  function cutVideo(blob, start, end) {
+    return new Promise(function (res, rej) {
+      ensureAC();
+      var v = document.createElement('video'), url = URL.createObjectURL(blob);
+      v.playsInline = true; v.preload = 'auto'; v.src = url;
+      v.style.cssText = 'position:fixed;left:0;top:0;width:2px;height:2px;opacity:0;pointer-events:none';
+      document.body.appendChild(v);
+      function done() { v.remove(); URL.revokeObjectURL(url); }
+      v.addEventListener('error', function () { done(); rej(new Error('Video nicht lesbar')); });
+      v.addEventListener('loadedmetadata', function () {
+        var stop = end == null ? v.duration : end;
+        v.addEventListener('seeked', function once() {
+          v.removeEventListener('seeked', once);
+          try {
+            var vt = v.captureStream().getVideoTracks();
+            var src = AC.createMediaElementSource(v), dst = AC.createMediaStreamDestination(); src.connect(dst);
+            var stream = new MediaStream(vt.concat(dst.stream.getAudioTracks()));
+            var types = ['video/mp4;codecs=avc1.42E01E,mp4a.40.2', 'video/mp4', 'video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'];
+            var mime = types.filter(function (t) { return MediaRecorder.isTypeSupported(t); })[0] || '';
+            var opts = { videoBitsPerSecond: 1200000, audioBitsPerSecond: 96000 }; if (mime) opts.mimeType = mime;
+            var rec = new MediaRecorder(stream, opts), chunks = [];
+            rec.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
+            rec.onstop = function () {
+              src.disconnect(); done();
+              res(new Blob(chunks, { type: String(rec.mimeType || mime || 'video/webm').split(';')[0] }));
+            };
+            var tick = function () { if ((v.currentTime >= stop - 0.03 || v.ended) && rec.state !== 'inactive') { v.pause(); rec.stop(); } };
+            v.addEventListener('timeupdate', tick); v.addEventListener('ended', tick);
+            rec.start(250);
+            v.play().catch(function (err) { done(); rej(err); });
+          } catch (err) { done(); rej(err); }
+        });
+        v.currentTime = start || 0;
+      });
+    });
   }
   function setupNote() {
     var ta = document.getElementById('mynote'); if (!ta) return;
@@ -1061,12 +1123,74 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       }, 400);
     });
   }
-  function pickFiles(multiple, cb) {
+  // accept = 'video/*' öffnet auf Android die Galerie, ohne accept die Dateien-App (echte Dateinamen)
+  function pickFiles(multiple, cb, fromFolder) {
     var i = document.createElement('input');
-    i.type = 'file'; i.accept = 'video/*'; i.multiple = !!multiple; i.style.display = 'none';
+    i.type = 'file'; if (!fromFolder) i.accept = 'video/*'; i.multiple = !!multiple; i.style.display = 'none';
     document.body.appendChild(i);
-    i.addEventListener('change', function () { cb(Array.prototype.slice.call(i.files || [])); i.remove(); });
+    i.addEventListener('change', function () {
+      var files = Array.prototype.slice.call(i.files || []).filter(function (f) {
+        return String(f.type).indexOf('video') === 0 || /\.(mp4|mov|m4v|webm|3gp|mkv)$/i.test(f.name);
+      });
+      cb(files); i.remove();
+    });
     i.click();
+  }
+
+  // ---------- Import & Zuordnen ----------
+  var pending = [], assignUrl = null;
+  function startImport(files) {
+    if (!files.length) return;
+    var known = [], unknown = [];
+    files.forEach(function (f) { var id = (f.name.match(/^(\d{3})/) || [])[1]; (id && stepById(id) ? known : unknown).push(f); });
+    toast(files.length + ' Videos werden verarbeitet …');
+    importFiles(known).then(function (n) {
+      pending = pending.concat(unknown);
+      if (unknown.length) {
+        toast((n ? n + ' automatisch zugeordnet, ' : '') + unknown.length + ' zum Zuordnen');
+        location.hash = '#/zuordnen';
+      } else { toast(n + ' Videos zugeordnet'); render(); }
+    }, function () { toast('Speichern fehlgeschlagen'); });
+  }
+  function viewAssign() {
+    if (!pending.length) return page(null, bar('#/info', 'Info'), '<h1 class="page-title">Zuordnen</h1><p class="empty-state">Alle Videos sind zugeordnet.</p>');
+    return page(null, bar('#/info', 'Info'), '<h1 class="page-title">Zuordnen</h1>' +
+      '<p class="hint">Video 1 von ' + pending.length + ' – zu welchem Schritt gehört es?</p>' +
+      '<video id="avid" controls playsinline loop style="max-height:34vh"></video>' +
+      '<div class="stack"><button class="btn" data-action="assign-skip">Überspringen (nicht speichern)</button></div>' +
+      '<input class="search" id="afilter" type="search" placeholder="Schritt suchen …" autocomplete="off" style="display:block">' +
+      Object.keys(DATA.dances).map(function (d) {
+        var list = stepsOf(d); if (!list.length) return '';
+        return '<section data-dance="' + d + '"><h2>' + esc(danceName(d)) + '</h2>' + list.map(function (s) {
+          return '<button class="pick" data-action="assign" data-id="' + s.id + '" data-q="' + esc(norm(s.id + ' ' + s.name)) + '">' +
+            '<span style="color:var(--faint);width:38px;flex:none">' + s.id + '</span><span style="flex:1;font-size:18px;font-weight:600">' + esc(s.name) + '</span>' +
+            (importedIds.has(s.id) ? '<span style="color:var(--muted);font-size:13px">hat Video</span>' : '') + '</button>';
+        }).join('') + '</section>';
+      }).join(''));
+  }
+  function setupAssign() {
+    var v = document.getElementById('avid');
+    if (assignUrl) { URL.revokeObjectURL(assignUrl); assignUrl = null; }
+    if (v && pending[0]) { assignUrl = URL.createObjectURL(pending[0]); v.src = assignUrl; }
+    var f = document.getElementById('afilter'); if (!f) return;
+    f.addEventListener('input', function () {
+      var q = norm(f.value.trim());
+      document.querySelectorAll('.pick').forEach(function (b) { b.hidden = !!q && b.dataset.q.indexOf(q) < 0; });
+    });
+  }
+  // Geteiltes Video (Android) landet in der Zuordnen-Liste
+  function setupShare() {
+    if (!window.caches) { location.replace('#/zuordnen'); return; }
+    caches.open('share-inbox').then(function (c) {
+      return c.match('./shared-video').then(function (res) {
+        if (!res) return;
+        var name = decodeURIComponent(res.headers.get('x-name') || 'video.mp4');
+        return res.blob().then(function (blob) {
+          pending.unshift(new File([blob], name, { type: blob.type || 'video/mp4' }));
+          return c.delete('./shared-video');
+        });
+      });
+    }).then(function () { location.replace('#/zuordnen'); }, function () { location.replace('#/zuordnen'); });
   }
 
   // ---------- Export ----------
@@ -1166,23 +1290,40 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
         toast('Video wird gespeichert …');
         importFiles(files, sid).then(function () { toast('Video gespeichert'); render(); }, function () { toast('Speichern fehlgeschlagen'); });
       });
-    } else if (act === 'pick-many') {
-      pickFiles(true, function (files) {
-        if (!files.length) return;
-        toast(files.length + ' Videos werden gespeichert …');
-        importFiles(files).then(function (n) {
-          toast(n + ' von ' + files.length + ' Videos zugeordnet' + (n < files.length ? ' (Rest ohne Nummer)' : ''));
-          render();
-        }, function () { toast('Speichern fehlgeschlagen'); });
-      });
-    } else if (act === 'share-assign') {
-      var tid = el.dataset.id; if (!shareFile) return;
-      toast('Video wird gespeichert …');
-      importFiles([shareFile], tid).then(function () {
-        shareFile = null;
-        return caches.open('share-inbox').then(function (c) { return c.delete('./shared-video'); });
-      }).then(function () { toast('Video gespeichert'); location.hash = '#/step/' + tid; },
-        function () { toast('Speichern fehlgeschlagen'); });
+    } else if (act === 'pick-gallery') {
+      pickFiles(true, startImport, false);
+    } else if (act === 'pick-folder') {
+      pickFiles(true, startImport, true);
+    } else if (act === 'assign') {
+      var aid = el.dataset.id, af = pending[0]; if (!af) return;
+      importFiles([af], aid).then(function () {
+        pending.shift(); var st = stepById(aid);
+        toast('Gespeichert bei ' + aid + ' ' + (st ? st.name : ''));
+        render(); window.scrollTo(0, 0);
+      }, function () { toast('Speichern fehlgeschlagen'); });
+    } else if (act === 'assign-skip') {
+      pending.shift(); render(); window.scrollTo(0, 0);
+    } else if (act === 'trim-toggle') {
+      var tb = document.getElementById('trimBox'); if (tb) { tb.hidden = !tb.hidden; updTrimBox(); }
+    } else if (act === 'trim-start' || act === 'trim-end') {
+      var tv = document.getElementById('vid'); if (!tv) return;
+      var now = Math.round(tv.currentTime * 10) / 10;
+      if (act === 'trim-start') { cur.start = now; if (cur.end != null && cur.end <= now + 0.3) cur.end = null; }
+      else { if (now <= cur.start + 0.3) { toast('Das Ende muss nach dem Start liegen'); return; } cur.end = now; }
+      saveTrim().then(updTrimBox);
+    } else if (act === 'trim-reset') {
+      cur.start = 0; cur.end = null; saveTrim().then(updTrimBox);
+    } else if (act === 'trim-apply') {
+      var cid = cur.id;
+      el.disabled = true; el.textContent = 'Wird geschnitten …';
+      videoGet(cid).then(function (rec) {
+        var before = rec.blob.size;
+        return cutVideo(rec.blob, rec.start || 0, rec.end).then(function (nb) {
+          if (!nb.size) throw new Error('leer');
+          return idb('readwrite', function (st) { return st.put({ name: rec.name, size: nb.size, blob: nb, start: 0, end: null }, cid); })
+            .then(function () { forgetUrl(cid); toast('Zugeschnitten: ' + fmtMB(before) + ' → ' + fmtMB(nb.size)); render(); });
+        });
+      }).catch(function () { toast('Zuschneiden hat nicht geklappt – der Ausschnitt bleibt trotzdem gespeichert'); render(); });
     } else if (act === 'backup-videos') {
       idb('readonly', function (st) { return st.getAllKeys(); }).then(function (keys) {
         keys = (keys || []).slice().sort();
@@ -1196,7 +1337,8 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
             if (rec && rec.blob) {
               var a = document.createElement('a');
               a.href = URL.createObjectURL(rec.blob);
-              a.download = s ? s.video.split('/').pop() : id + '.mp4';
+              var ext = /webm/.test(rec.blob.type) ? '.webm' : '.mp4';
+              a.download = (s ? s.video.split('/').pop().replace(/\.[^.]+$/, '') : id) + ext;
               document.body.appendChild(a); a.click(); a.remove();
               setTimeout(function () { URL.revokeObjectURL(a.href); }, 8000);
             }
