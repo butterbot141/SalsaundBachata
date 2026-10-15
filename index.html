@@ -245,7 +245,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
 
 <script id="data" type="application/json">
 {
-  "version": "0.10",
+  "version": "0.11",
   "updated": "2026-10-15",
   "autor": "Paul B.",
   "dances": {"salsa": {"name": "Salsa"}, "bachata": {"name": "Bachata"}, "rueda": {"name": "Rueda"}},
@@ -350,31 +350,32 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   function draftsFor(id) { return drafts.filter(function (d) { return d.step === id; }); }
 
   // ---------- Videospeicher (IndexedDB) ----------
-  var dbP = null;
+  // videos: Schritt-ID -> {name, size, blob, start, end}; inbox: noch nicht zugeordnete Videos
+  var dbP = null, pendingKeys = [];
   function db() {
     if (!dbP) dbP = new Promise(function (res, rej) {
       if (!window.indexedDB) return rej(new Error('kein IndexedDB'));
-      var r = indexedDB.open('tanzschritte', 1);
-      r.onupgradeneeded = function () { r.result.createObjectStore('videos'); };
+      var r = indexedDB.open('tanzschritte', 2);
+      r.onupgradeneeded = function () {
+        var d = r.result;
+        if (!d.objectStoreNames.contains('videos')) d.createObjectStore('videos');
+        if (!d.objectStoreNames.contains('inbox')) d.createObjectStore('inbox', { autoIncrement: true });
+      };
       r.onsuccess = function () { res(r.result); };
       r.onerror = function () { rej(r.error); };
     });
     return dbP;
   }
-  function idb(mode, fn) {
+  function idb(mode, fn, store) {
+    store = store || 'videos';
     return db().then(function (d) {
       return new Promise(function (res, rej) {
-        var tx = d.transaction('videos', mode), out;
-        var req = fn(tx.objectStore('videos'));
+        var tx = d.transaction(store, mode), out;
+        var req = fn(tx.objectStore(store));
         if (req) req.onsuccess = function () { out = req.result; };
         tx.oncomplete = function () { res(out); };
         tx.onerror = tx.onabort = function () { rej(tx.error); };
       });
-    });
-  }
-  function videoPut(id, file) {
-    return idb('readwrite', function (st) {
-      return st.put({ name: file.name, size: file.size, blob: new Blob([file], { type: file.type || 'video/mp4' }) }, id);
     });
   }
   function videoGet(id) { return idb('readonly', function (st) { return st.get(id); }); }
@@ -383,16 +384,55 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     return idb('readonly', function (st) { return st.getAllKeys(); })
       .then(function (k) { importedIds = new Set(k || []); }, function () {});
   }
+  function refreshInbox() {
+    return idb('readonly', function (st) { return st.getAllKeys(); }, 'inbox')
+      .then(function (k) { pendingKeys = k || []; }, function () {});
+  }
+  function inboxGet(k) { return idb('readonly', function (st) { return st.get(k); }, 'inbox'); }
+  function inboxDel(k) { return idb('readwrite', function (st) { return st.delete(k); }, 'inbox'); }
+  function inboxAdd(o) { return idb('readwrite', function (st) { return st.add({ name: o.name, blob: o.blob, added: Date.now() }); }, 'inbox'); }
   function forgetUrl(id) { var u = urlCache.get(id); if (u) URL.revokeObjectURL(u); urlCache.delete(id); }
-  function importFiles(files, forId) {
-    var jobs = [];
-    files.forEach(function (f) {
-      var id = forId || (f.name.match(/^(\d{3})/) || [])[1];
-      if (!id || !stepById(id)) return;
-      jobs.push(videoPut(id, f).then(function () { forgetUrl(id); importedIds.add(id); }));
-    });
-    if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
-    return Promise.all(jobs).then(function () { return jobs.length; });
+  function putVideo(id, o) {
+    return idb('readwrite', function (st) { return st.put({ name: o.name, size: o.blob.size, blob: o.blob, start: 0, end: null }, id); })
+      .then(function () {
+        forgetUrl(id); importedIds.add(id);
+        if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
+      });
+  }
+  // Datei sofort komplett einlesen: Galerie-Dateien sind sonst nur kurz lesbar
+  function readFile(f) {
+    var type = f.type || (/\.webm$/i.test(f.name) ? 'video/webm' : /\.mov$/i.test(f.name) ? 'video/quicktime' : 'video/mp4');
+    return f.arrayBuffer().then(function (buf) { return { name: f.name, blob: new Blob([buf], { type: type }) }; });
+  }
+  // Gemeinsamer Import: ein Video beim Schritt -> direkt dorthin; sonst nach Nummer im Namen, Rest in die Zuordnen-Liste
+  function importFlow(files, ctxId) {
+    if (!files.length) return;
+    var ok = [], failed = 0, i = 0;
+    (function next() {
+      if (i >= files.length) return finish();
+      var f = files[i++];
+      toast('Video ' + i + ' von ' + files.length + ' wird gelesen …', true);
+      readFile(f).then(function (o) { ok.push(o); }, function () { failed++; }).then(next);
+    })();
+    function finish() {
+      var fail = failed ? ' – ' + failed + ' nicht lesbar' : '';
+      if (!ok.length) { toast('Kein Video lesbar' + fail); return; }
+      if (ctxId && ok.length === 1) {
+        putVideo(ctxId, ok[0]).then(function () { toast('Video gespeichert' + fail); render(); }, function () { toast('Speichern fehlgeschlagen (Speicher voll?)'); });
+        return;
+      }
+      var jobs = ok.map(function (o) {
+        var id = (o.name.match(/^(\d{3})/) || [])[1];
+        return id && stepById(id) ? putVideo(id, o).then(function () { return 1; }) : inboxAdd(o).then(function () { return 0; });
+      });
+      Promise.all(jobs).then(function (r) {
+        var auto = r.filter(Boolean).length, q = r.length - auto;
+        return refreshInbox().then(function () {
+          toast((auto ? auto + ' automatisch zugeordnet' : '') + (auto && q ? ', ' : '') + (q ? q + ' zum Zuordnen' : '') + fail);
+          if (q) { if (location.hash === '#/zuordnen') render(); else location.hash = '#/zuordnen'; } else render();
+        });
+      }, function () { toast('Speichern fehlgeschlagen (Speicher voll?)'); });
+    }
   }
 
   // ---------- Hilfen ----------
@@ -406,9 +446,11 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     return DATA.steps.filter(function (s) { return s.dance === dance && (!level || s.level === level); });
   }
   function danceName(d) { return (DATA.dances[d] || {}).name || d; }
-  function toast(msg) {
-    var t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
-    document.body.appendChild(t); setTimeout(function () { t.remove(); }, 2600);
+  var toastEl = null, toastTimer = null;
+  function toast(msg, sticky) {
+    if (!toastEl) { toastEl = document.createElement('div'); toastEl.className = 'toast'; document.body.appendChild(toastEl); }
+    toastEl.textContent = msg; clearTimeout(toastTimer);
+    if (!sticky) toastTimer = setTimeout(function () { toastEl.remove(); toastEl = null; }, 2600);
   }
   // Verweise im Text: [[012]] oder [[012|Text]] -> Link zur Figur
   var XREF = /\[\[(\d{3})(?:\|([^\]]+))?\]\]/g;
@@ -431,9 +473,9 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     notes: '<svg viewBox="0 0 48 48" aria-hidden="true"><g fill="currentColor"><path d="M17 10l22-5v26.5" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/><path d="M17 10v26" fill="none" stroke="currentColor" stroke-width="3.2"/><ellipse cx="12" cy="37" rx="6" ry="4.6" transform="rotate(-18 12 37)"/><ellipse cx="34" cy="32" rx="6" ry="4.6" transform="rotate(-18 34 32)"/><path d="M17 10l22-5v6l-22 5z"/></g></svg>'
   };
   function topIcons() {
-    var n = exportCount();
+    var n = exportCount() + pendingKeys.length;
     return '<span class="icons">' +
-      '<a class="iconbtn" href="#/drafts" aria-label="Drafts">' + ICON.plus + (n ? '<i class="dot">' + n + '</i>' : '') + '</a>' +
+      '<a class="iconbtn" href="#/drafts" aria-label="Hinzufügen: Drafts und Videos">' + ICON.plus + (n ? '<i class="dot">' + n + '</i>' : '') + '</a>' +
       '<a class="iconbtn" href="#/favs" aria-label="Favoriten">' + ICON.star + '</a>' +
       '<a class="iconbtn" href="#/info" aria-label="Info">' + ICON.info + '</a></span>';
   }
@@ -573,20 +615,20 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
 
     return page(s.dance, stepBar,
       '<p class="num">Nr. ' + s.id + '</p><h1 class="title">' + esc(s.name) + '</h1>' +
-      (s.status === 'pruefen' ? '<p class="hint">Von Claude vorausgefüllt (Salsa On1) – bitte mit dem Kurs abgleichen.</p>' : '') +
+      (s.status === 'pruefen' ? '<p class="hint">Von Claude formuliert – bitte prüfen.</p>' : '') +
       '<div class="chips"><span class="badge lv-' + s.level + '">' + s.level + '</span>' +
         '<span class="chip' + (countsTxt ? '' : ' open') + '">' + (countsTxt ? esc(countsTxt) : 'Länge offen') + '</span>' +
         '<span class="chip' + (s.position ? '' : ' open') + '">' + (s.position ? esc(s.position) : 'Position offen') + '</span></div>' +
       ruler +
       '<section class="video-wrap"><video id="vid" controls playsinline preload="metadata"' + (loopOn ? ' loop' : '') + '></video>' +
         '<div class="vmissing" id="vmiss" hidden><div>Noch kein Video gespeichert. Erwarteter Dateiname: <code>' + esc(s.video.split('/').pop()) + '</code></div>' +
-        '<div class="btns"><button class="btn" data-action="pick-one" data-id="' + s.id + '">Video für diesen Schritt importieren</button>' +
-        '<button class="btn" data-action="pick-gallery">Mehrere Videos importieren</button></div></div>' +
+        '<div class="btns"><button class="btn" data-action="import" data-id="' + s.id + '">Videos importieren</button></div>' +
+        '<p class="hint" style="margin:10px 0 0">Ein Video kommt direkt zu diesem Schritt. Mehrere werden über die Nummer im Namen zugeordnet, der Rest wird abgefragt.</p></div>' +
         '<div class="seg">' + [0.5, 1, 2].map(function (r) {
           return '<button data-action="speed" data-rate="' + r + '" aria-pressed="' + (r === rate) + '">' + String(r).replace('.', ',') + '×</button>';
         }).join('') + '<button data-action="loop" aria-pressed="' + loopOn + '">Schleife</button></div>' +
         (importedIds.has(s.id) ? '<div class="trimrow"><button class="linkbtn" data-action="trim-toggle">Zuschneiden</button>' +
-          '<button class="linkbtn" data-action="pick-one" data-id="' + s.id + '">Video ersetzen</button></div><div id="trimBox" hidden></div>' : '') + '</section>' +
+          '<button class="linkbtn" data-action="import" data-id="' + s.id + '">Video ersetzen</button></div><div id="trimBox" hidden></div>' : '') + '</section>' +
       '<section><h2>Ablauf</h2><ol class="steps">' + ablauf.map(function (a) { return '<li><span>' + (a ? fmt(a) : dash) + '</span></li>'; }).join('') + '</ol></section>' +
       '<section><h2>Counts</h2><table><thead><tr><th>Count</th><th>Leader</th><th>Follower</th></tr></thead><tbody>' +
         rows.map(function (r) { return '<tr><td>' + esc(r.count) + '</td><td>' + (r.h ? fmt(r.h) : dash) + '</td><td>' + (r.d ? fmt(r.d) : dash) + '</td></tr>'; }).join('') +
@@ -869,9 +911,12 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       return '<a class="card" href="#/draft/' + d.id + '"><b>' + esc(head) + '</b><small>' + esc(danceName(d.dance)) +
         (d.level ? ', ' + d.level : '') + ', ' + new Date(d.created).toLocaleDateString('de-DE') + '</small><p>' + esc(d.text) + '</p></a>';
     }).join('')
-      : '<p class="empty-state">Noch keine Drafts.</p>';
+      : '<p class="hint">Noch keine Drafts.</p>';
     var warn = storageOk ? '' : '<p class="hint">Dieser Browser speichert Drafts nicht dauerhaft. Sichere sie vor dem Schließen als Datei.</p>';
-    return page(null, bar('#/', 'Start'), '<h1 class="page-title">Drafts</h1>' + warn + list +
+    return page(null, bar('#/', 'Start'), '<h1 class="page-title">Hinzufügen</h1>' +
+      '<section><h2>Videos</h2><div class="stack" style="margin-top:0"><button class="btn" data-action="import">Videos importieren</button>' +
+      (pendingKeys.length ? '<a class="btn primary" href="#/zuordnen">Zuordnen (' + pendingKeys.length + ' offen)</a>' : '') +
+      '</div></section><section><h2>Drafts</h2>' + warn + list + '</section>' +
       '<div class="stack"><a class="btn primary" href="#/draft/new">Neuer Draft</a>' +
       (exportCount() ? '<button class="btn" data-action="export">Export-Datei für Claude speichern</button>' +
         '<button class="btn" data-action="copy">Export als Text kopieren</button>' : '') + '</div>' +
@@ -922,7 +967,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
         'Suche über Name, Nummer, Ablauf und Notizen; Lupe in den Untermenüs.',
         'Würfel (unten links) und Übungstakt (unten rechts) übernehmen Tanz und Level aus dem aktuellen Menü.',
         'Videos: 0,5× / 1× / 2×, Schleife und Zuschneiden (Ausschnitt festlegen; auf Android auch dauerhaft, spart Speicher).',
-        'Import aus der Galerie (mehrere möglich): Videos ohne erkennbare Nummer landen in der Zuordnen-Liste.',
+        'Import über + oder beim Schritt: ein Video beim Schritt wird direkt zugeordnet; mehrere über die Nummer im Namen, der Rest landet in der Zuordnen-Liste.',
         'Import aus einem Ordner: Dateien wie 013_travelling.mp4 werden automatisch zugeordnet – ideal für die Erstanwendung.',
         'Android: Video in WhatsApp teilen → Tanzschritte → in der Zuordnen-Liste Schritt antippen.',
         '„Videos sichern“ speichert alle Videos mit passenden Namen im Download-Ordner – als Sicherung für Gerätewechsel.',
@@ -941,7 +986,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
         'Videos fehlen nach Gerätewechsel – mit „Videos sichern“ vorher in den Download-Ordner exportieren.',
         'Die Galerie gibt keine echten Dateinamen weiter; für automatische Zuordnung den Ordner-Import nutzen.',
         'Dauerhaftes Zuschneiden nur auf Android (Chrome); es dauert so lange wie der Ausschnitt. Auf dem iPad wirkt der Zuschnitt nur beim Abspielen.',
-        'Ungespeicherte Videos in der Zuordnen-Liste gehen beim Schließen der App verloren.',
+        'Videos in der Zuordnen-Liste bleiben gespeichert (auch nach dem Schließen), bis du sie zuordnest oder überspringst.',
         'iPad: kein Teilen aus WhatsApp; Export-Datei klappt nicht immer – dann „Als Text kopieren“.',
         'Der Übungstakt ist synthetisch und klingt nicht wie eine echte Band.']]
     ];
@@ -956,7 +1001,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
         '<button class="btn" data-action="copy">Als Text kopieren</button></div>' : '<p class="hint">Gerade nichts zu exportieren.</p>') + '</section>' +
       '<section><h2>Videos</h2><div class="stack"><button class="btn" data-action="pick-gallery">Aus Galerie importieren</button>' +
       '<button class="btn" data-action="pick-folder">Aus Ordner importieren (Namen mit Nummer)</button>' +
-      (pending.length ? '<a class="btn primary" href="#/zuordnen">Weiter zuordnen (' + pending.length + ' offen)</a>' : '') +
+      (pendingKeys.length ? '<a class="btn primary" href="#/zuordnen">Zuordnen (' + pendingKeys.length + ' offen)</a>' : '') +
       (importedIds.size ? '<button class="btn" data-action="backup-videos">Videos sichern (Download-Ordner)</button>' +
         '<button class="btn danger" data-action="clear-videos">Alle Videos aus der App löschen</button>' : '') + '</div></section>' +
       '<details class="more"><summary>Mehr zu Speicherung, Funktionen und Workflow</summary><div>' + more.map(function (m) {
@@ -1137,25 +1182,12 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     i.click();
   }
 
-  // ---------- Import & Zuordnen ----------
-  var pending = [], assignUrl = null;
-  function startImport(files) {
-    if (!files.length) return;
-    var known = [], unknown = [];
-    files.forEach(function (f) { var id = (f.name.match(/^(\d{3})/) || [])[1]; (id && stepById(id) ? known : unknown).push(f); });
-    toast(files.length + ' Videos werden verarbeitet …');
-    importFiles(known).then(function (n) {
-      pending = pending.concat(unknown);
-      if (unknown.length) {
-        toast((n ? n + ' automatisch zugeordnet, ' : '') + unknown.length + ' zum Zuordnen');
-        location.hash = '#/zuordnen';
-      } else { toast(n + ' Videos zugeordnet'); render(); }
-    }, function () { toast('Speichern fehlgeschlagen'); });
-  }
+  // ---------- Zuordnen ----------
+  var assignUrl = null;
   function viewAssign() {
-    if (!pending.length) return page(null, bar('#/info', 'Info'), '<h1 class="page-title">Zuordnen</h1><p class="empty-state">Alle Videos sind zugeordnet.</p>');
-    return page(null, bar('#/info', 'Info'), '<h1 class="page-title">Zuordnen</h1>' +
-      '<p class="hint">Video 1 von ' + pending.length + ' – zu welchem Schritt gehört es?</p>' +
+    if (!pendingKeys.length) return page(null, bar('#/drafts', 'Hinzufügen'), '<h1 class="page-title">Zuordnen</h1><p class="empty-state">Alle Videos sind zugeordnet.</p>');
+    return page(null, bar('#/drafts', 'Hinzufügen'), '<h1 class="page-title">Zuordnen</h1>' +
+      '<p class="hint">Video 1 von ' + pendingKeys.length + ' – zu welchem Schritt gehört es?</p>' +
       '<video id="avid" controls playsinline loop style="max-height:34vh"></video>' +
       '<div class="stack"><button class="btn" data-action="assign-skip">Überspringen (nicht speichern)</button></div>' +
       '<input class="search" id="afilter" type="search" placeholder="Schritt suchen …" autocomplete="off" style="display:block">' +
@@ -1171,7 +1203,9 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   function setupAssign() {
     var v = document.getElementById('avid');
     if (assignUrl) { URL.revokeObjectURL(assignUrl); assignUrl = null; }
-    if (v && pending[0]) { assignUrl = URL.createObjectURL(pending[0]); v.src = assignUrl; }
+    if (v && pendingKeys.length) inboxGet(pendingKeys[0]).then(function (rec) {
+      if (rec && rec.blob) { assignUrl = URL.createObjectURL(rec.blob); v.src = assignUrl; }
+    });
     var f = document.getElementById('afilter'); if (!f) return;
     f.addEventListener('input', function () {
       var q = norm(f.value.trim());
@@ -1186,11 +1220,10 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
         if (!res) return;
         var name = decodeURIComponent(res.headers.get('x-name') || 'video.mp4');
         return res.blob().then(function (blob) {
-          pending.unshift(new File([blob], name, { type: blob.type || 'video/mp4' }));
-          return c.delete('./shared-video');
+          return inboxAdd({ name: name, blob: blob }).then(function () { return c.delete('./shared-video'); });
         });
       });
-    }).then(function () { location.replace('#/zuordnen'); }, function () { location.replace('#/zuordnen'); });
+    }).then(refreshInbox).then(function () { location.replace('#/zuordnen'); }, function () { location.replace('#/zuordnen'); });
   }
 
   // ---------- Export ----------
@@ -1283,26 +1316,24 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     } else if (act === 'loop') {
       loopOn = !loopOn; el.setAttribute('aria-pressed', String(loopOn));
       var v2 = document.getElementById('vid'); if (v2) v2.loop = loopOn;
-    } else if (act === 'pick-one') {
-      var sid = el.dataset.id;
-      pickFiles(false, function (files) {
-        if (!files[0]) return;
-        toast('Video wird gespeichert …');
-        importFiles(files, sid).then(function () { toast('Video gespeichert'); render(); }, function () { toast('Speichern fehlgeschlagen'); });
-      });
+    } else if (act === 'import') {
+      var ctx = el.dataset.id || null;
+      pickFiles(true, function (files) { importFlow(files, ctx); }, false);
     } else if (act === 'pick-gallery') {
-      pickFiles(true, startImport, false);
+      pickFiles(true, function (files) { importFlow(files, null); }, false);
     } else if (act === 'pick-folder') {
-      pickFiles(true, startImport, true);
+      pickFiles(true, function (files) { importFlow(files, null); }, true);
     } else if (act === 'assign') {
-      var aid = el.dataset.id, af = pending[0]; if (!af) return;
-      importFiles([af], aid).then(function () {
-        pending.shift(); var st = stepById(aid);
-        toast('Gespeichert bei ' + aid + ' ' + (st ? st.name : ''));
+      var aid = el.dataset.id, ak = pendingKeys[0]; if (ak == null) return;
+      inboxGet(ak).then(function (rec) {
+        return putVideo(aid, rec).then(function () { return inboxDel(ak); });
+      }).then(refreshInbox).then(function () {
+        var st = stepById(aid); toast('Gespeichert bei ' + aid + ' ' + (st ? st.name : ''));
         render(); window.scrollTo(0, 0);
-      }, function () { toast('Speichern fehlgeschlagen'); });
+      }, function () { toast('Speichern fehlgeschlagen (Speicher voll?)'); });
     } else if (act === 'assign-skip') {
-      pending.shift(); render(); window.scrollTo(0, 0);
+      var sk = pendingKeys[0]; if (sk == null) return;
+      inboxDel(sk).then(refreshInbox).then(function () { render(); window.scrollTo(0, 0); });
     } else if (act === 'trim-toggle') {
       var tb = document.getElementById('trimBox'); if (tb) { tb.hidden = !tb.hidden; updTrimBox(); }
     } else if (act === 'trim-start' || act === 'trim-end') {
@@ -1398,7 +1429,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     navigator.serviceWorker.register('sw.js').catch(function () {});
   }
   onHash();
-  refreshKeys().then(render);
+  Promise.all([refreshKeys(), refreshInbox()]).then(render);
 })();
 </script>
 </body>
