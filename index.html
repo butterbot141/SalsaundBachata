@@ -61,7 +61,10 @@ button,select,input,textarea{font:inherit;color:inherit}
 .dot{position:absolute;top:2px;right:2px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--accent);color:#1A1420;font:700 11px/16px var(--font);font-style:normal}
 .bar .search{display:none;flex:1;min-width:0;margin:0;min-height:44px}
 .bar.home .search,.bar.searchmode .search{display:block}
-.bar.home{padding-left:18px;padding-right:18px;margin-bottom:14px}
+.bar.home{padding-left:18px;margin-bottom:14px}
+.icons{view-transition-name:topicons}
+ol.usage{margin:0;padding-left:20px;color:var(--text);font-size:15px;line-height:1.5}
+ol.usage li{margin-bottom:6px}
 .bar.searchmode .crumb,.bar.searchmode .spacer,.bar.searchmode .lupe,.bar.typing .icons{display:none}
 .page.searching .pagebody{display:none}
 .xref{color:var(--salsa);font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
@@ -274,13 +277,13 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
 
 <script id="data" type="application/json">
 {
-  "version": "0.14",
-  "updated": "2026-10-16",
+  "version": "0.15",
+  "updated": "2026-10-23",
   "autor": "Paul B.",
   "dances": {"salsa": {"name": "Salsa"}, "bachata": {"name": "Bachata"}, "rueda": {"name": "Rueda"}},
   "integratedDrafts": ["dmvjepou5", "dmvjezbz6", "dmvjhaq5v", "dmvjimy2e", "dmvjjtnpr", "dmvjkojjt", "dmvjl9vzj", "dmvjmz1t2"],
   "integratedNotes": {"B017": "Ergänzen: auf 4 sollte r Arm von Frau auf Spannung gebracht werden, indem er sich streckt", "B014": "Schritt umbenennen nach Halo + Drehung", "S021": "Titel ändern: 2RT mit HL + 2LT + 2RT", "S020": "Titel ändern: 2RT mit HL + FreeTurn"},
-  "integratedEdits": {},
+  "integratedEdits": {"S036": {"kommentar": "HL mit beiden Händen. Dann 2LD mit beiden Händen. Dann 2RD einhändig herausführen. Jede Drehung mit der inneren, am F liegenden Hand."}},
   "idMap": {"000": "S001", "001": "S002", "002": "S003", "003": "S004", "004": "S005", "005": "S006", "006": "S007", "007": "S008", "008": "S009", "009": "S010", "010": "S011", "011": "S012", "012": "S013", "013": "S014", "014": "S015", "015": "S016", "016": "S017", "017": "S018", "018": "S019", "019": "S020", "030": "S021", "020": "S022", "021": "S023", "022": "S024", "023": "S025", "024": "S026", "025": "S027", "026": "S028", "027": "S029", "028": "S030", "029": "S031"},
   "steps": [
     {"id":"S001","dance":"salsa","level":"A1","name":"Grundschritt","counts":8,"position":"offen → offen","table":[{"count":"1–2–3","h":"l vor, r Gewicht, l ran","d":"r zurück, l Gewicht, r ran"},{"count":"5–6–7","h":"r zurück, l Gewicht, r ran","d":"l vor, r Gewicht, l ran"}],"ablauf":["Vor und zurück auf der Linie, Pause auf 4 und 8"],"video":"videos/S001_grundschritt.mp4","status":"fertig","notizen":"","wuerfel":false,"alternativ":""},
@@ -319,6 +322,8 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     {"id":"S034","dance":"salsa","level":"A1","name":"L Caress","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"","status":"platzhalter","lokal":"umvjegos9"},
     {"id":"S035","dance":"salsa","level":"A1","name":"FLT + Schließen","counts":null,"position":"offen → geschlossen","table":[],"ablauf":["FLT ↺ – während F sich wegdreht, legt L die rH schon auf ihren Rücken","Signal: F hebt die lH (Styling) und schließt zur geschlossenen Haltung"],"notizen":"","alternativ":"","video":"","status":"pruefen","lokal":"umvjepotx"},
     {"id":"S036","dance":"salsa","level":"A2","name":"HL + 2LT + 2RT","counts":24,"position":"","table":[{"count":"1–8","h":"[[S013|HL]] mit beiden Händen","d":"HL"},{"count":"1–8 (II)","h":"2LT führen, beide Hände","d":"2LT"},{"count":"1–8 (III)","h":"2RT einhändig herausführen","d":"2RT"}],"ablauf":["[[S013|HL]] mit beiden Händen → 2LT mit beiden Händen → 2RT einhändig herausführen","Jede Drehung mit der inneren, am F liegenden Hand"],"notizen":"","alternativ":"","video":"","status":"pruefen","lokal":"umvjkojjt"},
+    {"id":"S037","dance":"salsa","level":"A3","name":"FLT + LRT + Travelling","counts":16,"position":"","table":[{"count":"1–8","h":"[[S008|Wurzel]]: CBL auf 1, √-Signal auf 5","d":"FLT"},{"count":"1–2–3 (II)","h":"LRT: unter dem Arm durch","d":"Grundschritt"},{"count":"5–6–7 (II)","h":"[[S014|Travelling]]","d":"Travelling"}],"ablauf":["[[S008|Wurzel]] (CBL auf 1, FLT auf 5) → LRT: L geht auf 1 unter dem Arm durch → [[S014|Travelling]] auf 5"],"notizen":"","alternativ":"","video":"","status":"pruefen","lokal":"umvkl5exu"},
+    {"id":"S038","dance":"salsa","level":"A3","name":"FLT + Halo + Titanic","counts":16,"position":"gekreuzt (l über r) → Titanic","table":[{"count":"1–2–3","h":"nach 1 l zur Seite","d":"Grundschritt"},{"count":"5–6–7","h":"FLT führen","d":"FLT"},{"count":"1–2–3 (II)","h":"Spannung rH → lH, lH loslassen","d":"Halo"},{"count":"5–6–7 (II)","h":"lH vor F anbieten, Block","d":"auf 5 lF seitlich nach vorn"},{"count":"1 (III)","h":"zurückdrehen","d":"Titanic"}],"ablauf":["Start mit gekreuzten Armen (l über r)","FLT auf 5 → Halo auf 1 → Block auf 5","Zurückdrehen in die [[S017|Titanic]] auf 1"],"notizen":"","alternativ":"","video":"","status":"pruefen","lokal":"umvklfjjt"},
     {"id":"B001","dance":"bachata","level":"A1","name":"Grundschritte","counts":8,"position":"offen → offen","table":[{"count":"1–2–3–4","h":"l seit, r ran, l seit, Tap r","d":"r seit, l ran, r seit, Tap l"},{"count":"5–6–7–8","h":"r seit, l ran, r seit, Tap l","d":"l seit, r ran, l seit, Tap r"}],"ablauf":["Seitlich: 3 Schritte zur Seite, Tap auf 4 – dann gespiegelt auf 5–8"],"notizen":"","alternativ":"","video":"videos/B001_grundschritte.mp4","status":"pruefen","wuerfel":false},
     {"id":"B002","dance":"bachata","level":"A1","name":"FLT & FRT","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/B002_flt_und_frt.mp4","status":"platzhalter"},
     {"id":"B003","dance":"bachata","level":"A1","name":"LLT & LRT","counts":null,"position":"","table":[],"ablauf":[],"notizen":"","alternativ":"","video":"videos/B003_llt_und_lrt.mp4","status":"platzhalter"},
@@ -338,6 +343,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     {"id":"B017","dance":"bachata","level":"A2","name":"Knoten & Halo","counts":null,"position":"","table":[],"ablauf":["Knoten führen","Auf 4 r Arm des F strecken → Spannung","Auf 5 löst L die lH (FrH) – die Spannung erzeugt den Bogen für das einhändige Halo"],"notizen":"","alternativ":"","video":"","status":"pruefen","lokal":"umvjjtnpm"},
     {"id":"B018","dance":"bachata","level":"A2","name":"HL statt Halo","counts":null,"position":"","table":[],"ablauf":["Nach dem Knoten (wie [[B017|Knoten & Halo]]) das Halo einarmig andeuten","L unterbricht und schiebt den Arm hinter den Rücken ([[B008|HL]])","Auf der anderen Seite Arm wieder aufnehmen und herausdrehen"],"notizen":"","alternativ":"","video":"","status":"pruefen","lokal":"umvjl9vz8"},
     {"id":"B019","dance":"bachata","level":"A2","name":"FRT + Windmühle","counts":null,"position":"","table":[],"ablauf":["Gekreuzte Haltung, L führt FRT","7–8: Arme des F kreuzen","Auf 1 Kreuzung schwungvoll lösen = Signal für die Startposition, [[B010|Windmühle]] auf 5"],"notizen":"","alternativ":"","video":"","status":"pruefen","lokal":"umvjmz1sy"},
+    {"id":"B020","dance":"bachata","level":"A3","name":"Promenade Sidestep","counts":16,"position":"","table":[{"count":"7–8 (davor)","h":"LlH Bogen nach unten, nach außen drehen","d":"nach außen drehen"},{"count":"1–2–3–4","h":"1 lF vor, 2 zurückdrehen, 3 umgedreht, Tap 4","d":"1 rF vor, 2 zurückdrehen, 3 umgedreht, Tap 4"},{"count":"5–6–7–8 (lang)","h":"5 rF nach innen, 6 Tap lF, 7 lF zurück, 8 Tap rF","d":"gespiegelt"}],"ablauf":["7–8: langer Ausfallschritt – LlH führt Bogen nach unten, beide drehen seitlich nach außen","1: beide setzen mit dem inneren Fuß nach vorn, 2 zurückdrehen, 3 umgedreht nebeneinander, Tap auf 4","5–8: Sidestep (lang)"],"notizen":"","alternativ":"Kurz: L zieht nach innen und stößt zurück – nur 5 nach innen, 6 zurück; danach zweiter Sidestep oder LrH zur Seite in die Grundhaltung","video":"","status":"pruefen","lokal":"umvkmhzsb"},
     {"id":"R001","dance":"rueda","level":"A1","name":"Grundschritte","counts":null,"position":"","table":[],"ablauf":["Guapea – Grundschritt der Rueda"],"notizen":"","alternativ":"","video":"videos/R001_grundschritte.mp4","status":"pruefen","wuerfel":false},
     {"id":"R002","dance":"rueda","level":"A1","name":"Dame","counts":null,"position":"","table":[],"ablauf":["Partnerwechsel: L geht zur nächsten F"],"notizen":"","alternativ":"","video":"videos/R002_dame.mp4","status":"pruefen"},
     {"id":"R003","dance":"rueda","level":"A1","name":"Dame Dos","counts":null,"position":"","table":[],"ablauf":["Wie [[R002|Dame]], aber L geht zwei F weiter"],"notizen":"","alternativ":"","video":"videos/R003_dame_dos.mp4","status":"pruefen"},
@@ -372,7 +378,8 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   var DATA = JSON.parse(document.getElementById('data').textContent);
   var LEVELS = ['A1', 'A2', 'A3', 'M1', 'M2', 'M3'];
   var KEY = { drafts: 'tanzschritte.drafts', favs: 'tanzschritte.favs', notes: 'tanzschritte.notes',
-              dice: 'tanzschritte.dice', beat: 'tanzschritte.beat', mysteps: 'tanzschritte.mysteps', edits: 'tanzschritte.edits' };
+              dice: 'tanzschritte.dice', beat: 'tanzschritte.beat', mysteps: 'tanzschritte.mysteps', edits: 'tanzschritte.edits',
+              hidden: 'tanzschritte.hidden', seen: 'tanzschritte.seen', view: 'tanzschritte.view' };
   var PREFIX = { salsa: 'S', bachata: 'B', rueda: 'R' };
   var app = document.getElementById('app');
   var pillEl = document.getElementById('pill'), fabEl = document.getElementById('fab');
@@ -406,7 +413,9 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   // Von Claude übernommene Bearbeitungen lokal entfernen
   Object.keys(edits).forEach(function (id) {
     var e = edits[id], done = (DATA.integratedEdits || {})[id];
-    if (!e || (done && done === e.stamp)) delete edits[id];
+    var onlyComment = e && Object.keys(e).every(function (k) { return k === 'kommentar' || k === 'stamp'; });
+    if (!e || (done && done === e.stamp) ||
+        (done && typeof done === 'object' && onlyComment && String(done.kommentar).trim() === String(e.kommentar || '').trim())) delete edits[id];
   });
   // Alte Nummern (000…) und übernommene eigene Schritte auf neue IDs umstellen
   (function migrateLocal() {
@@ -434,7 +443,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   })();
   lsSet(KEY.mysteps, mySteps); lsSet(KEY.edits, edits);
   var ALL = [];
-  var EDIT_FIELDS = ['name', 'level', 'pos', 'counts', 'position', 'ablauf', 'table', 'kommentar'];
+  var EDIT_FIELDS = ['name', 'level', 'pos', 'counts', 'position', 'ablauf', 'table', 'notizen', 'kommentar'];
   function rebuild() {
     ALL = BASE.filter(function (s) { return !(edits[s.id] && edits[s.id].deleted); }).map(function (s) {
       var e = edits[s.id]; if (!e) return s;
@@ -458,6 +467,15 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     return (LNR[key] = out);
   }
   function lnr(s) { return levelList(s.dance, s.level).indexOf(s) + 1; }
+  // Ausblenden (nur sichtbar, wenn genutzt): hidden = Set von IDs, autoHide = neue Schritte automatisch ausblenden
+  var hidden = new Set(lsGet(KEY.hidden, [])), viewCfg = Object.assign({ autoHide: false, showHidden: false }, lsGet(KEY.view, {}));
+  (function () {
+    var seen = lsGet(KEY.seen, null), ids = BASE.map(function (s) { return s.id; });
+    if (seen && viewCfg.autoHide) ids.forEach(function (id) { if (seen.indexOf(id) < 0) hidden.add(id); });
+    lsSet(KEY.seen, ids); lsSet(KEY.hidden, Array.from(hidden));
+  })();
+  function saveHidden() { lsSet(KEY.hidden, Array.from(hidden)); }
+  function visible(list) { return viewCfg.showHidden ? list : list.filter(function (s) { return !hidden.has(s.id); }); }
   function pad2(n) { return (n < 10 ? '0' : '') + n; }
   function lcode(s) { return PREFIX[s.dance] + '-' + s.level + '-' + pad2(lnr(s)); }
   rebuild();
@@ -542,7 +560,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   function inboxAdd(o) { return idb('readwrite', function (st) { return st.add({ name: o.name, blob: o.blob, added: Date.now() }); }, 'inbox'); }
   function forgetUrl(id) { var u = urlCache.get(id); if (u) URL.revokeObjectURL(u); urlCache.delete(id); }
   function putVideo(id, o) {
-    return idb('readwrite', function (st) { return st.put({ name: o.name, size: o.blob.size, blob: o.blob, start: 0, end: null }, id); })
+    return idb('readwrite', function (st) { return st.put({ name: o.name, size: o.blob.size, blob: o.blob, start: o.start || 0, end: o.end == null ? null : o.end }, id); })
       .then(function () {
         forgetUrl(id); importedIds.add(id);
         if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
@@ -703,14 +721,16 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   var MARK = {
     novid: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Video fehlt"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/><path d="M3 3l18 18"/></svg>',
     nodesc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-label="Beschreibung fehlt"><path d="M5 6h14M5 11h9M5 16h5"/><path d="M17 15.5a2 2 0 1 1 2.6 1.9c-.4.2-.6.5-.6.9v.4M19 21h.01"/></svg>',
-    own: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Eigener Eintrag"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>'
+    own: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Eigener Eintrag"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>',
+    hid: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Ausgeblendet"><path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle cx="12" cy="12" r="2.5"/><path d="M4 20L20 4"/></svg>'
   };
   function marks(s) {
     return '<span class="marks">' +
       (isOwn(s) ? '<i class="mk own">' + MARK.own + '</i>' : '') +
       (!hasDesc(s) ? '<i class="mk">' + MARK.nodesc + '</i>' : '') +
       (!importedIds.has(s.id) ? '<i class="mk">' + MARK.novid + '</i>' : '') +
-      (favs.has(s.id) ? '<i class="mk fav">★</i>' : '') + '</span>';
+      (favs.has(s.id) ? '<i class="mk fav">★</i>' : '') +
+      (hidden.has(s.id) ? '<i class="mk">' + MARK.hid + '</i>' : '') + '</span>';
   }
   function stepRow(s, withMeta) {
     var meta = withMeta ? '<small>' + esc(danceName(s.dance)) + ' ' + s.level + (s.position ? ', ' + esc(s.position) : '') + '</small>' : '';
@@ -721,8 +741,8 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   // ---------- Ansichten ----------
   function viewHome() {
     var tiles = Object.keys(DATA.dances).map(function (d) {
-      var info = DATA.dances[d], n = stepsOf(d).length;
-      var lv = LEVELS.filter(function (l) { return stepsOf(d, l).length; });
+      var info = DATA.dances[d], n = visible(stepsOf(d)).length;
+      var lv = LEVELS.filter(function (l) { return visible(stepsOf(d, l)).length; });
       var meta = (n ? n + ' Figuren' + (lv.length ? ', ' + lv[0] + (lv.length > 1 ? '–' + lv[lv.length - 1] : '') : '') : 'noch keine Figuren');
       return '<a class="dance-tile" data-dance="' + d + '" href="#/' + d + '">' +
         '<span class="word" style="view-transition-name:d-' + d + '">' + esc(info.name) + '</span><span class="meta">' + meta + '</span>' +
@@ -759,7 +779,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   function viewDance(d) {
     if (!DATA.dances[d]) return viewNotFound();
     var tiles = LEVELS.map(function (l) {
-      var n = stepsOf(d, l).length;
+      var n = visible(stepsOf(d, l)).length;
       return '<a class="level-tile lv-' + l + (n ? '' : ' empty') + '" href="#/' + d + '/' + l + '">' +
         '<b style="view-transition-name:lv-' + l + '">' + l + '</b><span>' + (n ? n + (n === 1 ? ' Figur' : ' Figuren') : 'leer') + '</span></a>';
     }).join('');
@@ -769,12 +789,14 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
 
   function viewLevel(d, l) {
     if (!DATA.dances[d] || LEVELS.indexOf(l) < 0) return viewNotFound();
-    var steps = stepsOf(d, l);
+    var all = stepsOf(d, l), steps = visible(all), nHid = all.filter(function (s) { return hidden.has(s.id); }).length;
     var list = steps.length ? '<ul class="list">' + steps.map(function (s) { return stepRow(s, false); }).join('') + '</ul>'
       : '<p class="empty-state">In ' + l + ' gibt es noch keine Figuren.</p>' +
-        '<a class="btn" href="#/draft/new?dance=' + d + '&level=' + l + '">Draft anlegen</a>';
+        '<a class="btn" href="#/neu?dance=' + d + '&level=' + l + '">+ Neuer Schritt</a>';
+    var hidLink = nHid ? '<button class="linkbtn" data-action="toggle-showhidden">' +
+      (viewCfg.showHidden ? 'Ausgeblendete wieder verbergen' : nHid + ' ausgeblendet · anzeigen') + '</button>' : '';
     return page(d, bar('#/' + d, danceName(d), 'd-' + d),
-      '<h1 class="page-title big"><span class="lv-' + l + '" style="color:var(--lv);view-transition-name:lv-' + l + '">' + l + '</span></h1>' + list);
+      '<h1 class="page-title big"><span class="lv-' + l + '" style="color:var(--lv);view-transition-name:lv-' + l + '">' + l + '</span></h1>' + list + hidLink);
   }
 
   function viewFavs() {
@@ -796,7 +818,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     for (var b = 0; b < bars; b++) ruler += rulerRow(s.dance, false);
     ruler += '</div>';
     var ablauf = (s.ablauf && s.ablauf.length) ? s.ablauf : [''];
-    var siblings = stepsOf(s.dance, s.level);
+    var siblings = visible(stepsOf(s.dance, s.level));
     var i = siblings.indexOf(s), prev = siblings[i - 1], next = siblings[i + 1];
     var countsTxt = s.countsText || (s.counts ? s.counts + ' Counts' : '');
     var shownNr = danceName(s.dance) + ' ' + s.level + ' · Nr. ' + lnr(s);
@@ -804,7 +826,9 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       '<span class="crumb">' + esc(danceName(s.dance) + ' / ' + s.level) + '</span><span class="spacer"></span>' +
       '<button class="iconbtn star" data-action="fav" data-id="' + s.id + '" aria-pressed="' + favs.has(s.id) + '" aria-label="Favorit">' + (favs.has(s.id) ? '★' : '☆') + '</button>' +
       '<span class="menuwrap"><button class="iconbtn star" data-action="menu" aria-label="Mehr" aria-expanded="false">⋮</button>' +
-      '<span class="menu" hidden><a href="#/edit/' + s.id + '">Bearbeiten</a><button data-action="step-delete" data-id="' + s.id + '">Löschen</button></span></span></header>';
+      '<span class="menu" hidden><a href="#/edit/' + s.id + '">Bearbeiten</a>' +
+      '<a href="#" data-action="toggle-hide" data-id="' + s.id + '">' + (hidden.has(s.id) ? 'Einblenden' : 'Ausblenden') + '</a>' +
+      '<button data-action="step-delete" data-id="' + s.id + '">Löschen</button></span></span></header>';
 
     return page(s.dance, stepBar,
       '<p class="num">' + shownNr + '</p><h1 class="title">' + esc(s.name) + '</h1>' +
@@ -821,8 +845,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
         '<div class="seg">' + [0.5, 1, 2].map(function (r) {
           return '<button data-action="speed" data-rate="' + r + '" aria-pressed="' + (r === rate) + '">' + String(r).replace('.', ',') + '×</button>';
         }).join('') + '<button data-action="loop" aria-pressed="' + loopOn + '">Schleife</button></div>' +
-        (importedIds.has(s.id) ? '<div class="trimrow"><button class="linkbtn" data-action="trim-toggle">Zuschneiden</button>' +
-          '<button class="linkbtn" data-action="import" data-id="' + s.id + '">Video ersetzen</button></div><div id="trimBox" hidden></div>' : '') + '</section>' +
+        '</section>' +
       (s.beschreibung ? '<section class="note"><h2>Eigene Beschreibung</h2><p style="white-space:pre-line">' + esc(s.beschreibung) + '</p></section>' : '') +
       (s.kommentar ? '<section class="note"><h2>Kommentar an Claude</h2><p style="white-space:pre-line">' + esc(s.kommentar) + '</p></section>' : '') +
       '<section><h2>Ablauf</h2><ol class="steps">' + ablauf.map(function (a) { return '<li><span>' + (a ? fmt(a) : dash) + '</span></li>'; }).join('') + '</ol></section>' +
@@ -846,7 +869,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   }
   function dicePool() {
     return ALL.filter(function (s) {
-      return s.dance === dice.dance && s.wuerfel !== false &&
+      return s.dance === dice.dance && s.wuerfel !== false && (viewCfg.showHidden || !hidden.has(s.id)) &&
         (!dice.levels.length || dice.levels.indexOf(s.level) >= 0) && (!dice.favOnly || favs.has(s.id));
     });
   }
@@ -1124,8 +1147,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       '<section><h2>Meine Änderungen</h2>' + (n ? changesList() +
         '<div class="stack"><button class="btn" data-action="export">Export-Datei für Claude speichern</button>' +
         '<button class="btn" data-action="copy">Als Text kopieren</button></div>' +
-        '<p class="hint">Neue und bearbeitete Schritte, Löschungen und Notizen gehen gesammelt an Claude. Nach dem Einarbeiten verschwinden die Markierungen automatisch.</p>'
-        : '<p class="hint">Noch keine eigenen Schritte, Bearbeitungen oder Notizen.</p>') + '</section>');
+        '' : '<p class="hint">Noch keine eigenen Schritte, Bearbeitungen oder Notizen.</p>') + '</section>');
   }
 
   // ---------- Bearbeiten ----------
@@ -1139,46 +1161,71 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     var max = levelList(d, l).filter(function (s) { return !cur || s.id !== cur.id; }).length + 1;
     return '<label>Laufnummer im Level (1–' + max + ')<input name="pos" type="number" inputmode="numeric" min="1" max="' + max + '" value="' + (cur ? lnr(cur) : max) + '"></label>';
   }
+  // Gemeinsame Felder für „Neuer Schritt“ und „Bearbeiten“
+  function stepFields(s, d, l, official) {
+    s = s || {};
+    var abl = (s.ablauf && s.ablauf.length) ? s.ablauf.join('\n') : (s.beschreibung || '');
+    return '<label>Name<input name="name" required value="' + esc(s.name || '') + '" autocomplete="off" placeholder="z. B. Brezel"></label>' +
+      '<label>Level<select name="level" id="fLevel">' + LEVELS.map(function (x) { return '<option' + (x === l ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></label>' +
+      '<div id="fPos">' + posField(d, l, s.id ? s : null) + '</div>' +
+      '<label>Ablauf<textarea name="ablauf" style="min-height:120px" placeholder="Kurz beschreiben – eine Zeile pro Punkt">' + esc(abl) + '</textarea></label>' +
+      '<label>Counts (je Zeile: Count | Leader | Follower)<textarea name="table" style="min-height:110px" placeholder="1–2–3 | l vor, r Gewicht, l ran | r zurück, l Gewicht, r ran">' + esc(tableToText(s.table)) + '</textarea></label>' +
+      '<label>Notizen<textarea name="notizen" style="min-height:80px">' + esc(s.notizen || '') + '</textarea></label>' +
+      '<details class="more" style="margin-top:0"><summary>Länge und Position</summary><div>' +
+        '<label>Länge in Counts<input name="counts" type="number" inputmode="numeric" value="' + (s.counts || '') + '"></label>' +
+        '<label>Position (Start → Ende)<input name="position" value="' + esc(s.position || '') + '" placeholder="offen → offen"></label></div></details>' +
+      (official ? '<label>Kommentar an Claude (optional)<textarea name="extra" style="min-height:80px">' + esc(s.kommentar || '') + '</textarea></label>' : '');
+  }
+  function readFields(f) {
+    return {
+      name: fv(f, 'name').value.trim(), level: fv(f, 'level').value, pos: parseInt(fv(f, 'pos').value, 10) || null,
+      ablauf: fv(f, 'ablauf').value.split('\n').map(function (x) { return x.trim(); }).filter(Boolean),
+      table: textToTable(fv(f, 'table').value), notizen: fv(f, 'notizen').value.trim(),
+      counts: parseInt(fv(f, 'counts').value, 10) || null, position: fv(f, 'position').value.trim(),
+      extra: fv(f, 'extra') ? fv(f, 'extra').value.trim() : ''
+    };
+  }
+  function bindPos(f, dance, cur) {
+    var upd = function () {
+      var d = fv(f, 'dance') ? fv(f, 'dance').value : dance, l = fv(f, 'level').value;
+      document.getElementById('fPos').innerHTML = posField(d, l, cur && cur.dance === d && cur.level === l ? cur : null);
+    };
+    document.getElementById('fLevel').addEventListener('change', upd);
+    if (fv(f, 'dance')) fv(f, 'dance').addEventListener('change', upd);
+  }
+
+  // ---------- Bearbeiten (inkl. Video zuschneiden/ersetzen) ----------
   function viewEdit(id) {
     var s = stepById(id); if (!s) return viewNotFound();
-    var own = s.status === 'lokal';
+    var official = s.status !== 'lokal';
     return page(s.dance, bar('#/step/' + s.id, s.name), '<h1 class="page-title">Bearbeiten</h1>' +
-      '<video id="evid" controls playsinline loop style="max-height:30vh" hidden></video>' +
-      '<form id="editForm" data-id="' + s.id + '">' +
-      '<label>Name<input name="name" required value="' + esc(s.name) + '" autocomplete="off"></label>' +
-      '<label>Level<select name="level" id="eLevel">' + LEVELS.map(function (l) { return '<option' + (l === s.level ? ' selected' : '') + '>' + l + '</option>'; }).join('') + '</select></label>' +
-      '<div id="ePos">' + posField(s.dance, s.level, s) + '</div>' +
-      '<label>Länge in Counts<input name="counts" type="number" inputmode="numeric" value="' + (s.counts || '') + '"></label>' +
-      '<label>Position (Start → Ende)<input name="position" value="' + esc(s.position || '') + '" placeholder="offen → offen"></label>' +
-      '<label>Ablauf (eine Zeile pro Punkt)<textarea name="ablauf" style="min-height:110px">' + esc((s.ablauf || []).join('\n')) + '</textarea></label>' +
-      '<label>Counts (je Zeile: Count | Leader | Follower)<textarea name="table" style="min-height:130px" placeholder="1–2–3 | l vor, r Gewicht, l ran | r zurück, l Gewicht, r ran">' + esc(tableToText(s.table)) + '</textarea></label>' +
-      '<label>' + (own ? 'Beschreibung (Stichpunkte für Claude)' : 'Kommentar an Claude (optional)') + '<textarea name="extra" style="min-height:110px">' + esc(own ? s.beschreibung || '' : s.kommentar || '') + '</textarea></label>' +
+      '<section class="video-wrap"><video id="vid" controls playsinline preload="metadata" loop style="max-height:34vh"></video>' +
+        '<div class="vmissing" id="vmiss" hidden><div>Noch kein Video.</div><div class="btns"><button class="btn" data-action="import" data-id="' + s.id + '">Video importieren</button></div></div>' +
+        '<div id="trimBox"></div>' +
+        (importedIds.has(s.id) ? '<div class="trimrow"><button class="linkbtn" data-action="import" data-id="' + s.id + '">Video ersetzen</button></div>' : '') + '</section>' +
+      '<form id="editForm" data-id="' + s.id + '">' + stepFields(s, s.dance, s.level, official) +
       '<div class="stack"><button class="btn primary" type="submit">Speichern</button></div></form>');
   }
   function setupEdit() {
     var f = document.getElementById('editForm'); if (!f) return;
-    var s = stepById(f.dataset.id), v = document.getElementById('evid');
-    videoGet(s.id).then(function (rec) { if (rec && rec.blob) { v.src = URL.createObjectURL(rec.blob); v.hidden = false; } }, function () {});
-    document.getElementById('eLevel').addEventListener('change', function () {
-      var l = fv(f, 'level').value; document.getElementById('ePos').innerHTML = posField(s.dance, l, l === s.level ? s : null);
-    });
+    var s = stepById(f.dataset.id);
+    setupVideo(s); bindPos(f, s.dance, s);
     f.addEventListener('submit', function (e) {
       e.preventDefault();
-      var lines = fv(f, 'ablauf').value.split('\n').map(function (x) { return x.trim(); }).filter(Boolean);
-      var vals = { name: fv(f, 'name').value.trim() || s.name, level: fv(f, 'level').value, counts: parseInt(fv(f, 'counts').value, 10) || null,
-        position: fv(f, 'position').value.trim(), ablauf: lines, table: textToTable(fv(f, 'table').value) };
-      var pos = parseInt(fv(f, 'pos').value, 10) || null;
-      var posChanged = vals.level !== s.level || pos !== lnr(s);
-      var extra = fv(f, 'extra').value.trim();
+      var v = readFields(f); if (!v.name) v.name = s.name;
+      var posChanged = v.level !== s.level || v.pos !== lnr(s);
+      var vals = { name: v.name, level: v.level, counts: v.counts, position: v.position, ablauf: v.ablauf, table: v.table, notizen: v.notizen };
       if (s.status === 'lokal') {
         var m = mySteps.find(function (x) { return x.id === s.id; });
-        Object.assign(m, vals, { beschreibung: extra }); if (posChanged) { m.pos = pos; m.created = new Date().toISOString(); }
+        Object.assign(m, vals); delete m.beschreibung;
+        if (posChanged) { m.pos = v.pos; m.created = new Date().toISOString(); }
         saveMySteps();
       } else {
-        var base = BASE.find(function (x) { return x.id === s.id; }), e2 = {}, same = function (a, b) { return JSON.stringify(a == null ? '' : a) === JSON.stringify(b == null ? '' : b); };
+        var base = BASE.find(function (x) { return x.id === s.id; }), e2 = {};
+        var same = function (a, b) { return JSON.stringify(a == null ? '' : a) === JSON.stringify(b == null ? '' : b); };
         Object.keys(vals).forEach(function (k) { if (!same(vals[k], base[k])) e2[k] = vals[k]; });
-        if (posChanged) { e2.pos = pos; e2.created = new Date().toISOString(); } else if (edits[s.id] && edits[s.id].pos) { e2.pos = edits[s.id].pos; }
-        if (extra) e2.kommentar = extra;
+        if (posChanged) { e2.pos = v.pos; e2.created = new Date().toISOString(); } else if (edits[s.id] && edits[s.id].pos) { e2.pos = edits[s.id].pos; }
+        if (v.extra) e2.kommentar = v.extra;
         if (Object.keys(e2).length) { e2.stamp = Date.now(); edits[s.id] = e2; } else delete edits[s.id];
         saveEdits();
       }
@@ -1186,47 +1233,83 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     });
   }
 
+  // ---------- Neuer eigener Schritt ----------
+  function slug(s) {
+    return norm(s).replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'schritt';
+  }
+  var newVideo = null;   // {name, blob} – beim Anlegen über + gewähltes Video
+  function viewNew(q) {
+    var d = DATA.dances[q.dance] ? q.dance : 'salsa', l = LEVELS.indexOf(q.level) >= 0 ? q.level : 'A1';
+    var viaAssign = q.assign === '1' && pendingKeys.length;
+    if (!viaAssign && render.lastNew !== location.hash) newVideo = null;
+    render.lastNew = location.hash;
+    return page(d, bar(viaAssign ? '#/zuordnen' : '#/drafts', viaAssign ? 'Zuordnen' : 'Hinzufügen'),
+      '<h1 class="page-title">Neuer Schritt</h1>' +
+      '<video id="nvid" controls playsinline loop style="max-height:30vh" hidden></video>' +
+      (viaAssign ? '' : '<div class="stack" style="margin-top:0"><button class="btn" type="button" data-action="new-video">Video wählen</button></div>') +
+      '<form id="newForm" data-assign="' + (viaAssign ? 1 : 0) + '">' +
+      '<label>Tanz<select name="dance">' + Object.keys(DATA.dances).map(function (k) {
+        return '<option value="' + k + '"' + (k === d ? ' selected' : '') + '>' + esc(danceName(k)) + '</option>'; }).join('') + '</select></label>' +
+      stepFields(null, d, l, false) +
+      '<div class="stack"><button class="btn primary" type="submit">' + (viaAssign ? 'Anlegen und zurück zur Zuordnung' : 'Schritt anlegen') + '</button></div></form>');
+  }
+  function setupNew() {
+    var f = document.getElementById('newForm'); if (!f) return;
+    var v = document.getElementById('nvid');
+    if (f.dataset.assign === '1') inboxGet(pendingKeys[0]).then(function (rec) { if (rec && rec.blob) { v.src = URL.createObjectURL(rec.blob); v.hidden = false; } });
+    else if (newVideo) { v.src = URL.createObjectURL(newVideo.blob); v.hidden = false; }
+    bindPos(f, null, null);
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var x = readFields(f); if (!x.name) return;
+      var dance = fv(f, 'dance').value, id = 'u' + Date.now().toString(36);
+      var end = levelList(dance, x.level).length + 1;
+      var s = { id: id, dance: dance, level: x.level, pos: x.pos && x.pos < end ? x.pos : null, name: x.name, counts: x.counts, position: x.position,
+        table: x.table, ablauf: x.ablauf, notizen: x.notizen, alternativ: '', status: 'lokal', created: new Date().toISOString() };
+      mySteps.push(s); saveMySteps();
+      if (f.dataset.assign === '1') {
+        assignSel.push(id); assignTab = dance;
+        toast('Schritt angelegt – jetzt ggf. weitere wählen und speichern'); location.hash = '#/zuordnen';
+      } else if (newVideo) {
+        var nv = newVideo; newVideo = null;
+        putVideo(id, nv).then(function () { toast('Schritt angelegt'); location.hash = '#/step/' + id; },
+          function () { toast('Schritt angelegt, Video nicht gespeichert'); location.hash = '#/step/' + id; });
+      } else { toast('Schritt angelegt'); location.hash = '#/step/' + id; }
+    });
+  }
+
   function viewInfo() {
     var total = ALL.length, open = ALL.filter(function (s) { return !hasDesc(s); }).length;
     var datum = String(DATA.updated || '').split('-').reverse().join('.');
+    var repo = 'https://github.com/butterbot141/SalsaundBachata';
+    function list(items) { return '<ul>' + items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>'; }
     var more = [
+      ['Herkunft der Schritte', [
+        'Die Schritte kommen nach und nach aus dem Kurs im Tanzstudio. Paul ergänzt jede Woche neue Schritte mit einer neuen App-Version.',
+        'Du kannst sie übernehmen, löschen, ausblenden oder dir eine eigene App erstellen.',
+        'Open Source: <a class="xref" href="' + repo + '" target="_blank" rel="noopener">github.com/butterbot141/SalsaundBachata</a>']],
       ['Datenspeicherung', [
         'Schritte, Abläufe und Counts stecken in der App-Datei auf GitHub und sind auf allen Geräten gleich.',
         'Videos, Favoriten, Notizen, eigene Schritte, Bearbeitungen und Einstellungen liegen nur im App-Speicher dieses Geräts.',
         'Neue App-Versionen löschen nichts davon. Verloren gehen die Daten nur beim Deinstallieren oder Löschen der Browserdaten.',
         'Der Export an Claude enthält neue und bearbeitete Schritte, Löschungen und Notizen – keine Videos.']],
       ['Funktionen', [
-        'Suche über Name, Nummer, Ablauf und Notizen; Lupe in den Untermenüs.',
-        'Würfel (unten links) und Übungstakt (unten rechts) übernehmen Tanz und Level aus dem aktuellen Menü.',
-        'Videos: 0,5× / 1× / 2×, Schleife und Zuschneiden (Ausschnitt festlegen; auf Android auch dauerhaft, spart Speicher).',
-        'Import über + oder beim Schritt: ein Video beim Schritt wird direkt zugeordnet; mehrere über den Namen (z. B. S-A1-03_lt.mp4), der Rest landet in der Zuordnen-Liste.',
-        'Laufnummern zählen pro Level (1, 2, 3 …). Neue Schritte lassen sich an jeder Stelle einfügen, die folgenden rutschen eine Nummer weiter.',
-        '⋮ in der Schrittansicht: Bearbeiten oder Löschen. Eigene und bearbeitete Schritte sind mit dem Stift markiert.',
-        'Zuordnen: Reiter für Salsa, Bachata und Rueda; mehrere Schritte gleichzeitig wählbar (jeder bekommt eine eigene Kopie zum Schneiden).',
-        'Passt kein Schritt: „Neuer Schritt“ anlegen – mit Video, Laufnummer und Beschreibung in Stichpunkten.',
-        'Große Videos (mehr als ca. 2 Mbit/s) werden markiert und lassen sich auf Android verkleinern – einzeln oder alle über Info.',
-        'Import aus einem Ordner: Dateien wie S-A2-04_travelling.mp4 werden automatisch zugeordnet – ideal für die Erstanwendung. Ältere Namen (S014_…, 013_…) klappen weiterhin.',
-        'Android: Video in WhatsApp teilen → Tanzschritte → in der Zuordnen-Liste Schritt antippen.',
-        '„Videos sichern“ speichert alle Videos mit Laufnummer und Namen im Download-Ordner – als Sicherung für Gerätewechsel. Erkannt werden sie später auch über den Namen, falls sich die Laufnummer verschoben hat.',
+        'Laufnummern zählen pro Level. Neue Schritte lassen sich an jeder Stelle einfügen, die folgenden rutschen weiter.',
+        '⋮ in der Schrittansicht: Bearbeiten (mit Zuschneiden und Ersetzen des Videos), Ausblenden oder Löschen.',
+        'Zuordnen: Reiter für Salsa, Bachata und Rueda, mehrere Schritte wählbar, Zuschnitt gilt für alle gewählten.',
+        'Import über den Namen (z. B. S-A1-03_lt.mp4) – klappt auch, wenn sich die Laufnummer verschoben hat.',
+        'Große Videos (über ca. 2 Mbit/s) werden markiert und lassen sich auf Android verkleinern.',
         'Unterstrichene Figuren im Ablauf führen direkt zur Teilfigur.']],
-      ['Workflow', [
-        'Nach der Stunde: neuen Schritt mit Video anlegen oder bestehenden über ⋮ bearbeiten; dann den Export bei Claude hochladen.',
-        'Claude schlägt die Formulierung vor und ergänzt Fehlendes logisch – gekennzeichnet.',
-        'Nach Bestätigung erstellt Claude die neue index.html; sie ersetzt die alte auf GitHub.',
-        'Übernommene Schritte, Bearbeitungen und Notizen verlieren danach automatisch ihre Markierung.']],
-      ['Was noch kommt', [
-        'A3-Schritte, HL und Open Break prüfen',
-        'Bachata- und Rueda-Figuren',
-        'M-Level, sobald sie im Kurs dran sind']],
+      ['Was noch kommt', ['Weitere Schritte aus dem Kurs, Beschreibungen für die offenen Figuren, M-Level']],
       ['Mögliche Probleme', [
         'Neue Version erscheint erst nach bis zu ca. 10 Minuten (GitHub) und beim Öffnen mit Internet.',
-        'Videos fehlen nach Gerätewechsel – mit „Videos sichern“ vorher in den Download-Ordner exportieren.',
+        'Videos fehlen nach Gerätewechsel – vorher „Videos sichern“.',
         'Die Galerie gibt keine echten Dateinamen weiter; für automatische Zuordnung den Ordner-Import nutzen.',
-        'Dauerhaftes Zuschneiden nur auf Android (Chrome); es dauert so lange wie der Ausschnitt. Auf dem iPad wirkt der Zuschnitt nur beim Abspielen.',
-        'Videos in der Zuordnen-Liste bleiben gespeichert (auch nach dem Schließen), bis du sie zuordnest oder überspringst.',
+        'Dauerhaftes Zuschneiden und Verkleinern nur auf Android (Chrome).',
         'iPad: kein Teilen aus WhatsApp; Export-Datei klappt nicht immer – dann „Als Text kopieren“.',
         'Der Übungstakt ist synthetisch und klingt nicht wie eine echte Band.']]
     ];
+    var hidN = hidden.size;
     return page(null, bar('#/', 'Start'), '<h1 class="page-title">Info</h1>' +
       '<section><h2>Zeichen in den Listen</h2><div class="legend">' +
         '<i class="mk own">' + MARK.own + '</i><span>eigener oder selbst bearbeiteter Schritt</span>' +
@@ -1237,19 +1320,30 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
         return '<dt>' + esc(g[0]) + '</dt><dd>' + esc(g[1]) + '</dd>';
       }).join('') + '</dl></section>' +
       '<div class="stats"><div><b>' + importedIds.size + '</b><span id="vsize">Videos</span></div><div><b>' + (mySteps.length + Object.keys(edits).length) + '</b><span>Eigene</span></div>' +
-        '<div><b>' + noteIds().length + '</b><span>Notizen</span></div><div><b>' + esc(DATA.version) + '</b><span>Version</span></div></div>' +
-      '<section><h2>Export an Claude</h2>' +
-      (exportCount() ? '<div class="stack"><button class="btn primary" data-action="export">Export-Datei speichern</button>' +
-        '<button class="btn" data-action="copy">Als Text kopieren</button></div>' : '<p class="hint">Gerade nichts zu exportieren.</p>') + '</section>' +
-      '<section><h2>Videos</h2><div class="stack"><button class="btn" data-action="pick-gallery">Aus Galerie importieren</button>' +
-      '<button class="btn" data-action="pick-folder">Aus Ordner importieren (Namen mit Nummer)</button>' +
-      (pendingKeys.length ? '<a class="btn primary" href="#/zuordnen">Zuordnen (' + pendingKeys.length + ' offen)</a>' : '') +
-      (importedIds.size && canCut() ? '<button class="btn" data-action="shrink-all">Große Videos verkleinern</button>' : '') +
-      (importedIds.size ? '<button class="btn" data-action="backup-videos">Videos sichern (Download-Ordner)</button>' +
-        '<button class="btn danger" data-action="clear-videos">Alle Videos aus der App löschen</button>' : '') + '</div></section>' +
-      '<details class="more"><summary>Mehr zu Speicherung, Funktionen und Workflow</summary><div>' + more.map(function (m) {
-        return '<h3>' + esc(m[0]) + '</h3><ul>' + m[1].map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
-      }).join('') + '</div></details>' +
+        '<div><b>' + total + '</b><span>Schritte</span></div><div><b>' + esc(DATA.version) + '</b><span>Version</span></div></div>' +
+      '<section class="note"><h2>Nutzung</h2><p style="margin-bottom:8px">Ziel: Videos aus dem Tanzkurs sortieren und übersichtlich darstellen.</p>' +
+        '<ol class="usage"><li>Videos über + importieren (Galerie oder WhatsApp → Teilen) und Schritten zuordnen – passt keiner, neuen Schritt anlegen.</li>' +
+        '<li>Zum Üben Schritt öffnen: Video mit 0,5× und Schleife, darunter Ablauf und Counts.</li>' +
+        '<li>Würfel (unten links) für Kombis, Übungstakt (unten rechts) zum Mitzählen.</li>' +
+        '<li>Eigene Schritte und Änderungen über „Export an Claude“ schicken – sie kommen mit der nächsten Version in die App.</li></ol></section>' +
+      '<details class="more"><summary>Videos</summary><div><div class="stack">' +
+        '<button class="btn" data-action="pick-gallery">Aus Galerie importieren</button>' +
+        '<button class="btn" data-action="pick-folder">Aus Ordner importieren (Namen mit Nummer)</button>' +
+        (pendingKeys.length ? '<a class="btn primary" href="#/zuordnen">Zuordnen (' + pendingKeys.length + ' offen)</a>' : '') +
+        (importedIds.size && canCut() ? '<button class="btn" data-action="shrink-all">Große Videos verkleinern</button>' : '') +
+        (importedIds.size ? '<button class="btn" data-action="backup-videos">Videos sichern (Download-Ordner)</button>' +
+          '<button class="btn danger" data-action="clear-videos">Alle Videos aus der App löschen</button>' : '') + '</div></div></details>' +
+      '<details class="more"><summary>Export an Claude</summary><div>' +
+        (exportCount() ? '<p class="hint">' + mySteps.length + ' neue, ' + Object.keys(edits).length + ' bearbeitete/gelöschte Schritte, ' + noteIds().length + ' Notizen.</p>' +
+          '<div class="stack"><button class="btn primary" data-action="export">Export-Datei speichern</button>' +
+          '<button class="btn" data-action="copy">Als Text kopieren</button></div>' : '<p class="hint">Gerade nichts zu exportieren.</p>') + '</div></details>' +
+      '<details class="more"><summary>Mehr</summary><div>' + more.map(function (m) {
+        return '<h3>' + esc(m[0]) + '</h3>' + list(m[1].map(function (x) { return x.indexOf('<a ') >= 0 ? x : esc(x); }));
+      }).join('') +
+        '<h3>Anzeige</h3><div class="togglechips" style="margin-bottom:10px"><button data-action="toggle-autohide" aria-pressed="' + viewCfg.autoHide + '">Neue Schritte automatisch ausblenden</button></div>' +
+        (hidN ? '<p class="hint">' + hidN + ' Schritte ausgeblendet. <button class="linkbtn" style="display:inline;margin:0;padding:0;min-height:0" data-action="unhide-all">Alle einblenden</button></p>' :
+          '<p class="hint">Einzelne Schritte lassen sich über ⋮ → Ausblenden aus den Listen nehmen.</p>') +
+      '</div></details>' +
       '<p class="footer">Version ' + esc(DATA.version) + ' vom ' + esc(datum) + '<br>' + total + ' Schritte (' + open + ' ohne Beschreibung)<br>' +
         esc(DATA.autor || '') + '</p>');
   }
@@ -1460,7 +1554,8 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   }
 
   // ---------- Zuordnen ----------
-  var assignUrl = null, assignSel = [], assignTab = null;
+  var assignUrl = null, assignSel = [], assignTab = null, aTrim = { start: 0, end: null, key: null };
+  function trimText(t) { return 'Ausschnitt: ' + fmtT(t.start) + ' bis ' + fmtT(t.end) + ' (gilt für alle gewählten Schritte)'; }
   function isBig(size, dur) { return dur > 0 && isFinite(dur) && size * 8 / dur / 1e6 > 2.0; }
   function sizeLine(size, dur) {
     var t = fmtMB(size);
@@ -1477,12 +1572,15 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     return page(tab, bar('#/drafts', 'Hinzufügen'), '<h1 class="page-title">Zuordnen</h1>' +
       '<p class="hint">Video 1 von ' + pendingKeys.length + ' · <span id="asize">…</span></p>' +
       '<video id="avid" controls playsinline loop style="max-height:32vh"></video>' +
+      '<p class="hint" id="atrim" style="margin:8px 0 6px">' + trimText(aTrim) + '</p>' +
+      '<div class="seg" style="margin:0"><button data-action="atrim-start">Start = jetzt</button><button data-action="atrim-end">Ende = jetzt</button>' +
+      '<button data-action="atrim-reset">Ganz</button></div>' +
       '<div class="seg" style="margin:14px 0 10px">' + Object.keys(DATA.dances).map(function (d) {
         var n = assignSel.filter(function (id) { var s = stepById(id); return s && s.dance === d; }).length;
         return '<button data-action="atab" data-dance="' + d + '" aria-pressed="' + (d === tab) + '">' + esc(danceName(d)) + (n ? ' (' + n + ')' : '') + '</button>';
       }).join('') + '</div>' +
       '<input class="search" id="afilter" type="search" placeholder="Schritt suchen …" autocomplete="off" style="display:block">' +
-      '<a class="btn" href="#/neu?assign=1&dance=' + tab + '" style="margin-bottom:10px">+ Neuer Schritt (mit Draft)</a>' +
+      '<a class="btn" href="#/neu?assign=1&dance=' + tab + '" style="margin-bottom:10px">+ Neuer Schritt</a>' +
       (list.length ? list.map(function (s) {
         var on = assignSel.indexOf(s.id) >= 0;
         return '<button class="pick" data-action="apick" data-id="' + s.id + '" aria-pressed="' + on + '" data-q="' + esc(norm(s.id + ' ' + s.name)) + '">' +
@@ -1511,6 +1609,12 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     if (v && pendingKeys.length) inboxGet(pendingKeys[0]).then(function (rec) {
       if (!rec || !rec.blob) return;
       assignUrl = URL.createObjectURL(rec.blob); v.src = assignUrl;
+      if (aTrim.key !== pendingKeys[0]) aTrim = { start: 0, end: null, key: pendingKeys[0] };
+      v.addEventListener('timeupdate', function () {
+        if (v.seeking) return;
+        if (aTrim.end != null && v.currentTime >= aTrim.end) v.currentTime = aTrim.start;
+        else if (aTrim.start && v.currentTime < aTrim.start - 0.3) v.currentTime = aTrim.start;
+      });
       var sz = document.getElementById('asize'); if (sz) sz.innerHTML = sizeLine(rec.blob.size, 0);
       v.addEventListener('loadedmetadata', function () { if (sz) sz.innerHTML = sizeLine(rec.blob.size, v.duration); });
     });
@@ -1524,65 +1628,16 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   function assignCurrent(ids) {
     var k = pendingKeys[0]; if (k == null || !ids.length) return Promise.resolve();
     return inboxGet(k).then(function (rec) {
-      return ids.reduce(function (p, id) { return p.then(function () { return putVideo(id, rec); }); }, Promise.resolve())
+      var o = { name: rec.name, blob: rec.blob, start: aTrim.key === k ? aTrim.start : 0, end: aTrim.key === k ? aTrim.end : null };
+      return ids.reduce(function (p, id) { return p.then(function () { return putVideo(id, o); }); }, Promise.resolve())
         .then(function () { return inboxDel(k); });
     }).then(refreshInbox);
   }
 
-  // ---------- Neuer eigener Schritt ----------
-  function slug(s) {
-    return norm(s).replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'schritt';
-  }
-  var newVideo = null;   // {name, blob} – beim Anlegen ohne Zuordnen-Liste gewähltes Video
-  function viewNew(q) {
-    var d = DATA.dances[q.dance] ? q.dance : 'salsa', viaAssign = q.assign === '1' && pendingKeys.length;
-    if (!viaAssign) newVideo = null;
-    return page(d, bar(viaAssign ? '#/zuordnen' : '#/drafts', viaAssign ? 'Zuordnen' : 'Hinzufügen'),
-      '<h1 class="page-title">Neuer Schritt</h1>' +
-      '<video id="nvid" controls playsinline loop style="max-height:30vh"' + (viaAssign ? '' : ' hidden') + '></video>' +
-      (viaAssign ? '' : '<div class="stack" style="margin-top:0"><button class="btn" type="button" data-action="new-video">Video wählen</button></div>') +
-      '<form id="newForm" data-assign="' + (viaAssign ? 1 : 0) + '">' +
-      '<label>Tanz<select name="dance" id="nDance">' + Object.keys(DATA.dances).map(function (k) {
-        return '<option value="' + k + '"' + (k === d ? ' selected' : '') + '>' + esc(danceName(k)) + '</option>'; }).join('') + '</select></label>' +
-      '<label>Name<input name="name" required autocomplete="off" placeholder="z. B. Brezel"></label>' +
-      '<label>Level<select name="level" id="nLevel">' + LEVELS.map(function (l) { return '<option>' + l + '</option>'; }).join('') + '</select></label>' +
-      '<div id="nPos">' + posField(d, 'A1', null) + '</div>' +
-      '<label>Beschreibung (Stichpunkte für Claude)<textarea name="text" style="min-height:150px" placeholder="Counts, was L und F machen, Signale …"></textarea></label>' +
-      (viaAssign && assignSel.length ? '<p class="hint">Das Video wird zusätzlich gespeichert bei: ' + esc(selLabel()) + '</p>' : '') +
-      '<div class="stack"><button class="btn primary" type="submit">' + (viaAssign ? 'Anlegen und Video zuordnen' : 'Schritt anlegen') + '</button></div></form>');
-  }
-  function setupNew() {
-    var f = document.getElementById('newForm'); if (!f) return;
-    var v = document.getElementById('nvid');
-    if (f.dataset.assign === '1') inboxGet(pendingKeys[0]).then(function (rec) { if (rec && rec.blob) v.src = URL.createObjectURL(rec.blob); });
-    else if (newVideo) { v.src = URL.createObjectURL(newVideo.blob); v.hidden = false; }
-    function updPos() { document.getElementById('nPos').innerHTML = posField(fv(f, 'dance').value, fv(f, 'level').value, null); }
-    document.getElementById('nDance').addEventListener('change', updPos);
-    document.getElementById('nLevel').addEventListener('change', updPos);
-    f.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var name = fv(f, 'name').value.trim(); if (!name) return;
-      var dance = fv(f, 'dance').value, level = fv(f, 'level').value, id = 'u' + Date.now().toString(36);
-      var pos = parseInt(fv(f, 'pos').value, 10) || null;
-      var end = levelList(dance, level).length + 1;
-      var s = { id: id, dance: dance, level: level, pos: pos && pos < end ? pos : null, name: name, counts: null, position: '', table: [], ablauf: [],
-        notizen: '', alternativ: '', beschreibung: fv(f, 'text').value.trim(), status: 'lokal', created: new Date().toISOString() };
-      mySteps.push(s); saveMySteps();
-      if (f.dataset.assign === '1' && pendingKeys.length) {
-        var ids = assignSel.concat([id]); assignSel = [];
-        toast('Wird gespeichert …', true);
-        assignCurrent(ids).then(function () { toast('Schritt angelegt, Video gespeichert'); location.hash = '#/zuordnen'; },
-          function () { toast('Speichern fehlgeschlagen (Speicher voll?)'); });
-      } else if (newVideo) {
-        var nv = newVideo; newVideo = null;
-        putVideo(id, nv).then(function () { toast('Schritt angelegt'); location.hash = '#/step/' + id; },
-          function () { toast('Schritt angelegt, Video nicht gespeichert'); location.hash = '#/step/' + id; });
-      } else { toast('Schritt angelegt'); location.hash = '#/step/' + id; }
-    });
-  }
-
   // Geteiltes Video (Android) landet in der Zuordnen-Liste
+  var shareBusy = false;
   function setupShare() {
+    if (shareBusy) return; shareBusy = true;
     if (!window.caches) { location.replace('#/zuordnen'); return; }
     caches.open('share-inbox').then(function (c) {
       return c.match('./shared-video').then(function (res) {
@@ -1592,7 +1647,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
           return inboxAdd({ name: name, blob: blob }).then(function () { return c.delete('./shared-video'); });
         });
       });
-    }).then(refreshInbox).then(function () { location.replace('#/zuordnen'); }, function () { location.replace('#/zuordnen'); });
+    }).then(refreshInbox).then(function () { shareBusy = false; location.replace('#/zuordnen'); }, function () { shareBusy = false; location.replace('#/zuordnen'); });
   }
 
   // ---------- Export ----------
@@ -1708,6 +1763,16 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
       favs.delete(did); lsSet(KEY.favs, Array.from(favs));
       idb('readwrite', function (st) { return st.delete(did); }).then(function () { importedIds.delete(did); forgetUrl(did); }, function () {});
       toast('Gelöscht'); location.hash = '#/' + ds.dance + '/' + ds.level;
+    } else if (act === 'toggle-hide') {
+      e.preventDefault();
+      var hid = el.dataset.id; if (hidden.has(hid)) hidden.delete(hid); else hidden.add(hid); saveHidden();
+      toast(hidden.has(hid) ? 'Ausgeblendet – in der Liste unten wieder anzeigbar' : 'Eingeblendet'); render();
+    } else if (act === 'toggle-showhidden') {
+      viewCfg.showHidden = !viewCfg.showHidden; lsSet(KEY.view, viewCfg); render();
+    } else if (act === 'toggle-autohide') {
+      viewCfg.autoHide = !viewCfg.autoHide; lsSet(KEY.view, viewCfg); render();
+    } else if (act === 'unhide-all') {
+      hidden.clear(); saveHidden(); toast('Alle eingeblendet'); render();
     } else if (act === 'edit-undo') {
       delete edits[el.dataset.id]; saveEdits(); toast('Zurückgesetzt'); render();
     } else if (act === 'new-video') {
@@ -1750,6 +1815,14 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
           }, Promise.resolve()).then(function () { toast(big.length + ' Videos bearbeitet, ' + fmtMB(saved) + ' gespart'); render(); });
         });
       }).then(lockOff, lockOff);
+    } else if (act === 'atrim-start' || act === 'atrim-end' || act === 'atrim-reset') {
+      var av = document.getElementById('avid'); if (!av) return;
+      var at = Math.round(av.currentTime * 10) / 10;
+      aTrim.key = pendingKeys[0];
+      if (act === 'atrim-reset') { aTrim.start = 0; aTrim.end = null; }
+      else if (act === 'atrim-start') { aTrim.start = at; if (aTrim.end != null && aTrim.end <= at + 0.3) aTrim.end = null; }
+      else { if (at <= aTrim.start + 0.3) { toast('Das Ende muss nach dem Start liegen'); return; } aTrim.end = at; }
+      document.getElementById('atrim').textContent = trimText(aTrim);
     } else if (act === 'trim-toggle') {
       var tb = document.getElementById('trimBox'); if (tb) { tb.hidden = !tb.hidden; updTrimBox(); }
     } else if (act === 'trim-start' || act === 'trim-end') {
