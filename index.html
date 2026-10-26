@@ -277,7 +277,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
 
 <script id="data" type="application/json">
 {
-  "version": "0.15",
+  "version": "0.15.1",
   "updated": "2026-10-23",
   "autor": "Paul B.",
   "dances": {"salsa": {"name": "Salsa"}, "bachata": {"name": "Bachata"}, "rueda": {"name": "Rueda"}},
@@ -1639,7 +1639,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
   function setupShare() {
     if (shareBusy) return; shareBusy = true;
     if (!window.caches) { location.replace('#/zuordnen'); return; }
-    caches.open('share-inbox').then(function (c) {
+    caches.open('tanzschritte-share').then(function (c) {
       return c.match('./shared-video').then(function (res) {
         if (!res) return;
         var name = decodeURIComponent(res.headers.get('x-name') || 'video.mp4');
@@ -1911,7 +1911,7 @@ details.more ul{margin:0 0 8px;padding-left:18px;color:var(--muted);font-size:15
     if (!location.hash || location.hash === '#/') render();
   });
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-    navigator.serviceWorker.register('sw.js').catch(function () {});
+    navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function () {});
   }
   onHash();
   migrateVideos().then(function () { return Promise.all([refreshKeys(), refreshInbox()]); }).then(render);

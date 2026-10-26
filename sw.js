@@ -1,7 +1,11 @@
-// Offline-Skript der Tanzschritte-App. Neue index.html wird beim Öffnen mit Internet geladen.
-const CACHE = 'tanzschritte-v2';
-const INBOX = 'share-inbox';
+// Offline-Skript der Tanzschritte-App.
+// Wichtig: Alle Apps unter <name>.github.io teilen sich Speicher und Caches.
+// Deshalb nutzt dieses Skript nur Caches mit dem Präfix "tanzschritte-" und löscht nie fremde Caches.
+const PREFIX = 'tanzschritte-';
+const CACHE = PREFIX + 'v3';
+const INBOX = PREFIX + 'share';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
+const BASE = new URL('./', self.location).pathname;   // z. B. /SalsaundBachata/
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)));
@@ -11,7 +15,9 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE && k !== INBOX).map(k => caches.delete(k))))
+      .then(keys => Promise.all(keys
+        .filter(k => (k.startsWith(PREFIX) && k !== CACHE && k !== INBOX) || k === 'share-inbox' || k === 'tanzschritte-v1' || k === 'tanzschritte-v2')
+        .map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
@@ -19,9 +25,11 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const req = e.request;
   const url = new URL(req.url);
+  // Nur Anfragen im eigenen Ordner bearbeiten – andere Apps auf derselben Domain bleiben unberührt
+  if (url.origin !== location.origin || !url.pathname.startsWith(BASE)) return;
 
   // Video aus WhatsApp & Co. geteilt (Android): zwischenspeichern und Zuordnung öffnen
-  if (req.method === 'POST' && url.origin === location.origin && url.pathname.endsWith('/share')) {
+  if (req.method === 'POST' && url.pathname === BASE + 'share') {
     e.respondWith((async () => {
       try {
         const form = await req.formData();
@@ -38,7 +46,7 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  if (req.method !== 'GET' || url.origin !== location.origin) return;
+  if (req.method !== 'GET') return;
   // Erst Netz (aktuellste Version), ohne Internet aus dem Speicher
   e.respondWith(
     fetch(req)
@@ -46,7 +54,7 @@ self.addEventListener('fetch', e => {
         if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); }
         return res;
       })
-      .catch(() => caches.match(req, { ignoreSearch: true })
-        .then(r => r || (req.mode === 'navigate' ? caches.match('./index.html') : Response.error())))
+      .catch(() => caches.match(req, { ignoreSearch: true, cacheName: CACHE })
+        .then(r => r || (req.mode === 'navigate' ? caches.match('./index.html', { cacheName: CACHE }) : Response.error())))
   );
 });
